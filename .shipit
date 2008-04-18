@@ -1,0 +1,3 @@
+steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Manifest, Commit, Tag, MakeDist, MyUploadCPAN, DistClean
+
+svk.tagpattern = //local/hanekomu-cpan/tags/Test-Compile-%v
