@@ -1,0 +1,62 @@
+---
+global:
+  name: Test-Compile
+releases:
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - set the version to 0.07
+      - fixed bug in pl_file_ok() where a SKIP block was used when Test->skip() should have been used
+      - added t/04_pl_file_ok-vms.t to verify that
+      - updated MANIFEST
+      - added t/04_pl_file_ok-vms.t
+    date: 2007-12-06T19:24:25Z
+    tags: []
+    version: 0.07
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - Converted Changes file to YAML style
+      - '.shipit: added Twitter step'
+      - 'Makefile.PL: added auto_install() and process_templates()'
+      - 'lib/*: converted to template'
+      - updated MANIFEST
+      - updated t/perlcriticrc
+      - added capability to test scripts as well (thanks Sagar R. Shah)
+      - added t/03_pl_file_ok.t
+      - added t/scripts
+    date: 2007-12-06T13:16:02Z
+    tags:
+      - NEWFEATURE
+    version: 0.06
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - "no longer uses standard tests, since they require Test::Compile themselves. Instead, copied the standard tests's pod and pod coverage test files into this distribution. Thanks Andreas Koenig for catching that circular dependency."
+    date: 2007-10-21T13:40:23+02:00
+    tags: []
+    version: 0.05
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - fixed version requirement of Test::More
+    date: 2007-10-18T10:09:39+02:00
+    tags: []
+    version: 0.04
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - made things cleaner by using UNIVERSAL::require on the suspected module
+      - 'The documentation now uses Test::More->builder->BAIL_OUT() in order to stop the testsuite from running if a compilation fails. Also, the documentation now urges that Test::Compile be mandatory (like Test::Exception often is) instead of optional (like Test::Pod often is).  Thanks to Rob Kinyon for the suggestion.'
+      - bumped version numbers to '0.03'
+    date: 2007-10-03T22:31:43+02:00
+    tags: []
+    version: 0.03
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - 'made things cleaner by using UNIVERSAL::require on the suspected module name instead of do() on the file name, which introduced potential bugs by running at run time what would otherwise happen at compile time'
+      - bumped version numbers to '0.02'
+    date: 2007-10-03T18:30:17+02:00
+    tags: []
+    version: 0.02
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - original version
+    date: 2007-09-22T23:35:34+02:00
+    tags: []
+    version: 0.01

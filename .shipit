@@ -1,0 +1,8 @@
+steps = ApplyYAMLChangeLogVersion, Manifest, DistTest, Commit, Tag, MakeDist, MyUploadCPAN, DistClean, Twitter
+
+svk.tagpattern = //local/hanekomu-cpan/tags/Test-Compile-%v
+
+twitter.config = ~/.twitterrc
+twitter.distname = Test-Compile
+twitter.message = shipped %d %v - soon at %u
+
