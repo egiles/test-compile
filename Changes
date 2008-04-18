@@ -1,0 +1,25 @@
+Revision history for Perl extension Test::Compile.
+
+0.04  Do Okt 18 10:09:39 CEST 2007
+        - fixed version requirement of Test::More
+
+0.03  Mi Okt  3 22:31:43 CEST 2007
+        - made things cleaner by using UNIVERSAL::require on the suspected
+          module
+        - The documentation now uses Test::More->builder->BAIL_OUT() in order
+          to stop the testsuite from running if a compilation fails. Also, the
+          documentation now urges that Test::Compile be mandatory (like
+          Test::Exception often is) instead of optional (like Test::Pod often
+          is).  Thanks to Rob Kinyon for the suggestion.
+        - bumped version numbers to '0.03'
+
+0.02  Mi Okt  3 18:30:17 CEST 2007
+        - made things cleaner by using UNIVERSAL::require on the suspected
+          module name instead of do() on the file name, which introduced
+          potential bugs by running at run time what would otherwise happen at
+          compile time
+        - bumped version numbers to '0.02'
+
+0.01  Sa Sep 22 23:35:34 CEST 2007
+        - original version
+
