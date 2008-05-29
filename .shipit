@@ -1,6 +1,6 @@
 steps = ApplyYAMLChangeLogVersion, Manifest, DistTest, Commit, Tag, MakeDist, MyUploadCPAN, DistClean, Twitter
 
-svk.tagpattern = //local/cpan/tags/Test-Compile-%v
+svk.tagpattern = //local/coderepos/Test-Compile/tags/Test-Compile-%v
 
 twitter.config = ~/.twitterrc
 twitter.distname = Test-Compile
