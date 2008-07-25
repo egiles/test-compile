@@ -8,19 +8,10 @@ perl_version '5.006';
 requires 'UNIVERSAL::require';
 requires 'Devel::CheckOS' => '1.42';
 
-build_requires 'Test::More' => '0.70';
-build_requires 'Test::Pod';
-build_requires 'Test::Pod::Coverage';
-
-process_templates(
-    first_year => 2007,
-    rest_from  => "$ENV{HOME}/.mitlib/standard_pod",
-    start_tag  => '{%',
-    end_tag    => '%}',
-    other_authors => [
-        'Sagar R. Shah C<< <srshah@cpan.org> >>',
-    ],
-);
+test_requires 'Test::More' => '0.70';
+test_requires 'Test::Pod';
+test_requires 'Test::Pod::Coverage';
+test_requires 'Test::Compile';
 
 auto_install;
 auto_include;

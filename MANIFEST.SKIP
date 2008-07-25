@@ -9,6 +9,7 @@
 ^Makefile$
 ^Build$
 ^blib/
+^pm_to_blib/
 ^_build/
 ^MakeMaker-\d
 embedded/
@@ -26,6 +27,8 @@ t/000_standard__*
 ~$
 \.old$
 \.swp$
+\.tar$
+\.tar\.gz$
 ^#.*#$
 ^\.#
 .shipit

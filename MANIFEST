@@ -8,9 +8,9 @@ inc/Module/Install/Fetch.pm
 inc/Module/Install/Include.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
-inc/Module/Install/Template.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
+inc/Test/Compile.pm
 inc/Test/More.pm
 inc/Test/Pod.pm
 inc/Test/Pod/Coverage.pm
