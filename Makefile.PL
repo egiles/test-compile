@@ -9,9 +9,7 @@ requires 'UNIVERSAL::require';
 requires 'Devel::CheckOS' => '1.42';
 
 test_requires 'Test::More' => '0.70';
-test_requires 'Test::Pod';
-test_requires 'Test::Pod::Coverage';
-test_requires 'Test::Compile';
+extra_tests;
 
 auto_install;
 auto_include;

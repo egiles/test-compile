@@ -213,7 +213,7 @@ __END__
 
 =head1 NAME
 
-Test::Compile - check whether Perl module files compile correctly
+Test::Compile - Check whether Perl module files compile correctly
 
 =head1 SYNOPSIS
 

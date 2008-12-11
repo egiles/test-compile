@@ -2,15 +2,10 @@
 
 use strict;
 use warnings;
-
 use FindBin '$Bin';
 use File::Spec;
 use UNIVERSAL::require;
 use Test::More;
-
-plan skip_all =>
-    'Author test. Set $ENV{TEST_AUTHOR} to a true value to run.'
-    unless $ENV{TEST_AUTHOR};
 
 my %opt;
 my $rc_file = File::Spec->catfile($Bin, 'perlcriticrc');
@@ -22,6 +17,6 @@ if (Perl::Critic->require('1.078') &&
 
     all_critic_ok("lib");
 } else {
-    plan skip_all => $@;
+    fail('install Perl::Critic and Test::Perl::Critic');
 }
     

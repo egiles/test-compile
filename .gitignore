@@ -1,0 +1,14 @@
+Makefile
+blib/
+pm_to_blib/
+embedded/
+cover_db/
+smoke.html
+smoke.yaml
+smoketee.txt
+sqlnet.log
+BUILD.SKIP
+COVER.SKIP
+CPAN.SKIP
+META.yml
+*.swp
