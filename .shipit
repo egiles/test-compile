@@ -1,8 +1,6 @@
-steps = FindVersion, ChangeVersion, CheckChangeLog, Manifest, DistTest, Commit, Tag, MakeDist, MyUploadCPAN, DistClean, Twitter
+steps = FindVersion, ChangeVersion, CheckChangeLog, Manifest, DistTestExtra, Commit, Tag, MakeDist, MyUploadCPAN, Twitter, DistClean
 
-svn.tagpattern = http://svn.coderepos.org/share/lang/perl/Test-Compile/tags/Test-Compile-%v
-
+git.tagpattern = v%v
+git.push_to    = origin
 twitter.config = ~/.twitterrc
-twitter.distname = Test-Compile
-twitter.message = shipped %d %v - soon at %u
 

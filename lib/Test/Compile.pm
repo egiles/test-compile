@@ -277,7 +277,7 @@ Check Perl module files for errors or warnings in a test file.
 
 =over 4
 
-=item pm_file_ok(FILENAME[, TESTNAME ])
+=item C<pm_file_ok(FILENAME[, TESTNAME ])>
 
 C<pm_file_ok()> will okay the test if the Perl module compiles correctly.
 
@@ -288,7 +288,7 @@ The optional second argument TESTNAME is the name of the test. If it is
 omitted, C<pm_file_ok()> chooses a default test name "Compile test for
 FILENAME".
 
-=item pl_file_ok(FILENAME[, TESTNAME ])
+=item C<pl_file_ok(FILENAME[, TESTNAME ])>
 
 C<pl_file_ok()> will okay the test if the Perl script compiles correctly. You
 need to give the path to the script relative to this distribution's base
@@ -302,7 +302,7 @@ The optional second argument TESTNAME is the name of the test. If it is
 omitted, C<pl_file_ok()> chooses a default test name "Compile test for
 FILENAME".
 
-=item all_pm_files_ok([@files/@directories])
+=item C<all_pm_files_ok([@files/@directories])>
 
 Checks all the files in C<@files> for compilation. It runs L<all_pm_files()>
 on each file/directory, and calls the C<plan()> function for you (one test for
@@ -325,7 +325,7 @@ Returns true if all Perl module files are ok, or false if any fail.
 Or you could just let L<Module::Install::StandardTests> do all the work for
 you.
 
-=item all_pl_files_ok([@files])
+=item C<all_pl_files_ok([@files])>
 
 Checks all the files in C<@files> for compilation. It runs L<pl_file_ok()>
 on each file, and calls the C<plan()> function for you (one test for
@@ -344,7 +344,7 @@ If you're testing a module, just make a F<t/00_compile_scripts.t>:
 
 Returns true if all Perl module files are ok, or false if any fail.
 
-=item all_pm_files([@dirs])
+=item C<all_pm_files([@dirs])>
 
 Returns a list of all the perl module files - that is, files ending in F<.pm>
 - in I<$dir> and in directories below. If no directories are passed, it
@@ -354,7 +354,7 @@ in CVS or .svn directories.
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
 
-=item all_pl_files([@files/@dirs])
+=item C<all_pl_files([@files/@dirs])>
 
 Returns a list of all the perl script files - that is, files ending in F<.pl>
 or with no extension. Directory arguments are searched recursively . If
