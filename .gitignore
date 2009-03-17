@@ -13,4 +13,5 @@ COVER.SKIP
 CPAN.SKIP
 META.yml
 .DS_Store
+Debian_CPANTS.txt
 *.swp

@@ -36,10 +36,13 @@ OOP
 PARC
 Ran
 ShipIt
+Spiffy
+Takesako
 Tatsuhiko
 W3CDTF
 YAML
 behaviour
+blog
 blogs
 callback
 chomps
@@ -56,6 +59,7 @@ pointcut
 pointcuts
 redispatch
 ref
+san
 segment's
 shipit
 tokenizes

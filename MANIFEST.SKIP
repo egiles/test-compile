@@ -23,6 +23,7 @@ BUILD.SKIP
 COVER.SKIP
 CPAN.SKIP
 t/000_standard__*
+Debian_CPANTS.txt
 
 # Temp, old, emacs, vim, backup files.
 ~$
