@@ -22,6 +22,8 @@ Damian
 DateTime
 Eilam
 Ekker
+FirePHP
+Firefox
 Florian
 Grünauer
 Heinz
@@ -34,6 +36,7 @@ Miyagawa
 OO
 OOP
 PARC
+PHP
 Ran
 ShipIt
 Spiffy
@@ -41,6 +44,7 @@ Takesako
 Tatsuhiko
 W3CDTF
 YAML
+administrativa
 behaviour
 blog
 blogs
@@ -52,6 +56,7 @@ crosscutting
 distname
 github
 init
+monkeypatches
 op
 pipe's
 placeholders
