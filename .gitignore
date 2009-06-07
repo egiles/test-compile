@@ -15,3 +15,4 @@ META.yml
 .DS_Store
 Debian_CPANTS.txt
 *.swp
+prove.html
