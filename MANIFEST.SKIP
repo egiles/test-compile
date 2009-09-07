@@ -1,8 +1,8 @@
 # Version control files and dirs.
 \bRCS\b
 \bCVS\b
-.svn
-.git
+\.svn
+\.git
 ,v$
 
 # Makemaker/Build.PL generated files and dirs.
@@ -37,5 +37,5 @@ Debian_CPANTS.txt
 
 # Local files, not to be included
 ^scratch/
-core
+^core$
 ^var/
