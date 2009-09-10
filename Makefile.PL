@@ -3,7 +3,10 @@ include 'Module::AutoInstall';
 
 name 'Test-Compile';
 all_from 'lib/Test/Compile.pm';
-perl_version '5.006';
+
+auto_set_homepage;
+auto_set_bugtracker;
+auto_set_repository;
 
 requires 'UNIVERSAL::require';
 requires 'Devel::CheckOS' => '1.42';

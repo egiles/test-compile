@@ -1,65 +1,53 @@
 package Test::Compile;
-
 use warnings;
 use strict;
+use 5.006;
 use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
-
-
 our $VERSION = '0.09';
-
-
 my $Test = Test::Builder->new;
 
-
 sub import {
-    my $self = shift;
+    my $self   = shift;
     my $caller = caller;
-
-   for my $func (qw(
-       pm_file_ok pl_file_ok all_pm_files all_pl_files all_pm_files_ok
-       all_pl_files_ok
-       )) {
-
+    for my $func (
+        qw(
+        pm_file_ok pl_file_ok all_pm_files all_pl_files all_pm_files_ok
+        all_pl_files_ok
+        )
+      ) {
         no strict 'refs';
-        *{$caller."::".$func} = \&$func;
+        *{ $caller . "::" . $func } = \&$func;
     }
-
     $Test->exported_to($caller);
     $Test->plan(@_);
 }
 
-
 sub pm_file_ok {
     my $file = shift;
     my $name = @_ ? shift : "Compile test for $file";
-
     if (!-f $file) {
         $Test->ok(0, $name);
         $Test->diag("$file does not exist");
         return;
     }
-
     my $module = $file;
     $module =~ s!^(blib/)?lib/!!;
     $module =~ s!/!::!g;
     $module =~ s/\.pm$//;
-
     my $ok = 1;
     $module->use;
     $ok = 0 if $@;
-
     my $diag = '';
+
     unless ($ok) {
         $diag = "couldn't use $module ($file): $@";
     }
-
     $Test->ok($ok, $name);
     $Test->diag($diag) unless $ok;
     $ok;
 }
-
 
 sub pl_file_ok {
     my $file = shift;
@@ -68,28 +56,22 @@ sub pl_file_ok {
     # don't "use Devel::CheckOS" because Test::Compile is included by
     # Module::Install::StandardTests, and we don't want to have to ship
     # Devel::CheckOS with M::I::T as well.
-
     if (Devel::CheckOS->require) {
 
         # Exclude VMS because $^X doesn't work. In general perl is a symlink to
         # perlx.y.z but VMS stores symlinks differently...
-
-        unless (Devel::CheckOS::os_is('OSFeatures::POSIXShellRedirection') and
-                Devel::CheckOS::os_isnt('VMS')) {
-
+        unless (Devel::CheckOS::os_is('OSFeatures::POSIXShellRedirection')
+            and Devel::CheckOS::os_isnt('VMS')) {
             $Test->skip('Test not compatible with your OS');
             return;
         }
     }
-
     unless (-f $file) {
         $Test->ok(0, $name);
         $Test->diag("$file does not exist");
         return;
     }
-
     my $out = `$^X -cw $file 2>&1`;
-
     if ($?) {
         $Test->ok(0, 'Script does not compile');
         $Test->diag($out);
@@ -100,12 +82,9 @@ sub pl_file_ok {
     }
 }
 
-
 sub all_pm_files_ok {
     my @files = @_ ? @_ : all_pm_files();
-
     $Test->plan(tests => scalar @files);
-
     my $ok = 1;
     for (@files) {
         pm_file_ok($_) or undef $ok;
@@ -113,12 +92,9 @@ sub all_pm_files_ok {
     $ok;
 }
 
-
 sub all_pl_files_ok {
     my @files = @_ ? @_ : all_pl_files();
-
     $Test->plan(tests => scalar @files);
-
     my $ok = 1;
     for (@files) {
         pl_file_ok($_) or undef $ok;
@@ -126,11 +102,9 @@ sub all_pl_files_ok {
     $ok;
 }
 
-
 sub all_pm_files {
     my @queue = @_ ? @_ : _pm_starting_points();
     my @pm;
-
     while (@queue) {
         my $file = shift @queue;
         if (-d $file) {
@@ -138,10 +112,8 @@ sub all_pm_files {
             opendir DH, $file or next;
             my @newfiles = readdir DH;
             closedir DH;
-
             @newfiles = File::Spec->no_upwards(@newfiles);
             @newfiles = grep { $_ ne "CVS" && $_ ne ".svn" } @newfiles;
-
             for my $newfile (@newfiles) {
                 my $filename = File::Spec->catfile($file, $newfile);
                 if (-f $filename) {
@@ -158,11 +130,9 @@ sub all_pm_files {
     @pm;
 }
 
-
 sub all_pl_files {
     my @queue = @_ ? @_ : _pl_starting_points();
     my @pl;
-
     while (@queue) {
         my $file = shift @queue;
         if (-d $file) {
@@ -170,10 +140,8 @@ sub all_pl_files {
             opendir DH, $file or next;
             my @newfiles = readdir DH;
             closedir DH;
-
             @newfiles = File::Spec->no_upwards(@newfiles);
             @newfiles = grep { $_ ne "CVS" && $_ ne ".svn" } @newfiles;
-
             for my $newfile (@newfiles) {
                 my $filename = File::Spec->catfile($file, $newfile);
                 if (-f $filename) {
@@ -184,6 +152,7 @@ sub all_pl_files {
             }
         }
         if (-f $file) {
+
             # Only accept files with no extension or extension .pl
             push @pl, $file if $file =~ /(?:^[^.]+$|\.pl$)/;
         }
@@ -191,25 +160,17 @@ sub all_pl_files {
     @pl;
 }
 
-
 sub _pm_starting_points {
     return 'blib' if -e 'blib';
     return 'lib';
 }
 
-
 sub _pl_starting_points {
     return 'script' if -e 'script';
-    return 'bin' if -e 'bin';
+    return 'bin'    if -e 'bin';
 }
-
-
 1;
-
-
 __END__
-
-
 
 =head1 NAME
 
@@ -391,11 +352,9 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
-
 =cut
-
