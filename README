@@ -1,27 +1,176 @@
-This is the Perl module Test::Compile.
+NAME
+    Test::Compile - Check whether Perl module files compile correctly
 
-## Installation
+SYNOPSIS
+        #!perl -w
+        use strict;
+        use warnings;
+        use Test::Compile;
+        all_pm_files_ok();
 
-Test::Compile installation is straightforward. If your CPAN shell is set up,
-you should just be able to do
+DESCRIPTION
+    "Test::Compile" lets you check the validity of a Perl module file or
+    Perl script file, and report its results in standard "Test::Simple"
+    fashion.
 
-    % cpan Test::Compile
+        BEGIN {
+            use Test::Compile tests => $num_tests;
+            pm_file_ok($file, "Valid Perl module file");
+        }
 
-Download it, unpack it, then build it as per the usual:
+    It's probably a good idea to run this in a BEGIN block. The examples
+    below omit it for clarity.
 
-    % perl Makefile.PL
-    % make && make test
+    Module authors can include the following in a t/00_compile.t file and
+    have "Test::Compile" automatically find and check all Perl module files
+    in a module distribution:
 
-Then install it:
+        use Test::More;
+        eval "use Test::Compile 0.09";
+        Test::More->builder->BAIL_OUT(
+            "Test::Compile 0.09 required for testing compilation") if $@;
+        all_pm_files_ok();
 
-    % make install
+    You can also specify a list of files to check, using the
+    "all_pm_files()" function supplied:
 
-## Documentation
+        use strict;
+        use Test::More;
+        eval "use Test::Compile 0.09";
+        Test::More->builder->BAIL_OUT(
+            "Test::Compile 0.09 required for testing compilation") if $@;
+        my @pmdirs = qw(blib script);
+        all_pm_files_ok(all_pm_files(@pmdirs));
 
-Test::Compile documentation is available as in POD. So you can do:
+    Or even (if you're running under Apache::Test):
 
-    % perldoc Test::Compile
+        use strict;
+        use Test::More;
+        eval "use Test::Compile 0.09";
+        Test::More->builder->BAIL_OUT(
+            "Test::Compile 0.09 required for testing compilation") if $@;
 
-to read the documentation online with your favorite pager.
+        my @pmdirs = qw(blib script);
+        use File::Spec::Functions qw(catdir updir);
+        all_pm_files_ok(
+            all_pm_files(map { catdir updir, $_ } @pmdirs)
+        );
 
-Marcel Gruenauer
+    Why do the examples use "BAIL_OUT()" instead of "skip_all()"? Because
+    testing whether a module compiles is important. "skip_all()" is ok to
+    use with Test::Pod, because if the pod is malformed the program is still
+    going to run. But checking whether a module even compiles is something
+    else. Test::Compile should be mandatory, not optional.
+
+FUNCTIONS
+    "pm_file_ok(FILENAME[, TESTNAME ])"
+        "pm_file_ok()" will okay the test if the Perl module compiles
+        correctly.
+
+        When it fails, "pm_file_ok()" will show any compilation errors as
+        diagnostics.
+
+        The optional second argument "TESTNAME" is the name of the test. If
+        it is omitted, "pm_file_ok()" chooses a default test name "Compile
+        test for FILENAME".
+
+    "pl_file_ok(FILENAME[, TESTNAME ])"
+        "pl_file_ok()" will okay the test if the Perl script compiles
+        correctly. You need to give the path to the script relative to this
+        distribution's base directory. So if you put your scripts in a
+        'top-level' directory called script the argument would be
+        script/filename
+
+        When it fails, "pl_file_ok()" will show any compilation errors as
+        diagnostics.
+
+        The optional second argument "TESTNAME" is the name of the test. If
+        it is omitted, "pl_file_ok()" chooses a default test name "Compile
+        test for FILENAME".
+
+    "all_pm_files_ok([@files/@directories])"
+        Checks all the files in @files for compilation. It runs
+        all_pm_files() on each file/directory, and calls the "plan()"
+        function for you (one test for each function), so you can't have
+        already called "plan".
+
+        If @files is empty or not passed, the function finds all Perl module
+        files in the blib directory if it exists, or the lib directory if
+        not. A Perl module file is one that ends with .pm.
+
+        If you're testing a module, just make a t/00_compile.t:
+
+            use Test::More;
+            eval "use Test::Compile 0.09";
+            plan skip_all => "Test::Compile 0.09 required for testing compilation"
+              if $@;
+            all_pm_files_ok();
+
+        Returns true if all Perl module files are ok, or false if any fail.
+
+        Or you could just let Module::Install::StandardTests do all the work
+        for you.
+
+    "all_pl_files_ok([@files])"
+        Checks all the files in @files for compilation. It runs pl_file_ok()
+        on each file, and calls the "plan()" function for you (one test for
+        each file), so you can't have already called "plan".
+
+        If @files is empty or not passed, the function uses all_pl_files()
+        to find scripts to test
+
+        If you're testing a module, just make a t/00_compile_scripts.t:
+
+            use Test::More;
+            eval "use Test::Compile 0.09";
+            plan skip_all => "Test::Compile 0.09 required for testing compilation"
+              if $@;
+            all_pl_files_ok();
+
+        Returns true if all Perl module files are ok, or false if any fail.
+
+    "all_pm_files([@dirs])"
+        Returns a list of all the perl module files - that is, files ending
+        in .pm - in *$dir* and in directories below. If no directories are
+        passed, it defaults to blib if blib exists, or else lib if not.
+        Skips any files in "CVS" or ".svn" directories.
+
+        The order of the files returned is machine-dependent. If you want
+        them sorted, you'll have to sort them yourself.
+
+    "all_pl_files([@files/@dirs])"
+        Returns a list of all the perl script files - that is, files ending
+        in .pl or with no extension. Directory arguments are searched
+        recursively . If arguments are passed, it defaults to script if
+        script exists, or else bin if bin exists. Skips any files in "CVS"
+        or ".svn" directories.
+
+        The order of the files returned is machine-dependent. If you want
+        them sorted, you'll have to sort them yourself.
+
+BUGS AND LIMITATIONS
+    No bugs have been reported.
+
+    Please report any bugs or feature requests through the web interface at
+    <http://rt.cpan.org>.
+
+INSTALLATION
+    See perlmodinstall for information and options on installing Perl
+    modules.
+
+AVAILABILITY
+    The latest version of this module is available from the Comprehensive
+    Perl Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a
+    CPAN site near you. Or see <http://search.cpan.org/dist/Test-Compile/>.
+
+AUTHORS
+    Sagar R. Shah "<srshah@cpan.org>"
+
+    Marcel Grünauer, "<marcel@cpan.org>"
+
+COPYRIGHT AND LICENSE
+    Copyright 2007-2009 by the authors.
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+

@@ -1,6 +1,9 @@
 Revision history for Perl extension Test-Compile
 
-0.09  Thu Jul 25 15:27:43 CEST 2008 (Marcel Gruenauer <marcel@cpan.org>)
+0.09  Wed 2009.10.07 00:57:14 CEST (Marcel Gruenauer <marcel@cpan.org>)
+     - Always report name of .pl files (thanks xsawyerx).
+     - pm_file_ok() can now handle Windows paths (thanks clonezone).
+     - fixed version number used in documentation (thanks JKUTEJ).
      - Changed dist style and Changes back to standard. People didn't like it -
        the nail that sticks out gets hammered down.
      - Added standard test files; this will also help with CPANTS.

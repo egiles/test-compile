@@ -1,7 +1,7 @@
 package Test::Compile;
+use 5.006;
 use warnings;
 use strict;
-use 5.006;
 use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
@@ -33,8 +33,9 @@ sub pm_file_ok {
         return;
     }
     my $module = $file;
-    $module =~ s!^(blib/)?lib/!!;
-    $module =~ s!/!::!g;
+    $module =~ s!^(blib[/\\])?lib[/\\]!!;
+    $module =~ s![/\\]!::!g;
+
     $module =~ s/\.pm$//;
     my $ok = 1;
     $module->use;
@@ -77,7 +78,7 @@ sub pl_file_ok {
         $Test->diag($out);
         return;
     } else {
-        $Test->ok(1);
+        $Test->ok(1, $name);
         return 1;
     }
 }
@@ -172,11 +173,21 @@ sub _pl_starting_points {
 1;
 __END__
 
+=for stopwords Sagar Shah
+
 =head1 NAME
 
 Test::Compile - Check whether Perl module files compile correctly
 
 =head1 SYNOPSIS
+
+    #!perl -w
+    use strict;
+    use warnings;
+    use Test::Compile;
+    all_pm_files_ok();
+
+=head1 DESCRIPTION
 
 C<Test::Compile> lets you check the validity of a Perl module file or Perl
 script file, and report its results in standard C<Test::Simple> fashion.
@@ -194,9 +205,9 @@ have C<Test::Compile> automatically find and check all Perl module files in a
 module distribution:
 
     use Test::More;
-    eval "use Test::Compile 1.00";
+    eval "use Test::Compile 0.09";
     Test::More->builder->BAIL_OUT(
-        "Test::Compile 1.00 required for testing compilation") if $@;
+        "Test::Compile 0.09 required for testing compilation") if $@;
     all_pm_files_ok();
 
 You can also specify a list of files to check, using the
@@ -204,9 +215,9 @@ C<all_pm_files()> function supplied:
 
     use strict;
     use Test::More;
-    eval "use Test::Compile 1.00";
+    eval "use Test::Compile 0.09";
     Test::More->builder->BAIL_OUT(
-        "Test::Compile 1.00 required for testing compilation") if $@;
+        "Test::Compile 0.09 required for testing compilation") if $@;
     my @pmdirs = qw(blib script);
     all_pm_files_ok(all_pm_files(@pmdirs));
 
@@ -214,9 +225,9 @@ Or even (if you're running under L<Apache::Test>):
 
     use strict;
     use Test::More;
-    eval "use Test::Compile 1.00";
+    eval "use Test::Compile 0.09";
     Test::More->builder->BAIL_OUT(
-        "Test::Compile 1.00 required for testing compilation") if $@;
+        "Test::Compile 0.09 required for testing compilation") if $@;
 
     my @pmdirs = qw(blib script);
     use File::Spec::Functions qw(catdir updir);
@@ -230,10 +241,6 @@ with L<Test::Pod>, because if the pod is malformed the program is still going
 to run. But checking whether a module even compiles is something else.
 Test::Compile should be mandatory, not optional.
 
-=head1 DESCRIPTION
-
-Check Perl module files for errors or warnings in a test file.
-
 =head1 FUNCTIONS
 
 =over 4
@@ -245,7 +252,7 @@ C<pm_file_ok()> will okay the test if the Perl module compiles correctly.
 When it fails, C<pm_file_ok()> will show any compilation errors as
 diagnostics.
 
-The optional second argument TESTNAME is the name of the test. If it is
+The optional second argument C<TESTNAME> is the name of the test. If it is
 omitted, C<pm_file_ok()> chooses a default test name "Compile test for
 FILENAME".
 
@@ -259,7 +266,7 @@ the argument would be script/filename
 When it fails, C<pl_file_ok()> will show any compilation errors as
 diagnostics.
 
-The optional second argument TESTNAME is the name of the test. If it is
+The optional second argument C<TESTNAME> is the name of the test. If it is
 omitted, C<pl_file_ok()> chooses a default test name "Compile test for
 FILENAME".
 
@@ -276,8 +283,8 @@ module file is one that ends with F<.pm>.
 If you're testing a module, just make a F<t/00_compile.t>:
 
     use Test::More;
-    eval "use Test::Compile 1.00";
-    plan skip_all => "Test::Compile 1.00 required for testing compilation"
+    eval "use Test::Compile 0.09";
+    plan skip_all => "Test::Compile 0.09 required for testing compilation"
       if $@;
     all_pm_files_ok();
 
@@ -298,8 +305,8 @@ scripts to test
 If you're testing a module, just make a F<t/00_compile_scripts.t>:
 
     use Test::More;
-    eval "use Test::Compile 1.00";
-    plan skip_all => "Test::Compile 1.00 required for testing compilation"
+    eval "use Test::Compile 0.09";
+    plan skip_all => "Test::Compile 0.09 required for testing compilation"
       if $@;
     all_pl_files_ok();
 
@@ -310,7 +317,7 @@ Returns true if all Perl module files are ok, or false if any fail.
 Returns a list of all the perl module files - that is, files ending in F<.pm>
 - in I<$dir> and in directories below. If no directories are passed, it
 defaults to F<blib> if F<blib> exists, or else F<lib> if not. Skips any files
-in CVS or .svn directories.
+in C<CVS> or C<.svn> directories.
 
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
@@ -320,7 +327,7 @@ sorted, you'll have to sort them yourself.
 Returns a list of all the perl script files - that is, files ending in F<.pl>
 or with no extension. Directory arguments are searched recursively . If
 arguments are passed, it defaults to F<script> if F<script> exists, or else
-F<bin> if F<bin> exists. Skips any files in CVS or .svn directories.
+F<bin> if F<bin> exists. Skips any files in C<CVS> or C<.svn> directories.
 
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
@@ -342,7 +349,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Test-Compile/>.
 
 =head1 AUTHORS
 
