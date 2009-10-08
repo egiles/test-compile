@@ -79,7 +79,7 @@ FUNCTIONS
         correctly. You need to give the path to the script relative to this
         distribution's base directory. So if you put your scripts in a
         'top-level' directory called script the argument would be
-        script/filename
+        "script/filename".
 
         When it fails, "pl_file_ok()" will show any compilation errors as
         diagnostics.

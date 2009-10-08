@@ -74,22 +74,22 @@ When it fails, `pm_file_ok()` will show any compilation errors as
 diagnostics.
 
 The optional second argument `TESTNAME` is the name of the test. If it is
-omitted, `pm_file_ok()` chooses a default test name "Compile test for
-FILENAME".
+omitted, `pm_file_ok()` chooses a default test name `Compile test for
+FILENAME`.
 
 - `pl_file_ok(FILENAME[, TESTNAME ])`
 
 `pl_file_ok()` will okay the test if the Perl script compiles correctly. You
 need to give the path to the script relative to this distribution's base
 directory. So if you put your scripts in a 'top-level' directory called script
-the argument would be script/filename
+the argument would be `script/filename`.
 
 When it fails, `pl_file_ok()` will show any compilation errors as
 diagnostics.
 
 The optional second argument `TESTNAME` is the name of the test. If it is
-omitted, `pl_file_ok()` chooses a default test name "Compile test for
-FILENAME".
+omitted, `pl_file_ok()` chooses a default test name `Compile test for
+FILENAME`.
 
 - `all_pm_files_ok([@files/@directories])`
 

@@ -253,22 +253,22 @@ When it fails, C<pm_file_ok()> will show any compilation errors as
 diagnostics.
 
 The optional second argument C<TESTNAME> is the name of the test. If it is
-omitted, C<pm_file_ok()> chooses a default test name "Compile test for
-FILENAME".
+omitted, C<pm_file_ok()> chooses a default test name C<Compile test for
+FILENAME>.
 
 =item C<pl_file_ok(FILENAME[, TESTNAME ])>
 
 C<pl_file_ok()> will okay the test if the Perl script compiles correctly. You
 need to give the path to the script relative to this distribution's base
 directory. So if you put your scripts in a 'top-level' directory called script
-the argument would be script/filename
+the argument would be C<script/filename>.
 
 When it fails, C<pl_file_ok()> will show any compilation errors as
 diagnostics.
 
 The optional second argument C<TESTNAME> is the name of the test. If it is
-omitted, C<pl_file_ok()> chooses a default test name "Compile test for
-FILENAME".
+omitted, C<pl_file_ok()> chooses a default test name C<Compile test for
+FILENAME>.
 
 =item C<all_pm_files_ok([@files/@directories])>
 
