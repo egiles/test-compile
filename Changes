@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Compile
 
+0.10  Thu 2009.10.08 22:29:11 CEST (Marcel Gruenauer <marcel@cpan.org>)
+    - re-release with fixed inc::Module::Install::ReadmeMarkdownFromPod
+
 0.09  Wed 2009.10.07 00:57:14 CEST (Marcel Gruenauer <marcel@cpan.org>)
      - Always report name of .pl files (thanks xsawyerx).
      - pm_file_ok() can now handle Windows paths (thanks clonezone).
