@@ -5,7 +5,7 @@ use strict;
 use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 my $Test = Test::Builder->new;
 
 sub import {

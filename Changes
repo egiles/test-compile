@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Compile
 
+0.11  Tue 2009.12.08 12:19:25 CET (Marcel Gruenauer <marcel@cpan.org>)
+    - made author tests more robust
+
 0.10  Thu 2009.10.08 22:29:11 CEST (Marcel Gruenauer <marcel@cpan.org>)
     - re-release with fixed inc::Module::Install::ReadmeMarkdownFromPod
 

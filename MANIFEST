@@ -17,6 +17,7 @@ inc/Module/Install/ReadmeMarkdownFromPod.pm
 inc/Module/Install/Repository.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
+inc/Pod/Markdown.pm
 inc/Test/More.pm
 INSTALL
 lib/Test/Compile.pm
@@ -39,4 +40,8 @@ xt/author/05_kwalitee.t
 xt/author/06_yaml_meta.t
 xt/author/07_portability_files.t
 xt/author/08_synopsis.t
+xt/author/09_minimum_version.t
+xt/author/10_has_version.t
+xt/author/11_check_changes.t
+xt/author/12_manifest.t
 xt/author/perlcriticrc

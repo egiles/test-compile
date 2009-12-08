@@ -44,7 +44,7 @@ You can also specify a list of files to check, using the
     my @pmdirs = qw(blib script);
     all_pm_files_ok(all_pm_files(@pmdirs));
 
-Or even (if you're running under [Apache::Test](http://search.cpan.org/search?mode=module&query=Apache::Test)):
+Or even (if you're running under [Apache::Test](http://search.cpan.org/perldoc?Apache::Test)):
 
     use strict;
     use Test::More;
@@ -60,7 +60,7 @@ Or even (if you're running under [Apache::Test](http://search.cpan.org/search?mo
 
 Why do the examples use `BAIL_OUT()` instead of `skip_all()`? Because
 testing whether a module compiles is important. `skip_all()` is ok to use
-with [Test::Pod](http://search.cpan.org/search?mode=module&query=Test::Pod), because if the pod is malformed the program is still going
+with [Test::Pod](http://search.cpan.org/perldoc?Test::Pod), because if the pod is malformed the program is still going
 to run. But checking whether a module even compiles is something else.
 Test::Compile should be mandatory, not optional.
 
@@ -111,7 +111,7 @@ If you're testing a module, just make a `t/00_compile.t`:
 
 Returns true if all Perl module files are ok, or false if any fail.
 
-Or you could just let [Module::Install::StandardTests](http://search.cpan.org/search?mode=module&query=Module::Install::StandardTests) do all the work for
+Or you could just let [Module::Install::StandardTests](http://search.cpan.org/perldoc?Module::Install::StandardTests) do all the work for
 you.
 
 - `all_pl_files_ok([@files])`
