@@ -364,4 +364,9 @@ Copyright 2007-2009 by the authors.
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
+=head1 SEE ALSO
+
+L<Test::LoadAllModules> just handles modules, not script files, but has more
+fine-grained control.
+
 =cut
