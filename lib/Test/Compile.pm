@@ -5,7 +5,7 @@ use strict;
 use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 my $Test = Test::Builder->new;
 
 sub import {
@@ -35,7 +35,6 @@ sub pm_file_ok {
     my $module = $file;
     $module =~ s!^(blib[/\\])?lib[/\\]!!;
     $module =~ s![/\\]!::!g;
-
     $module =~ s/\.pm$//;
     my $ok = 1;
     $module->use;

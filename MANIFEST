@@ -27,6 +27,7 @@ MANIFEST			This list of files
 META.yml
 README
 README.mkdn
+t/00_versions.t
 t/03_pl_file_ok.t
 t/04_pl_file_ok-vms.t
 t/scripts/failure.pl

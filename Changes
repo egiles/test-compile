@@ -1,5 +1,9 @@
 Revision history for Perl extension Test-Compile
 
+0.12  Thu 2010.02.11 15:16:22 CET (Marcel Gruenauer <marcel@cpan.org>)
+    - updated skeleton files
+    - recommend, not require, Devel::CheckOS - only needed for VMS anyway
+
 0.11  Tue 2009.12.08 12:19:25 CET (Marcel Gruenauer <marcel@cpan.org>)
     - made author tests more robust
 
