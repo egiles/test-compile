@@ -9,7 +9,7 @@ auto_set_bugtracker;
 auto_set_repository;
 requires 'UNIVERSAL::require';
 recommends 'Devel::CheckOS';
-test_requires 'Test::More' => '0.70';
+test_requires 'Test::More' => '0.88';
 extra_tests;
 author_requires 'ShipIt';
 author_requires 'ShipIt::Step::DistClean';

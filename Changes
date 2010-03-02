@@ -1,5 +1,9 @@
 Revision history for Perl extension Test-Compile
 
+0.13  Tue 2010.03.02 15:57:02 CET (Marcel Gruenauer <marcel@cpan.org>)
+    - require Test::More 0.88 so done_testing works without no_plan (thanks
+      jozef)
+
 0.12  Thu 2010.02.11 15:16:22 CET (Marcel Gruenauer <marcel@cpan.org>)
     - updated skeleton files
     - recommend, not require, Devel::CheckOS - only needed for VMS anyway
