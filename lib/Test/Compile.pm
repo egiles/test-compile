@@ -1,11 +1,12 @@
-package Test::Compile;
-use 5.006;
-use warnings;
+use 5.008;
 use strict;
+use warnings;
+
+package Test::Compile;
+# ABSTRACT: Check whether Perl module files compile correctly
 use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
-our $VERSION = '0.13';
 my $Test = Test::Builder->new;
 
 sub import {
@@ -71,10 +72,10 @@ sub pl_file_ok {
         $Test->diag("$file does not exist");
         return;
     }
-    my $out = `$^X -cw $file 2>&1`;
-    if ($?) {
+    system($^X, (map { "-I$_" } split ':', $ENV{PERL5LIB}), '-c', $file);
+    if (my $error = $?) {
         $Test->ok(0, 'Script does not compile');
-        $Test->diag($out);
+        $Test->diag($error);
         return;
     } else {
         $Test->ok(1, $name);
@@ -170,13 +171,12 @@ sub _pl_starting_points {
     return 'bin'    if -e 'bin';
 }
 1;
-__END__
+
+=begin :prelude
 
 =for stopwords Sagar Shah
 
-=head1 NAME
-
-Test::Compile - Check whether Perl module files compile correctly
+=end :prelude
 
 =head1 SYNOPSIS
 
@@ -240,22 +240,18 @@ with L<Test::Pod>, because if the pod is malformed the program is still going
 to run. But checking whether a module even compiles is something else.
 Test::Compile should be mandatory, not optional.
 
-=head1 FUNCTIONS
-
-=over 4
-
-=item C<pm_file_ok(FILENAME[, TESTNAME ])>
+=function pm_file_ok(FILENAME[, TEST_NAME ])
 
 C<pm_file_ok()> will okay the test if the Perl module compiles correctly.
 
 When it fails, C<pm_file_ok()> will show any compilation errors as
 diagnostics.
 
-The optional second argument C<TESTNAME> is the name of the test. If it is
+The optional second argument C<TEST_NAME> is the name of the test. If it is
 omitted, C<pm_file_ok()> chooses a default test name C<Compile test for
 FILENAME>.
 
-=item C<pl_file_ok(FILENAME[, TESTNAME ])>
+=function pl_file_ok(FILENAME[, TEST_NAME ])
 
 C<pl_file_ok()> will okay the test if the Perl script compiles correctly. You
 need to give the path to the script relative to this distribution's base
@@ -265,11 +261,11 @@ the argument would be C<script/filename>.
 When it fails, C<pl_file_ok()> will show any compilation errors as
 diagnostics.
 
-The optional second argument C<TESTNAME> is the name of the test. If it is
+The optional second argument C<TEST_NAME> is the name of the test. If it is
 omitted, C<pl_file_ok()> chooses a default test name C<Compile test for
 FILENAME>.
 
-=item C<all_pm_files_ok([@files/@directories])>
+=function all_pm_files_ok([@files/@directories])
 
 Checks all the files in C<@files> for compilation. It runs L<all_pm_files()>
 on each file/directory, and calls the C<plan()> function for you (one test for
@@ -292,7 +288,7 @@ Returns true if all Perl module files are ok, or false if any fail.
 Or you could just let L<Module::Install::StandardTests> do all the work for
 you.
 
-=item C<all_pl_files_ok([@files])>
+=function all_pl_files_ok([@files])
 
 Checks all the files in C<@files> for compilation. It runs L<pl_file_ok()>
 on each file, and calls the C<plan()> function for you (one test for
@@ -311,7 +307,7 @@ If you're testing a module, just make a F<t/00_compile_scripts.t>:
 
 Returns true if all Perl module files are ok, or false if any fail.
 
-=item C<all_pm_files([@dirs])>
+=function all_pm_files([@dirs])
 
 Returns a list of all the perl module files - that is, files ending in F<.pm>
 - in I<$dir> and in directories below. If no directories are passed, it
@@ -321,7 +317,7 @@ in C<CVS> or C<.svn> directories.
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
 
-=item C<all_pl_files([@files/@dirs])>
+=function all_pl_files([@files/@dirs])
 
 Returns a list of all the perl script files - that is, files ending in F<.pl>
 or with no extension. Directory arguments are searched recursively . If
@@ -330,42 +326,3 @@ F<bin> if F<bin> exists. Skips any files in C<CVS> or C<.svn> directories.
 
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
-
-=back
-
-=head1 BUGS AND LIMITATIONS
-
-No bugs have been reported.
-
-Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org>.
-
-=head1 INSTALLATION
-
-See perlmodinstall for information and options on installing Perl modules.
-
-=head1 AVAILABILITY
-
-The latest version of this module is available from the Comprehensive Perl
-Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see L<http://search.cpan.org/dist/Test-Compile/>.
-
-=head1 AUTHORS
-
-Sagar R. Shah C<< <srshah@cpan.org> >>
-
-Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright 2007-2009 by the authors.
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
-
-=head1 SEE ALSO
-
-L<Test::LoadAllModules> just handles modules, not script files, but has more
-fine-grained control.
-
-=cut
