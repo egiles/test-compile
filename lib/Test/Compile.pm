@@ -104,37 +104,33 @@ sub all_pl_files_ok {
 
 sub all_pm_files {
     my @queue = @_ ? @_ : _pm_starting_points();
+
     my @pm;
-    while (@queue) {
-        my $file = shift @queue;
-        if (-d $file) {
-            local *DH;
-            opendir DH, $file or next;
-            my @newfiles = readdir DH;
-            closedir DH;
-            @newfiles = File::Spec->no_upwards(@newfiles);
-            @newfiles = grep { $_ ne "CVS" && $_ ne ".svn" } @newfiles;
-            for my $newfile (@newfiles) {
-                my $filename = File::Spec->catfile($file, $newfile);
-                if (-f $filename) {
-                    push @queue, $filename;
-                } else {
-                    push @queue, File::Spec->catdir($file, $newfile);
-                }
-            }
-        }
+    for my $file ( _find_files(@queue) ) {
         if (-f $file) {
             push @pm, $file if $file =~ /\.pm$/;
         }
     }
-    @pm;
+    return @pm;
 }
 
 sub all_pl_files {
     my @queue = @_ ? @_ : _pl_starting_points();
+
     my @pl;
-    while (@queue) {
-        my $file = shift @queue;
+    for my $file ( _find_files(@queue) ) {
+        if (-f $file) {
+            # Only accept files with no extension or extension .pl
+            push @pl, $file if $file =~ /(?:^[^.]+$|\.pl$)/;
+        }
+    }
+    return @pl;
+}
+
+sub _find_files {
+    my (@queue) = @_;
+
+    for my $file (@queue) {
         if (-d $file) {
             local *DH;
             opendir DH, $file or next;
@@ -151,13 +147,8 @@ sub all_pl_files {
                 }
             }
         }
-        if (-f $file) {
-
-            # Only accept files with no extension or extension .pl
-            push @pl, $file if $file =~ /(?:^[^.]+$|\.pl$)/;
-        }
     }
-    @pl;
+    return @queue;
 }
 
 sub _pm_starting_points {
