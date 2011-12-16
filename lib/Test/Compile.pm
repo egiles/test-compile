@@ -123,11 +123,11 @@ sub _check_syntax {
             return (0,"couldn't use $module ($file): $@");
         }
     } else {
-        open OLDERR, ">&", \*STDERR or die "Can't dup STDERR: $!";
+        open my $olderr, ">&", \*STDERR or die "Can't dup STDERR: $!";
         close(STDERR);
         system($^X, (map { "-I$_" } split ':', $ENV{PERL5LIB}), '-c', $file);
         my $error = $?;
-        open STDERR, ">&", \*OLDERR or die "Can't dup OLDERR: $!";
+        open STDERR, ">&", $olderr or die "Can't dup OLDERR: $!";
         if ($error) {
             return (0,"Script does not compile");
         }
