@@ -1,5 +1,11 @@
 Revision history for Perl extension Test-Compile
 
+0.14  Tue 2012.01.10 20:03:24 NZST (Evan Giles <egiles@cpan.org>)
+    - Convert to Module::Build
+    - Improved test for pl_file_ok()
+    - Better test coverage (which files do we process, failed to compile, etc)
+    - Remove duplicate code
+
 0.13  Tue 2010.03.02 15:57:02 CET (Marcel Gruenauer <marcel@cpan.org>)
     - require Test::More 0.88 so done_testing works without no_plan (thanks
       jozef)

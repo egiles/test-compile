@@ -2,7 +2,8 @@ DESCRIPTION
     Test::Compile - Check whether Perl module files compile correctly
 
 DEPENDANCIES
-    Requires perl v5.6.0.
+    Requires perl v5.6.0, and
+    * UNIVERSAL::require
 
 INSTALLATION
     Standard process for building & installing modules:

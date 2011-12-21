@@ -26,5 +26,4 @@ xt/author/08_synopsis.t
 xt/author/09_minimum_version.t
 xt/author/10_has_version.t
 xt/author/11_check_changes.t
-xt/author/12_manifest.t
 xt/author/perlcriticrc

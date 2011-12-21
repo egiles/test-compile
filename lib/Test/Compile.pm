@@ -5,7 +5,7 @@ use strict;
 use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 my $Test = Test::Builder->new;
 
 sub import {
@@ -127,7 +127,7 @@ sub _check_syntax {
         close(STDERR);
         system($^X, (map { "-I$_" } split ':', $ENV{PERL5LIB}), '-c', $file);
         my $error = $?;
-        open STDERR, ">&", $olderr or die "Can't dup OLDERR: $!";
+        open STDERR, ">&", $olderr or die "Can't dup olderr: $!";
         if ($error) {
             return (0,"Script does not compile");
         }
@@ -171,8 +171,6 @@ sub _pl_starting_points {
 }
 1;
 __END__
-
-=for stopwords Sagar Shah
 
 =head1 NAME
 
@@ -335,13 +333,13 @@ sorted, you'll have to sort them yourself.
 
 =head1 AUTHORS
 
-Sagar R. Shah C<< <srshah@cpan.org> >>
-
-Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
+Sagar R. Shah C<< <srshah@cpan.org> >>,
+Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>,
+Evan Giles, C<< <egiles@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2009 by the authors.
+Copyright 2007-2011 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
