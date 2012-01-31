@@ -1,10 +1,13 @@
 package Test::Compile;
+
 use 5.006;
 use warnings;
 use strict;
+
 use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
+
 our $VERSION = '0.14';
 my $Test = Test::Builder->new;
 
@@ -28,10 +31,10 @@ sub pm_file_ok {
     my $file = shift;
     my $name = @_ ? shift : "Compile test for $file";
 
-    my ($ok,$diag) = _check_syntax($file,1);
+    my $ok = _run_in_subprocess(sub{_check_syntax($file,1)});
 
     $Test->ok($ok, $name);
-    $Test->diag($diag) unless $ok;
+    $Test->diag("$file does not compile") unless $ok;
     return $ok;
 }
 
@@ -53,10 +56,10 @@ sub pl_file_ok {
         }
     }
 
-    my ($ok,$diag) = _check_syntax($file,0);
+    my $ok = _run_in_subprocess(sub{_check_syntax($file,0)});
 
     $Test->ok($ok, $name);
-    $Test->diag($diag) unless $ok;
+    $Test->diag("$file does not compile") unless $ok;
     return $ok;
 }
 
@@ -105,35 +108,40 @@ sub all_pl_files {
     return @pl;
 }
 
+sub _run_in_subprocess {
+    my ($closure) = @_;
+
+    my $pid = fork();
+    if ( ! defined($pid) ) {
+        return 0;
+    } elsif ( $pid ) {
+        wait();
+        return ($? ? 0 : 1);
+    } else {
+        close(STDERR);
+        my $rv = $closure->();
+        exit ($rv ? 0 : 1);
+    }
+}
+
 sub _check_syntax {
     my ($file,$require) = @_;
 
-    if (! -f $file) {
-        return (0,"$file does not exist");
-    }
-
-    if ( $require ) {
-        my $module = $file;
-        $module =~ s!^(blib[/\\])?lib[/\\]!!;
-        $module =~ s![/\\]!::!g;
-        $module =~ s/\.pm$//;
-
-        $module->use;
-        if ( $@ ) {
-            return (0,"couldn't use $module ($file): $@");
-        }
-    } else {
-        open my $olderr, ">&", \*STDERR or die "Can't dup STDERR: $!";
-        close(STDERR);
-        system($^X, (map { "-I$_" } split ':', $ENV{PERL5LIB}), '-c', $file);
-        my $error = $?;
-        open STDERR, ">&", $olderr or die "Can't dup olderr: $!";
-        if ($error) {
-            return (0,"Script does not compile");
+    if (-f $file) {
+        if ( $require ) {
+            my $module = $file;
+            $module =~ s!^(blib[/\\])?lib[/\\]!!;
+            $module =~ s![/\\]!::!g;
+            $module =~ s/\.pm$//;
+    
+            $module->use;
+            return ($@ ? 0 : 1);
+        } else {
+            my @perl5lib = split(':', ($ENV{PERL5LIB}||""));
+            system($^X, (map { "-I$_" } @perl5lib), '-c', $file);
+            return ($? ? 0 : 1);
         }
     }
-
-    return (1,undef);
 }
 
 sub _find_files {
