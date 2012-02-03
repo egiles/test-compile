@@ -16,7 +16,7 @@ sub test_all_pl_files {
   is(scalar @files,3,"Found correct number of scripts");
   like($files[0],qr/failure.pl/,"Found the failure script");
   like($files[1],qr/success.pl/,"Found the success script");
-  like($files[2],qr/tainted.pl/,"Found the tainted script");
+  like($files[2],qr/taint.pl/,"Found the tainted script");
 }
 
 sub test_all_pm_files {

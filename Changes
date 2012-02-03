@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Compile
 
+0.15  Fri 2012.02.03 20:33:55 NZST (Evan Giles <egiles@cpan.org>)
+    - Fork, and run compile tests in the child process (rt73290 & rt73291)
+
 0.14  Tue 2012.01.10 20:03:24 NZST (Evan Giles <egiles@cpan.org>)
     - Convert to Module::Build
     - Improved test for pl_file_ok()
