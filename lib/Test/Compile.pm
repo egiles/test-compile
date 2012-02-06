@@ -75,6 +75,7 @@ sub all_pm_files_ok {
 
 sub all_pl_files_ok {
     my @files = @_ ? @_ : all_pl_files();
+    $Test->skip_all("no pl files found") unless @files;
     $Test->plan(tests => scalar @files);
     my $ok = 1;
     for (@files) {
@@ -100,7 +101,7 @@ sub all_pl_files {
 
     my @pl;
     for my $file ( _find_files(@queue) ) {
-        if (-f $file) {
+        if (defined($file) && -f $file) {
             # Only accept files with no extension or extension .pl
             push @pl, $file if $file =~ /(?:^[^.]+$|\.pl$)/;
         }
@@ -148,7 +149,7 @@ sub _find_files {
     my (@queue) = @_;
 
     for my $file (@queue) {
-        if (-d $file) {
+        if (defined($file) && -d $file) {
             local *DH;
             opendir DH, $file or next;
             my @newfiles = readdir DH;

@@ -1,6 +1,7 @@
 Revision history for Perl extension Test-Compile
 
 0.15.1 DEVELOPMENT RELEASE          (Evan Giles <egiles@cpan.org>)
+    - Skip tests if there are not files to test
 
 0.15  Fri 2012.02.03 20:33:55 NZST (Evan Giles <egiles@cpan.org>)
     - Fork, and run compile tests in the child process (rt73290 & rt73291)
