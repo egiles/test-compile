@@ -125,6 +125,18 @@ sub _run_in_subprocess {
     }
 }
 
+sub _is_in_taint_mode {
+    my $file = shift;
+    open(FILE, $file) or die "could not open $file";
+    my $shebang = <FILE>;
+    my $taint = undef;
+    if ($shebang =~ /^#![\/\w]+\s+\-w?(T)/) {
+        $taint = $1;
+    }
+    close FILE;
+    return $taint;
+}
+
 sub _check_syntax {
     my ($file,$require) = @_;
 
@@ -138,8 +150,10 @@ sub _check_syntax {
             $module->use;
             return ($@ ? 0 : 1);
         } else {
+            my $taint = _is_in_taint_mode($file);
+            my $t = $taint ? "T" : "";
             my @perl5lib = split(':', ($ENV{PERL5LIB}||""));
-            system($^X, (map { "-I$_" } @perl5lib), '-c', $file);
+            system($^X, (map { "-I$_" } @perl5lib), "-c$t", $file);
             return ($? ? 0 : 1);
         }
     }
