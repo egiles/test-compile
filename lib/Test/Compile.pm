@@ -153,7 +153,7 @@ sub _check_syntax {
             my $taint = _is_in_taint_mode($file);
             my $t = $taint ? "T" : "";
             my @perl5lib = split(':', ($ENV{PERL5LIB}||""));
-            system($^X, (map { "-I$_" } @perl5lib), "-c$t", $file);
+            system($^X, (map { "-I$_" } @perl5lib), "-Iblib/lib", "-c$t", $file);
             return ($? ? 0 : 1);
         }
     }

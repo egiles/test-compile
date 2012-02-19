@@ -13,10 +13,11 @@ sub test_all_pl_files {
   my @files = sort (all_pl_files('t/scripts'));
 
   # THEN
-  is(scalar @files,3,"Found correct number of scripts");
+  is(scalar @files,4,"Found correct number of scripts");
   like($files[0],qr/failure.pl/,"Found the failure script");
-  like($files[1],qr/success.pl/,"Found the success script");
-  like($files[2],qr/taint.pl/,"Found the tainted script");
+  like($files[1],qr/lib.pl/,"Found the lib script");
+  like($files[2],qr/success.pl/,"Found the success script");
+  like($files[3],qr/taint.pl/,"Found the tainted script");
 }
 
 sub test_all_pm_files {
