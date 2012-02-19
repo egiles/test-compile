@@ -126,14 +126,14 @@ sub _run_in_subprocess {
 }
 
 sub _is_in_taint_mode {
-    my $file = shift;
-    open(FILE, $file) or die "could not open $file";
-    my $shebang = <FILE>;
+    my ($file) = @_;
+
+    open(my $f, "<", $file) or die "could not open $file";
+    my $shebang = <$f>;
     my $taint = undef;
-    if ($shebang =~ /^#![\/\w]+\s+\-w?(T)/) {
+    if ($shebang =~ m/^#![\/\w]+\s+\-w?(T)/) {
         $taint = $1;
     }
-    close FILE;
     return $taint;
 }
 
@@ -362,7 +362,7 @@ Evan Giles, C<< <egiles@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2011 by the authors.
+Copyright 2007-2012 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
