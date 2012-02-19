@@ -8,7 +8,7 @@ use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
 
-our $VERSION = '0.15.1';
+our $VERSION = '0.16';
 my $Test = Test::Builder->new;
 
 sub import {

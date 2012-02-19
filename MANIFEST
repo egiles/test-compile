@@ -11,10 +11,12 @@ t/04-pl-file-ok-vms.t
 t/10-find-files.t
 t/20-internal-check-syntax.t
 t/30-suppress-stderr.t
+t/40-lib.t
 t/scripts/CVS/Ignore.pm
 t/scripts/Module.pm
 t/scripts/Module2.pm
 t/scripts/failure.pl
+t/scripts/lib.pl
 t/scripts/subdir/success.pl
 t/scripts/taint.pl
 xt/author/00_compile.t
