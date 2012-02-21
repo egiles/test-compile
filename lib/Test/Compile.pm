@@ -8,7 +8,7 @@ use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
 
-our $VERSION = '0.16';
+our $VERSION = '0.16.1';
 my $Test = Test::Builder->new;
 
 sub import {
@@ -123,18 +123,6 @@ sub _run_in_subprocess {
         my $rv = $closure->();
         exit ($rv ? 0 : 1);
     }
-}
-
-sub _is_in_taint_mode {
-    my ($file) = @_;
-
-    open(my $f, "<", $file) or die "could not open $file";
-    my $shebang = <$f>;
-    my $taint = undef;
-    if ($shebang =~ m/^#![\/\w]+\s+\-w?(T)/) {
-        $taint = $1;
-    }
-    return $taint;
 }
 
 sub _check_syntax {
