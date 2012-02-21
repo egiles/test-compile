@@ -138,7 +138,8 @@ sub _check_syntax {
             return ($@ ? 0 : 1);
         } else {
             my @perl5lib = split(':', ($ENV{PERL5LIB}||""));
-            system($^X, (map { "-I$_" } @perl5lib), '-c', $file);
+            my $taint = _is_in_taint_mode($file);
+            system($^X, (map { "-I$_" } @perl5lib), "-c$taint", $file);
             return ($? ? 0 : 1);
         }
     }
@@ -177,6 +178,19 @@ sub _pl_starting_points {
     return 'script' if -e 'script';
     return 'bin'    if -e 'bin';
 }
+
+sub _is_in_taint_mode {
+    my $file = shift;
+    open(FILE, $file) or die "could not open $file";
+    my $shebang = <FILE>;
+    my $taint = "";
+    if ($shebang =~ /^#![\/\w]+\s+\-w?([tT])/) {
+        $taint = $1;
+    }
+    close FILE;
+    return $taint;
+}
+
 1;
 __END__
 
