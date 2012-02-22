@@ -1,6 +1,6 @@
 Revision history for Perl extension Test-Compile
 
-0.16.1 2012.02.23                   (Evan Giles <egiles@cpan.org>)
+0.16_1 2012.02.23                   (Evan Giles <egiles@cpan.org>)
     - Reapply patches from Nicholas Bamber (rt55837 & rt72557)
 
 0.16  2012.02.21                   (Evan Giles <egiles@cpan.org>)
