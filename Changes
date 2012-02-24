@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Compile
 
+0.17   2012.02.25                   (Evan Giles <egiles@cpan.org>)
+    - Another few tests for taint logic
+
 0.16_1 2012.02.23                   (Evan Giles <egiles@cpan.org>)
     - Reapply patches from Nicholas Bamber (rt55837 & rt72557)
 
