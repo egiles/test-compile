@@ -1,12 +1,16 @@
 Revision history for Perl extension Test-Compile
 
+
+0.17_01   DEV RELEASE                 (Evan Giles <egiles@cpan.org>)
+    - Add some temporary debug
+
 0.17   2012.02.25                   (Evan Giles <egiles@cpan.org>)
     - Another few tests for taint logic
 
 0.16_1 2012.02.23                   (Evan Giles <egiles@cpan.org>)
     - Reapply patches from Nicholas Bamber (rt55837 & rt72557)
 
-0.16  2012.02.21                   (Evan Giles <egiles@cpan.org>)
+0.16   2012.02.21                   (Evan Giles <egiles@cpan.org>)
     - Skip tests if there are not files to test (rt69297)
     - Handle taint mode correctly (rt55837)
     - Add 'blib/lib' to the search path for scripts (rt72557)
