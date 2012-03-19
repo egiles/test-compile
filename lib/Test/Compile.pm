@@ -11,6 +11,13 @@ use UNIVERSAL::require;
 our $VERSION = '0.17_01';
 my $Test = Test::Builder->new;
 
+BEGIN {
+  my $f = __FILE__;
+  my $p = __PACKAGE__;
+  my $v = "0.17_01";
+  print STDERR "\nCompiling $p ($v) from $f\n";
+}
+
 sub import {
     my $self   = shift;
     my $caller = caller;
@@ -41,6 +48,7 @@ sub pm_file_ok {
 sub pl_file_ok {
     my $file = shift;
     my $name = @_ ? shift : "Compile test for $file";
+    my $verbose = shift;
 
     # don't "use Devel::CheckOS" because Test::Compile is included by
     # Module::Install::StandardTests, and we don't want to have to ship
@@ -56,7 +64,7 @@ sub pl_file_ok {
         }
     }
 
-    my $ok = _run_in_subprocess(sub{_check_syntax($file,0)});
+    my $ok = _run_in_subprocess(sub{_check_syntax($file,0)},$verbose);
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
@@ -110,7 +118,7 @@ sub all_pl_files {
 }
 
 sub _run_in_subprocess {
-    my ($closure) = @_;
+    my ($closure,$verbose) = @_;
 
     my $pid = fork();
     if ( ! defined($pid) ) {
@@ -119,7 +127,9 @@ sub _run_in_subprocess {
         wait();
         return ($? ? 0 : 1);
     } else {
-        close(STDERR);
+        if ( !$verbose ) {
+          close(STDERR);
+        }
         my $rv = $closure->();
         exit ($rv ? 0 : 1);
     }
