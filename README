@@ -1,5 +1,8 @@
 DESCRIPTION
-    Test::Compile - Check whether Perl module files compile correctly
+    Test::Compile is a Perl module that lets you check whether a Perl module
+    or script compiles properly, and report its results in standard
+    Test::Simple fashion. It can test all Perl modules in a distribution, as
+    well as single module or script files. 
 
 DEPENDANCIES
     Requires perl v5.6.0, and

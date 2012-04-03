@@ -220,8 +220,8 @@ Test::Compile - Check whether Perl module files compile correctly
 
 =head1 DESCRIPTION
 
-C<Test::Compile> lets you check the validity of a Perl module file or Perl
-script file, and report its results in standard C<Test::Simple> fashion.
+C<Test::Compile> lets you check the whether a Perl module or script file
+compiles properly, and report its results in standard C<Test::Simple> fashion.
 
     BEGIN {
         use Test::Compile tests => $num_tests;
