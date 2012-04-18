@@ -31,3 +31,4 @@ xt/author/08_synopsis.t
 xt/author/10_has_version.t
 xt/author/99-version.t
 xt/author/perlcriticrc
+META.json
