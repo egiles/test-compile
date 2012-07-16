@@ -8,15 +8,8 @@ use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
 
-our $VERSION = '0.17_01';
+our $VERSION = '0.18';
 my $Test = Test::Builder->new;
-
-BEGIN {
-  my $f = __FILE__;
-  my $p = __PACKAGE__;
-  my $v = "0.17_01";
-  print STDERR "\nCompiling $p ($v) from $f\n";
-}
 
 sub import {
     my $self   = shift;
@@ -128,7 +121,7 @@ sub _run_in_subprocess {
         return ($? ? 0 : 1);
     } else {
         if ( !$verbose ) {
-          close(STDERR);
+            open STDERR, '>', File::Spec->devnull;
         }
         my $rv = $closure->();
         exit ($rv ? 0 : 1);
@@ -280,9 +273,6 @@ Test::Compile should be mandatory, not optional.
 
 C<pm_file_ok()> will okay the test if the Perl module compiles correctly.
 
-When it fails, C<pm_file_ok()> will show any compilation errors as
-diagnostics.
-
 The optional second argument C<TESTNAME> is the name of the test. If it is
 omitted, C<pm_file_ok()> chooses a default test name C<Compile test for
 FILENAME>.
@@ -293,9 +283,6 @@ C<pl_file_ok()> will okay the test if the Perl script compiles correctly. You
 need to give the path to the script relative to this distribution's base
 directory. So if you put your scripts in a 'top-level' directory called script
 the argument would be C<script/filename>.
-
-When it fails, C<pl_file_ok()> will show any compilation errors as
-diagnostics.
 
 The optional second argument C<TESTNAME> is the name of the test. If it is
 omitted, C<pl_file_ok()> chooses a default test name C<Compile test for
