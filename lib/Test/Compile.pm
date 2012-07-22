@@ -5,11 +5,12 @@ use warnings;
 use strict;
 
 use Test::Builder;
-use File::Spec;
 use UNIVERSAL::require;
+use Test::Compile::Internal;
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 my $Test = Test::Builder->new;
+my $internal = Test::Compile::Internal->new();
 
 sub import {
     my $self   = shift;
@@ -31,7 +32,7 @@ sub pm_file_ok {
     my $file = shift;
     my $name = @_ ? shift : "Compile test for $file";
 
-    my $ok = _run_in_subprocess(sub{_check_syntax($file,1)});
+    my $ok = $internal->_run_in_subprocess(sub{$internal->_check_syntax($file,1)});
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
@@ -57,7 +58,7 @@ sub pl_file_ok {
         }
     }
 
-    my $ok = _run_in_subprocess(sub{_check_syntax($file,0)},$verbose);
+    my $ok = $internal->_run_in_subprocess(sub{$internal->_check_syntax($file,0)},$verbose);
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
@@ -86,114 +87,11 @@ sub all_pl_files_ok {
 }
 
 sub all_pm_files {
-    my @queue = @_ ? @_ : _pm_starting_points();
-
-    my @pm;
-    for my $file ( _find_files(@queue) ) {
-        if (-f $file) {
-            push @pm, $file if $file =~ /\.pm$/;
-        }
-    }
-    return @pm;
+    return $internal->all_pm_files(@_);
 }
 
 sub all_pl_files {
-    my @queue = @_ ? @_ : _pl_starting_points();
-
-    my @pl;
-    for my $file ( _find_files(@queue) ) {
-        if (defined($file) && -f $file) {
-            # Only accept files with no extension or extension .pl
-            push @pl, $file if $file =~ /(?:^[^.]+$|\.pl$)/;
-        }
-    }
-    return @pl;
-}
-
-sub _run_in_subprocess {
-    my ($closure,$verbose) = @_;
-
-    my $pid = fork();
-    if ( ! defined($pid) ) {
-        return 0;
-    } elsif ( $pid ) {
-        wait();
-        return ($? ? 0 : 1);
-    } else {
-        if ( !$verbose ) {
-            open STDERR, '>', File::Spec->devnull;
-        }
-        my $rv = $closure->();
-        exit ($rv ? 0 : 1);
-    }
-}
-
-sub _check_syntax {
-    my ($file,$require) = @_;
-
-    if (-f $file) {
-        if ( $require ) {
-            my $module = $file;
-            $module =~ s!^(blib[/\\])?lib[/\\]!!;
-            $module =~ s![/\\]!::!g;
-            $module =~ s/\.pm$//;
-    
-            $module->use;
-            return ($@ ? 0 : 1);
-        } else {
-            my @perl5lib = split(':', ($ENV{PERL5LIB}||""));
-            my $taint = _is_in_taint_mode($file);
-            unshift @perl5lib, 'blib/lib';
-            system($^X, (map { "-I$_" } @perl5lib), "-c$taint", $file);
-            return ($? ? 0 : 1);
-        }
-    }
-}
-
-sub _find_files {
-    my (@queue) = @_;
-
-    for my $file (@queue) {
-        if (defined($file) && -d $file) {
-            local *DH;
-            opendir DH, $file or next;
-            my @newfiles = readdir DH;
-            closedir DH;
-            @newfiles = File::Spec->no_upwards(@newfiles);
-            @newfiles = grep { $_ ne "CVS" && $_ ne ".svn" } @newfiles;
-            for my $newfile (@newfiles) {
-                my $filename = File::Spec->catfile($file, $newfile);
-                if (-f $filename) {
-                    push @queue, $filename;
-                } else {
-                    push @queue, File::Spec->catdir($file, $newfile);
-                }
-            }
-        }
-    }
-    return @queue;
-}
-
-sub _pm_starting_points {
-    return 'blib' if -e 'blib';
-    return 'lib';
-}
-
-sub _pl_starting_points {
-    return 'script' if -e 'script';
-    return 'bin'    if -e 'bin';
-}
-
-sub _is_in_taint_mode {
-    my ($file) = @_;
-
-    open(my $f, "<", $file) or die "could not open $file";
-    my $shebang = <$f>;
-    my $taint = "";
-    if ($shebang =~ /^#![\/\w]+\s+\-w?([tT])/) {
-        $taint = $1;
-    }
-    return $taint;
+    return $internal->all_pl_files(@_);
 }
 
 1;

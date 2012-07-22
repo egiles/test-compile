@@ -1,5 +1,6 @@
 Changes
 lib/Test/Compile.pm
+lib/Test/Compile/Internal.pm
 LICENSE
 Makefile.PL
 Build.PL
@@ -8,7 +9,7 @@ META.yml
 README
 t/03-pl-file-ok.t
 t/04-pl-file-ok-vms.t
-t/10-find-files.t
+t/10-all-files.t
 t/10-taint.t
 t/20-internal-check-syntax.t
 t/25-internal-is-in-taint-mode.t
