@@ -18,6 +18,8 @@ Test::Compile::Internal - Internal workings for Test::Compile
 
     use Test::Compile::Internal;
     my $tci = Test::Compile::Internal->new();
+    $tci->all_files_ok();
+    $tci->done_testing();
 
 =head1 DESCRIPTION
 
@@ -54,11 +56,25 @@ sub all_files_ok {
 
     for my $file ( $self->all_pl_files(@queue) ) {
         my $ok = $self->_pl_file_compiles($file);
+        $test->ok($ok,"$file compiles");
     }
 
     for my $file ( $self->all_pm_files(@queue) ) {
         my $ok = $self->_pm_file_compiles($file);
+        $test->ok($ok,"$file compiles");
     }
+}
+
+=item C<done_testing()>
+
+Calls Test::Builder::done_testing
+
+=cut
+
+sub done_testing {
+    my ($self) = @_;
+    my $test = $self->{test};
+    $test->done_testing();
 }
 
 =item C<all_pm_files([@dirs])>
@@ -116,9 +132,11 @@ sub all_pl_files {
 
 sub _pl_file_compiles {
     my ($self,$file) = @_;
+    my $ok = $self->_run_in_subprocess(sub{$self->_check_syntax($file,0)});
 }
 sub _pm_file_compiles {
     my ($self,$file) = @_;
+    my $ok = $self->_run_in_subprocess(sub{$self->_check_syntax($file,1)});
 }
 
 sub _run_in_subprocess {
