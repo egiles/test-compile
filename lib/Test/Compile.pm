@@ -32,7 +32,7 @@ sub pm_file_ok {
     my $file = shift;
     my $name = @_ ? shift : "Compile test for $file";
 
-    my $ok = $internal->_run_in_subprocess(sub{$internal->_check_syntax($file,1)});
+    my $ok = $internal->_pm_file_compiles($file);
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
@@ -58,7 +58,7 @@ sub pl_file_ok {
         }
     }
 
-    my $ok = $internal->_run_in_subprocess(sub{$internal->_check_syntax($file,0)},$verbose);
+    my $ok = $internal->_pl_file_compiles($file);
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
