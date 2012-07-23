@@ -2,7 +2,8 @@
 *blib
 *stamp
 Build
-META.yml
+META.*
+MYMETA.*
 Makefile*
 _build
 

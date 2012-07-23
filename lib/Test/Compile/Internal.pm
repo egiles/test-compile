@@ -12,7 +12,7 @@ our $VERSION = '0.19';
 
 =head1 NAME
 
-Test::Compile::Internal - Internal workings for Test::Compile
+Test::Compile::Internal - Internal workings for Test::Compile.
 
 =head1 SYNOPSIS
 
@@ -67,7 +67,7 @@ sub all_files_ok {
 
 =item C<done_testing()>
 
-Calls Test::Builder::done_testing
+Declares that you are done testing, no more tests will be run after this point.
 
 =cut
 
@@ -79,10 +79,11 @@ sub done_testing {
 
 =item C<all_pm_files([@dirs])>
 
-Returns a list of all the perl module files - that is, files ending in F<.pm>
-- in I<$dir> and in directories below. If no directories are passed, it
-defaults to F<blib> if F<blib> exists, or else F<lib> if not. Skips any files
-in C<CVS> or C<.svn> directories.
+Returns a list of all the perl module files - that is any files ending in F<.pm>
+in I<@dirs> and in directories below. If @dirs is not passed, it
+searches F<blib> if F<blib> exists, or else F<lib>.
+
+Skips any files in C<CVS> or C<.svn> directories.
 
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
@@ -102,12 +103,14 @@ sub all_pm_files {
     return @pm;
 }
 
-=item C<all_pl_files([@files/@dirs])>
+=item C<all_pl_files([@dirs])>
 
-Returns a list of all the perl script files - that is, files ending in F<.pl>
-or with no extension. Directory arguments are searched recursively . If
-arguments are passed, it defaults to F<script> if F<script> exists, or else
-F<bin> if F<bin> exists. Skips any files in C<CVS> or C<.svn> directories.
+Returns a list of all the perl script files - that is, any files ending in F<.pl>
+or files with no extension in I<@dirs> and in directories below. If
+@dirs is not passed, it searches F<script> if F<script> exists, or else
+F<bin> if F<bin> exists.
+
+Skips any files in C<CVS> or C<.svn> directories.
 
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
