@@ -1,7 +1,6 @@
-#!perl -w
+#!perl
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More tests => 1;
 use Test::Compile;
 pl_file_ok('t/scripts/subdir/success.pl', 'success.pl compiles');
-pl_file_ok('t/scripts/taint.pl', 'taint.pl compiles');
