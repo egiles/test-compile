@@ -55,12 +55,12 @@ sub all_files_ok {
     my $test = $self->{test};
 
     for my $file ( $self->all_pl_files(@queue) ) {
-        my $ok = $self->_pl_file_compiles($file);
+        my $ok = $self->pl_file_compiles($file);
         $test->ok($ok,"$file compiles");
     }
 
     for my $file ( $self->all_pm_files(@queue) ) {
-        my $ok = $self->_pm_file_compiles($file);
+        my $ok = $self->pm_file_compiles($file);
         $test->ok($ok,"$file compiles");
     }
 }
@@ -115,7 +115,6 @@ Skips any files in C<CVS> or C<.svn> directories.
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
 
-=back
 =cut
 
 sub all_pl_files {
@@ -133,11 +132,25 @@ sub all_pl_files {
     return @pl;
 }
 
-sub _pl_file_compiles {
+=item C<pl_file_compiles($file)>
+
+Returns true if $file compiles as a perl script.
+
+=cut
+
+sub pl_file_compiles {
     my ($self,$file) = @_;
     my $ok = $self->_run_in_subprocess(sub{$self->_check_syntax($file,0)});
 }
-sub _pm_file_compiles {
+
+=item C<pm_file_compiles($file)>
+
+Returns true if $file compiles as a perl module.
+
+=back
+=cut
+
+sub pm_file_compiles {
     my ($self,$file) = @_;
     my $ok = $self->_run_in_subprocess(sub{$self->_check_syntax($file,1)});
 }

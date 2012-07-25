@@ -27,7 +27,7 @@ t/scripts/failure.pl
 t/scripts/lib.pl
 t/scripts/subdir/success.pl
 t/scripts/taint.pl
-xt/author/00_compile.t
+xt/author/00-compile.t
 xt/author/01_perl_critic.t
 xt/author/02_pod.t
 xt/author/04_pod_coverage.t
