@@ -29,10 +29,14 @@ sub import {
 }
 
 sub pm_file_ok {
-    my $file = shift;
-    my $name = @_ ? shift : "Compile test for $file";
+    my ($file,$name,$verbose) = @_;
 
+    $name ||= "Compile test for $file";
+
+    my $old = $internal->verbose();
+    $internal->verbose($verbose);
     my $ok = $internal->pm_file_compiles($file);
+    $internal->verbose($old);
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
@@ -40,9 +44,9 @@ sub pm_file_ok {
 }
 
 sub pl_file_ok {
-    my $file = shift;
-    my $name = @_ ? shift : "Compile test for $file";
-    my $verbose = shift;
+    my ($file,$name,$verbose) = @_;
+
+    $name ||= "Compile test for $file";
 
     # don't "use Devel::CheckOS" because Test::Compile is included by
     # Module::Install::StandardTests, and we don't want to have to ship
@@ -58,7 +62,10 @@ sub pl_file_ok {
         }
     }
 
+    my $old = $internal->verbose();
+    $internal->verbose($verbose);
     my $ok = $internal->pl_file_compiles($file);
+    $internal->verbose($old);
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;

@@ -10,6 +10,7 @@ use UNIVERSAL::require;
 
 our $VERSION = '0.19';
 
+
 =head1 NAME
 
 Test::Compile::Internal - Internal workings for Test::Compile.
@@ -75,6 +76,24 @@ sub done_testing {
     my ($self) = @_;
     my $test = $self->{test};
     $test->done_testing();
+}
+
+=item C<verbose([@dirs])>
+
+An accessor to get/set the verbose flag.  If verbose is set, you can get some 
+extra diagnostics when compilation fails.
+
+Verbose is set off by default.
+=cut
+
+sub verbose {
+    my ($self,$verbose) = @_;
+
+    if ( defined($verbose) ) {
+        $self->{verbose} = $verbose;
+    }
+
+    return $self->{verbose};
 }
 
 =item C<all_pm_files([@dirs])>
@@ -156,7 +175,7 @@ sub pm_file_compiles {
 }
 
 sub _run_in_subprocess {
-    my ($self,$closure,$verbose) = @_;
+    my ($self,$closure) = @_;
 
     my $pid = fork();
     if ( ! defined($pid) ) {
@@ -165,7 +184,7 @@ sub _run_in_subprocess {
         wait();
         return ($? ? 0 : 1);
     } else {
-        if ( !$verbose ) {
+        if ( ! $self->verbose() ) {
             open STDERR, '>', File::Spec->devnull;
         }
         my $rv = $closure->();
