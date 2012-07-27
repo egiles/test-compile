@@ -9,8 +9,7 @@ use UNIVERSAL::require;
 use Test::Compile::Internal;
 
 our $VERSION = '0.19';
-my $Test = Test::Builder->new;
-my $internal = Test::Compile::Internal->new();
+my $Test = Test::Compile::Internal->new();
 
 sub import {
     my $self   = shift;
@@ -33,10 +32,10 @@ sub pm_file_ok {
 
     $name ||= "Compile test for $file";
 
-    my $old = $internal->verbose();
-    $internal->verbose($verbose);
-    my $ok = $internal->pm_file_compiles($file);
-    $internal->verbose($old);
+    my $old = $Test->verbose();
+    $Test->verbose($verbose);
+    my $ok = $Test->pm_file_compiles($file);
+    $Test->verbose($old);
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
@@ -62,10 +61,10 @@ sub pl_file_ok {
         }
     }
 
-    my $old = $internal->verbose();
-    $internal->verbose($verbose);
-    my $ok = $internal->pl_file_compiles($file);
-    $internal->verbose($old);
+    my $old = $Test->verbose();
+    $Test->verbose($verbose);
+    my $ok = $Test->pl_file_compiles($file);
+    $Test->verbose($old);
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
@@ -94,11 +93,11 @@ sub all_pl_files_ok {
 }
 
 sub all_pm_files {
-    return $internal->all_pm_files(@_);
+    return $Test->all_pm_files(@_);
 }
 
 sub all_pl_files {
-    return $internal->all_pl_files(@_);
+    return $Test->all_pl_files(@_);
 }
 
 1;

@@ -4,12 +4,11 @@ use 5.006;
 use warnings;
 use strict;
 
-use Test::Builder;
 use File::Spec;
 use UNIVERSAL::require;
+use Test::Builder;
 
 our $VERSION = '0.19';
-
 
 =head1 NAME
 
@@ -39,7 +38,7 @@ sub new {
     my ($class,%self) = @_;
     my $self = \%self;
 
-    $self->{test} ||= Test::Builder->new();
+    $self->{test} = Test::Builder->new();
 
     bless ($self, $class);
     return $self;
@@ -73,9 +72,32 @@ Declares that you are done testing, no more tests will be run after this point.
 =cut
 
 sub done_testing {
-    my ($self) = @_;
-    my $test = $self->{test};
-    $test->done_testing();
+    my ($self,@args) = @_;
+    $self->{test}->done_testing(@args);
+}
+sub ok {
+    my ($self,@args) = @_;
+    $self->{test}->ok(@args);
+}
+sub plan {
+    my ($self,@args) = @_;
+    $self->{test}->plan(@args);
+}
+sub exported_to {
+    my ($self,@args) = @_;
+    $self->{test}->exported_to(@args);
+}
+sub diag {
+    my ($self,@args) = @_;
+    $self->{test}->diag(@args);
+}
+sub skip {
+    my ($self,@args) = @_;
+    $self->{test}->skip(@args);
+}
+sub skip_all {
+    my ($self,@args) = @_;
+    $self->{test}->skip_all(@args);
 }
 
 =item C<verbose([@dirs])>
