@@ -50,57 +50,23 @@ Checks all the perl files it can find for compilation errors.
 
 =cut
 sub all_files_ok {
-    my ($self,@queue) = @_;
+    my ($self,@dirs) = @_;
 
     my $test = $self->{test};
 
-    for my $file ( $self->all_pl_files(@queue) ) {
+    for my $file ( $self->all_pl_files(@dirs) ) {
         my $ok = $self->pl_file_compiles($file);
         $test->ok($ok,"$file compiles");
     }
 
-    for my $file ( $self->all_pm_files(@queue) ) {
+    for my $file ( $self->all_pm_files(@dirs) ) {
         my $ok = $self->pm_file_compiles($file);
         $test->ok($ok,"$file compiles");
     }
 }
 
-=item C<done_testing()>
 
-Declares that you are done testing, no more tests will be run after this point.
-
-=cut
-
-sub done_testing {
-    my ($self,@args) = @_;
-    $self->{test}->done_testing(@args);
-}
-sub ok {
-    my ($self,@args) = @_;
-    $self->{test}->ok(@args);
-}
-sub plan {
-    my ($self,@args) = @_;
-    $self->{test}->plan(@args);
-}
-sub exported_to {
-    my ($self,@args) = @_;
-    $self->{test}->exported_to(@args);
-}
-sub diag {
-    my ($self,@args) = @_;
-    $self->{test}->diag(@args);
-}
-sub skip {
-    my ($self,@args) = @_;
-    $self->{test}->skip(@args);
-}
-sub skip_all {
-    my ($self,@args) = @_;
-    $self->{test}->skip_all(@args);
-}
-
-=item C<verbose([@dirs])>
+=item C<verbose([$verbose])>
 
 An accessor to get/set the verbose flag.  If verbose is set, you can get some 
 extra diagnostics when compilation fails.
@@ -131,12 +97,12 @@ sorted, you'll have to sort them yourself.
 =cut
 
 sub all_pm_files {
-    my ($self,@queue) = @_;
+    my ($self,@dirs) = @_;
 
-    @queue = @queue ? @queue : _pm_starting_points();
+    @dirs = @dirs ? @dirs : _pm_starting_points();
 
     my @pm;
-    for my $file ( $self->_find_files(@queue) ) {
+    for my $file ( $self->_find_files(@dirs) ) {
         if (-f $file) {
             push @pm, $file if $file =~ /\.pm$/;
         }
@@ -159,12 +125,12 @@ sorted, you'll have to sort them yourself.
 =cut
 
 sub all_pl_files {
-    my ($self,@queue) = @_;
+    my ($self,@dirs) = @_;
 
-    @queue = @queue ? @queue : _pl_starting_points();
+    @dirs = @dirs ? @dirs : _pl_starting_points();
 
     my @pl;
-    for my $file ( $self->_find_files(@queue) ) {
+    for my $file ( $self->_find_files(@dirs) ) {
         if (defined($file) && -f $file) {
             # Only accept files with no extension or extension .pl
             push @pl, $file if $file =~ /(?:^[^.]+$|\.pl$)/;
@@ -194,6 +160,89 @@ Returns true if $file compiles as a perl module.
 sub pm_file_compiles {
     my ($self,$file) = @_;
     my $ok = $self->_run_in_subprocess(sub{$self->_check_syntax($file,1)});
+}
+
+=head1 TEST METHODS
+
+=over 4
+
+=item C<done_testing()>
+
+Declares that you are done testing, no more tests will be run after this point.
+
+=cut
+sub done_testing {
+    my ($self,@args) = @_;
+    $self->{test}->done_testing(@args);
+}
+
+=item C<ok($test,$name)>
+
+Your basic test. Pass if $test is true, fail if $test is false. Just like Test::Simple's ok().
+
+=cut
+sub ok {
+    my ($self,@args) = @_;
+    $self->{test}->ok(@args);
+}
+
+=item C<plan($count)>
+
+Defines how many tests you plan to run.
+
+=cut
+sub plan {
+    my ($self,@args) = @_;
+    $self->{test}->plan(@args);
+}
+
+=item C<exported_to($caller)>
+
+Tells Test::Builder what package you exported your functions to.  I am not sure why you would want to do that, or whether it would do you any good.
+
+=cut
+
+sub exported_to {
+    my ($self,@args) = @_;
+    $self->{test}->exported_to(@args);
+}
+
+=item C<diag(@msgs)>
+
+Prints out the given @msgs. Like print, arguments are simply appended together.
+
+Output will be indented and marked with a # so as not to interfere with test output. A newline will be put on the end if there isn't one already.
+
+We encourage using this rather than calling print directly.
+
+=cut
+
+sub diag {
+    my ($self,@args) = @_;
+    $self->{test}->diag(@args);
+}
+
+=item C<skip($why)>
+
+Skips the current test, reporting $why.
+
+=cut
+
+sub skip {
+    my ($self,@args) = @_;
+    $self->{test}->skip(@args);
+}
+
+=item C<skip_all($reason)>
+
+Skips all the tests, using the given $reason. Exits immediately with 0.
+
+=back
+=cut
+
+sub skip_all {
+    my ($self,@args) = @_;
+    $self->{test}->skip_all(@args);
 }
 
 sub _run_in_subprocess {
