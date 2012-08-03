@@ -1,8 +1,9 @@
 Revision history for Perl extension Test-Compile
 
 
-0.19  2012.XX.XX                  (Evan Giles <egiles@cpan.org>)
+0.19  2012.08.03                  (Evan Giles <egiles@cpan.org>)
     - Introduce Test::Compile::Internal.pm
+    - Utilise Test::Compile::Internal to get better test coverage
 
 0.18  2012.07.16                  (Evan Giles <egiles@cpan.org>)
     - Fix a warning that leaks out (rt78363)
