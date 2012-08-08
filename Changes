@@ -1,6 +1,9 @@
 Revision history for Perl extension Test-Compile
 
 
+0.20  2012.08.08                  (Evan Giles <egiles@cpan.org>)
+    - Tests should also work outside unix (rt78810)
+
 0.19  2012.08.03                  (Evan Giles <egiles@cpan.org>)
     - Introduce Test::Compile::Internal.pm
     - Utilise Test::Compile::Internal to get better test coverage
