@@ -147,7 +147,7 @@ Returns true if $file compiles as a perl script.
 
 sub pl_file_compiles {
     my ($self,$file) = @_;
-    my $ok = $self->_run_in_subprocess(sub{$self->_check_syntax($file,0)});
+    my $ok = $self->_run_closure(sub{$self->_check_syntax($file,0)});
 }
 
 =item C<pm_file_compiles($file)>
@@ -159,7 +159,7 @@ Returns true if $file compiles as a perl module.
 
 sub pm_file_compiles {
     my ($self,$file) = @_;
-    my $ok = $self->_run_in_subprocess(sub{$self->_check_syntax($file,1)});
+    my $ok = $self->_run_closure(sub{$self->_check_syntax($file,1)});
 }
 
 =head1 TEST METHODS
@@ -245,7 +245,7 @@ sub skip_all {
     $self->{test}->skip_all(@args);
 }
 
-sub _run_in_subprocess {
+sub _run_closure {
     my ($self,$closure) = @_;
 
     my $pid = fork();
@@ -254,13 +254,15 @@ sub _run_in_subprocess {
     } elsif ( $pid ) {
         wait();
         return ($? ? 0 : 1);
-    } else {
-        if ( ! $self->verbose() ) {
-            open STDERR, '>', File::Spec->devnull;
-        }
-        my $rv = $closure->();
-        exit ($rv ? 0 : 1);
     }
+
+    if ( ! $self->verbose() ) {
+        open STDERR, '>', File::Spec->devnull;
+    }
+
+    my $rv = $closure->();
+
+    exit ($rv ? 0 : 1);
 }
 
 sub _check_syntax {
