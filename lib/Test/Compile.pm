@@ -8,7 +8,7 @@ use Test::Builder;
 use UNIVERSAL::require;
 use Test::Compile::Internal;
 
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 my $Test = Test::Compile::Internal->new();
 
 =head1 NAME
