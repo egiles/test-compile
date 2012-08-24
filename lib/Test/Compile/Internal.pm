@@ -12,7 +12,7 @@ our $VERSION = '0.20';
 
 =head1 NAME
 
-Test::Compile::Internal - Internal workings for Test::Compile.
+Test::Compile::Internal - Test whether your perl files compile.
 
 =head1 SYNOPSIS
 
@@ -23,7 +23,11 @@ Test::Compile::Internal - Internal workings for Test::Compile.
 
 =head1 DESCRIPTION
 
-Don't use this module directly, it is BETA software, and subject to change
+C<Test::Compile::Internal> is an object oriented tool for testing whether your
+perl files compile.
+
+It is primarily to provide the inner workings of Test::Compile, but it can
+also be used directly to test a CPAN distribution.
 
 =head1 METHODS
 
@@ -47,6 +51,10 @@ sub new {
 =item C<all_files_ok([@dirs])>
 
 Checks all the perl files it can find for compilation errors.
+
+If @dirs is defined then it is taken as an array of directories to 
+be searched for perl files, otherwise it searches some default locatioons
+- see L</all_pm_files()> and L</all_pl_files()>. 
 
 =cut
 sub all_files_ok {
@@ -163,6 +171,9 @@ sub pm_file_compiles {
 }
 
 =head1 TEST METHODS
+
+C<Test::Compile::Internal> encapsulates a C<Test::Builder> object, and provides
+access to some of its methods.
 
 =over 4
 
@@ -334,8 +345,6 @@ sub _is_in_taint_mode {
 }
 
 1;
-__END__
-
 
 =head1 AUTHORS
 
@@ -352,7 +361,7 @@ it under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
-L<Test::LoadAllModules> just handles modules, not script files, but has more
-fine-grained control.
+L<Test::Strict> proveds functions to ensure your perl files comnpile, with
+added bonus that it will check you have used strict in all your files.
 
 =cut
