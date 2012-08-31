@@ -56,6 +56,80 @@ sub import {
 
 =over 4
 
+=item C<all_pm_files_ok(@files)>
+
+Checks all the files in C<@files> for compilation. It runs L</all_pm_files()>
+on each file/directory, and calls the C<plan()> function for you (one test for
+each module), so you can't have already called C<plan>.
+
+If C<@files> is empty or not passed, the function finds all Perl module files
+in the F<blib> directory if it exists, or the F<lib> directory if not. A Perl
+module file is one that ends with F<.pm>.
+
+Returns true if all Perl module files are ok, or false if any fail.
+
+Module authors can include the following in a F<t/00_compile.t> file
+and have C<Test::Compile> automatically find and check all Perl module files
+in a module distribution:
+
+    #!perl -w
+    use strict;
+    use warnings;
+    use Test::More;
+    eval "use Test::Compile";
+    Test::More->builder->BAIL_OUT(
+        "Test::Compile required for testing compilation") if $@;
+    all_pm_files_ok();
+
+=cut
+
+sub all_pm_files_ok {
+    my @files = @_ ? @_ : all_pm_files();
+    $Test->plan(tests => scalar @files);
+    my $ok = 1;
+    for (@files) {
+        pm_file_ok($_) or undef $ok;
+    }
+    $ok;
+}
+
+=item C<all_pl_files_ok(@files)>
+
+Checks all the files in C<@files> for compilation. It runs L<pl_file_ok()>
+on each file, and calls the C<plan()> function for you (one test for
+each script), so you can't have already called C<plan>.
+
+If C<@files> is empty or not passed, the function uses all_pl_files() to find
+scripts to test.
+
+Returns true if all Perl module files are ok, or false if any fail.
+
+Module authors can include the following in a F<t/00_compile_scripts.t> file
+and have C<Test::Compile> automatically find and check all Perl module files
+in a module distribution:
+
+    #!perl -w
+    use strict;
+    use warnings;
+    use Test::More;
+    eval "use Test::Compile";
+    plan skip_all => "Test::Compile required for testing compilation"
+      if $@;
+    all_pl_files_ok();
+
+=cut
+
+sub all_pl_files_ok {
+    my @files = @_ ? @_ : all_pl_files();
+    $Test->skip_all("no pl files found") unless @files;
+    $Test->plan(tests => scalar @files);
+    my $ok = 1;
+    for (@files) {
+        pl_file_ok($_) or undef $ok;
+    }
+    $ok;
+}
+
 =item C<pm_file_ok($filename,$testname)>
 
 C<pm_file_ok()> will okay the test if $filename compiles as a perl module.
@@ -119,82 +193,6 @@ sub pl_file_ok {
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
     return $ok;
-}
-
-=item C<all_pm_files_ok(@files)>
-
-Checks all the files in C<@files> for compilation. It runs L</all_pm_files()>
-on each file/directory, and calls the C<plan()> function for you (one test for
-each module), so you can't have already called C<plan>.
-
-If C<@files> is empty or not passed, the function finds all Perl module files
-in the F<blib> directory if it exists, or the F<lib> directory if not. A Perl
-module file is one that ends with F<.pm>.
-
-Returns true if all Perl module files are ok, or false if any fail.
-
-Module authors can include the following in a F<t/00_compile.t> file and
-have C<Test::Compile> automatically find and check all Perl module files in a
-module distribution:
-
-    #!perl -w
-    use Test::More;
-    eval "use Test::Compile 0.09";
-    Test::More->builder->BAIL_OUT(
-        "Test::Compile 0.09 required for testing compilation") if $@;
-    all_pm_files_ok();
-
-Or even (if you're running under L<Apache::Test>):
-
-    my @pmdirs = qw(blib script);
-    use File::Spec::Functions qw(catdir updir);
-    all_pm_files_ok(
-        all_pm_files(map { catdir updir, $_ } @pmdirs)
-    );
-
-=cut
-
-sub all_pm_files_ok {
-    my @files = @_ ? @_ : all_pm_files();
-    $Test->plan(tests => scalar @files);
-    my $ok = 1;
-    for (@files) {
-        pm_file_ok($_) or undef $ok;
-    }
-    $ok;
-}
-
-=item C<all_pl_files_ok(@files)>
-
-Checks all the files in C<@files> for compilation. It runs L<pl_file_ok()>
-on each file, and calls the C<plan()> function for you (one test for
-each script), so you can't have already called C<plan>.
-
-If C<@files> is empty or not passed, the function uses all_pl_files() to find
-scripts to test.
-
-Returns true if all Perl module files are ok, or false if any fail.
-
-If you're testing a module, just make a F<t/00_compile_scripts.t>:
-
-    #!perl -w
-    use Test::More;
-    eval "use Test::Compile 0.09";
-    plan skip_all => "Test::Compile 0.09 required for testing compilation"
-      if $@;
-    all_pl_files_ok();
-
-=cut
-
-sub all_pl_files_ok {
-    my @files = @_ ? @_ : all_pl_files();
-    $Test->skip_all("no pl files found") unless @files;
-    $Test->plan(tests => scalar @files);
-    my $ok = 1;
-    for (@files) {
-        pl_file_ok($_) or undef $ok;
-    }
-    $ok;
 }
 
 =item C<all_pm_files(@dirs)>
