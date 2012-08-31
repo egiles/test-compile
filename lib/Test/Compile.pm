@@ -121,11 +121,11 @@ sub pl_file_ok {
     return $ok;
 }
 
-=item C<all_pm_files_ok([@files/@directories])>
+=item C<all_pm_files_ok(@files)>
 
-Checks all the files in C<@files> for compilation. It runs L<all_pm_files()>
+Checks all the files in C<@files> for compilation. It runs L</all_pm_files()>
 on each file/directory, and calls the C<plan()> function for you (one test for
-each function), so you can't have already called C<plan>.
+each module), so you can't have already called C<plan>.
 
 If C<@files> is empty or not passed, the function finds all Perl module files
 in the F<blib> directory if it exists, or the F<lib> directory if not. A Perl
@@ -164,14 +164,14 @@ sub all_pm_files_ok {
     $ok;
 }
 
-=item C<all_pl_files_ok([@files])>
+=item C<all_pl_files_ok(@files)>
 
 Checks all the files in C<@files> for compilation. It runs L<pl_file_ok()>
 on each file, and calls the C<plan()> function for you (one test for
-each file), so you can't have already called C<plan>.
+each script), so you can't have already called C<plan>.
 
 If C<@files> is empty or not passed, the function uses all_pl_files() to find
-scripts to test
+scripts to test.
 
 Returns true if all Perl module files are ok, or false if any fail.
 
@@ -197,7 +197,7 @@ sub all_pl_files_ok {
     $ok;
 }
 
-=item C<all_pm_files([@dirs])>
+=item C<all_pm_files(@dirs)>
 
 Returns a list of all the perl module files - that is, files ending in F<.pm>
 - in I<@dirs> and in directories below. If no directories are passed, it
@@ -213,7 +213,7 @@ sub all_pm_files {
     return $Test->all_pm_files(@_);
 }
 
-=item C<all_pl_files([@dirs])>
+=item C<all_pl_files(@dirs)>
 
 Returns a list of all the perl script files - that is, files ending in F<.pl>
 or with no extension. Directory arguments are searched recursively . If

@@ -48,7 +48,7 @@ sub new {
     return $self;
 }
 
-=item C<all_files_ok([@dirs])>
+=item C<all_files_ok(@dirs)>
 
 Checks all the perl files it can find for compilation errors.
 
@@ -74,7 +74,7 @@ sub all_files_ok {
 }
 
 
-=item C<verbose([$verbose])>
+=item C<verbose($verbose)>
 
 An accessor to get/set the verbose flag.  If verbose is set, you can get some 
 extra diagnostics when compilation fails.
@@ -92,10 +92,10 @@ sub verbose {
     return $self->{verbose};
 }
 
-=item C<all_pm_files([@dirs])>
+=item C<all_pm_files(@dirs)>
 
 Returns a list of all the perl module files - that is any files ending in F<.pm>
-in I<@dirs> and in directories below. If @dirs is not passed, it
+in I<@dirs> and in directories below. If @dirs is undefined, it
 searches F<blib> if F<blib> exists, or else F<lib>.
 
 Skips any files in C<CVS> or C<.svn> directories.
@@ -118,11 +118,11 @@ sub all_pm_files {
     return @pm;
 }
 
-=item C<all_pl_files([@dirs])>
+=item C<all_pl_files(@dirs)>
 
 Returns a list of all the perl script files - that is, any files ending in F<.pl>
 or files with no extension in I<@dirs> and in directories below. If
-@dirs is not passed, it searches F<script> if F<script> exists, or else
+@dirs is undefined, it searches F<script> if F<script> exists, or else
 F<bin> if F<bin> exists.
 
 Skips any files in C<CVS> or C<.svn> directories.
