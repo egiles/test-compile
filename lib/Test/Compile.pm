@@ -140,14 +140,11 @@ $filename>.
 
 =cut
 sub pm_file_ok {
-    my ($file,$name,$verbose) = @_;
+    my ($file,$name) = @_;
 
     $name ||= "Compile test for $file";
 
-    my $old = $Test->verbose();
-    $Test->verbose($verbose);
     my $ok = $Test->pm_file_compiles($file);
-    $Test->verbose($old);
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
@@ -167,7 +164,7 @@ $filename>.
 =cut
 
 sub pl_file_ok {
-    my ($file,$name,$verbose) = @_;
+    my ($file,$name) = @_;
 
     $name ||= "Compile test for $file";
 
@@ -185,10 +182,7 @@ sub pl_file_ok {
         }
     }
 
-    my $old = $Test->verbose();
-    $Test->verbose($verbose);
     my $ok = $Test->pl_file_compiles($file);
-    $Test->verbose($old);
 
     $Test->ok($ok, $name);
     $Test->diag("$file does not compile") unless $ok;
