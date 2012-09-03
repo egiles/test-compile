@@ -20,5 +20,8 @@ is($taint2,1,"taint2.pl should compile - with -t enabled");
 my $no = $internal->pl_file_compiles('t/scripts/failure.pl');
 is($no,0,"failure.pl should not compile");
 
+my $not_found = $internal->pl_file_compiles('t/scripts/no_file_here.pl');
+is($not_found,0,"no_file_here.pl should not compile");
+
 
 done_testing();

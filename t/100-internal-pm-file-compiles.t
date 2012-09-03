@@ -14,5 +14,8 @@ is($yes,1,"Module.pm should compile");
 my $no = $internal->pm_file_compiles('t/scripts/CVS/Ignore.pm');
 is($no,0,"Ignore.pm should not compile");
 
+my $notfound = $internal->pm_file_compiles('t/scripts/NotFound.pm');
+is($notfound,0,"NotFound.pm should not compile");
+
 
 done_testing();
