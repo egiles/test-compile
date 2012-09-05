@@ -25,7 +25,7 @@ Test::Compile - Check whether Perl files compile correctly.
 C<Test::Compile> lets you check the whether your perl modules and scripts
 compile properly, and report its results in standard C<Test::Simple> fashion.
 
-The basic useage - as shown above, will find all pm files and test that they
+The basic usage - as shown above, will find all pm files and test that they
 all compile.
 
 You can explicitly specify the list of directories to check, using
@@ -105,7 +105,7 @@ scripts to test.
 Returns true if all Perl module files are ok, or false if any fail.
 
 Module authors can include the following in a F<t/00_compile_scripts.t> file
-and have C<Test::Compile> automatically find and check all Perl module files
+and have C<Test::Compile> automatically find and check all Perl script files
 in a module distribution:
 
     #!perl -w

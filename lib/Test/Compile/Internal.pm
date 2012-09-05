@@ -26,7 +26,7 @@ Test::Compile::Internal - Test whether your perl files compile.
 C<Test::Compile::Internal> is an object oriented tool for testing whether your
 perl files compile.
 
-It is primarily to provide the inner workings of Test::Compile, but it can
+It is primarily to provide the inner workings of C<Test::Compile>, but it can
 also be used directly to test a CPAN distribution.
 
 =head1 METHODS
@@ -155,7 +155,7 @@ Returns true if C<$file> compiles as a perl script.
 
 sub pl_file_compiles {
     my ($self,$file) = @_;
-    my $ok = $self->_run_closure(
+    return $self->_run_closure(
         sub{
             if ( -f $file ) {
                 my @perl5lib = split(':', ($ENV{PERL5LIB}||""));
@@ -177,7 +177,8 @@ Returns true if C<$file> compiles as a perl module.
 
 sub pm_file_compiles {
     my ($self,$file) = @_;
-    my $ok = $self->_run_closure(
+
+    return $self->_run_closure(
         sub{
             if ( -f $file ) {
                 my $module = $file;
