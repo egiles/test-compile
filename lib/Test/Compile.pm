@@ -10,6 +10,7 @@ use Test::Compile::Internal;
 
 our $VERSION = '0.21';
 my $Test = Test::Compile::Internal->new();
+$Test->verbose(1);
 
 =head1 NAME
 
