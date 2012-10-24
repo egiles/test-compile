@@ -1,5 +1,7 @@
 Revision history for Perl extension Test-Compile
 
+0.22  2012.10.31                  (Evan Giles <egiles@cpan.org>)
+    - Set verbose on for the Test::Compile library (rt80187)
 
 0.21  2012.09.05                  (Evan Giles <egiles@cpan.org>)
     - Finally test that the verbose method actaully works.
