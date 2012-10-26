@@ -10,7 +10,7 @@ use Test::Compile::Internal;
 
 our $VERSION = '0.22';
 my $Test = Test::Compile::Internal->new();
-$Test->verbose(1);
+_verbose(1);
 
 =head1 NAME
 
@@ -221,6 +221,10 @@ sorted, you'll have to sort them yourself.
 
 sub all_pl_files {
     return $Test->all_pl_files(@_);
+}
+
+sub _verbose {
+    return $Test->verbose(@_);
 }
 
 1;
