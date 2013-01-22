@@ -8,7 +8,7 @@ use File::Spec;
 use UNIVERSAL::require;
 use Test::Builder;
 
-our $VERSION = '0.22';
+our $VERSION = '0.23';
 
 =head1 NAME
 
@@ -358,7 +358,7 @@ Evan Giles, C<< <egiles@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2012 by the authors.
+Copyright 2007-2013 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

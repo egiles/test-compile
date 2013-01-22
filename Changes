@@ -1,5 +1,11 @@
 Revision history for Perl extension Test-Compile
 
+0.23  2013.01.23                  (Evan Giles <egiles@cpan.org>)
+    - Update Copyright for 2013
+    - CPAN-RT #82887, Sébastien Aperghis-Tramoni <sebastien@aperghis.net>
+        - Correct handling of PERL5LIB
+        - fix regexp to detect taint mode
+
 0.22  2012.10.31                  (Evan Giles <egiles@cpan.org>)
     - Set verbose on for the Test::Compile library (rt80187)
 
