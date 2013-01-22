@@ -158,10 +158,9 @@ sub pl_file_compiles {
     return $self->_run_closure(
         sub{
             if ( -f $file ) {
-                my @perl5lib = split(':', ($ENV{PERL5LIB}||""));
+                my @inc = ('blib/lib', @INC);
                 my $taint = $self->_is_in_taint_mode($file);
-                unshift @perl5lib, 'blib/lib';
-                system($^X, (map { "-I$_" } @perl5lib), "-c$taint", $file);
+                system($^X, (map { "-I$_" } @inc), "-c$taint", $file);
                 return ($? ? 0 : 1);
             }
         }
