@@ -342,7 +342,7 @@ sub _is_in_taint_mode {
     open(my $f, "<", $file) or die "could not open $file";
     my $shebang = <$f>;
     my $taint = "";
-    if ($shebang =~ /^#![\/\w]+\s+\-w?([tT])/) {
+    if ($shebang =~ /^#!\s*[\/\w]+\s+-\w*([tT])/)/) {
         $taint = $1;
     }
     return $taint;
