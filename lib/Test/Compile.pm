@@ -4,11 +4,10 @@ use 5.006;
 use warnings;
 use strict;
 
-use Test::Builder;
 use UNIVERSAL::require;
 use Test::Compile::Internal;
 
-our $VERSION = '0.23';
+our $VERSION = '0.24';
 my $Test = Test::Compile::Internal->new();
 _verbose(1);
 
@@ -59,13 +58,14 @@ sub import {
 
 =item C<all_pm_files_ok(@files)>
 
-Checks all the files in C<@files> for compilation. It runs L</all_pm_files()>
-on each file/directory, and calls the C<plan()> function for you (one test for
-each module), so you can't have already called C<plan>.
+Checks all the perl module files it can find for compilation errors.
 
-If C<@files> is empty or not passed, the function finds all Perl module files
-in the F<blib> directory if it exists, or the F<lib> directory if not. A Perl
-module file is one that ends with F<.pm>.
+It uses C<all_pm_files(@files)> to find the perl module files.
+
+It also calls the C<plan()> function for you (one test for each module), so
+you can't have already called C<plan>. Unfortunately, this also means 
+you can't use this function with C<all_pl_files_ok()>.  If this is a problem
+you should really be using L<Test::Compile::Internal>.
 
 Returns true if all Perl module files are ok, or false if any fail.
 
@@ -96,14 +96,16 @@ sub all_pm_files_ok {
 
 =item C<all_pl_files_ok(@files)>
 
-Checks all the files in C<@files> for compilation. It runs L<pl_file_ok()>
-on each file, and calls the C<plan()> function for you (one test for
-each script), so you can't have already called C<plan>.
+Checks all the perl script files it can find for compilation errors.
 
-If C<@files> is empty or not passed, the function uses all_pl_files() to find
-scripts to test.
+It uses C<all_pl_files(@files)> to find the perl script files.
 
-Returns true if all Perl module files are ok, or false if any fail.
+It also calls the C<plan()> function for you (one test for each script), so
+you can't have already called C<plan>. Unfortunately, this also means 
+you can't use this function with C<all_pm_files_ok()>.  If this is a problem
+you should really be using L<Test::Compile::Internal>.
+
+Returns true if all Perl script files are ok, or false if any fail.
 
 Module authors can include the following in a F<t/00_compile_scripts.t> file
 and have C<Test::Compile> automatically find and check all Perl script files
@@ -246,6 +248,7 @@ it under the same terms as Perl itself.
 
 L<Test::Compile::Internal> provides an object oriented interface to the
 Test::Compile functionality.
+
 L<Test::Strict> proveds functions to ensure your perl files comnpile, with
 added bonus that it will check you have used strict in all your files.
 L<Test::LoadAllModules> just handles modules, not script files, but has more

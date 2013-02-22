@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Compile
 
+0.24  2013 02 22                  (Evan Giles <egiles@cpan.org>)
+    - Update POD to explain more problems with Test::Compile
+
 0.23  2013.01.23                  (Evan Giles <egiles@cpan.org>)
     - Update Copyright for 2013
     - CPAN-RT #82887, Sébastien Aperghis-Tramoni <sebastien@aperghis.net>
