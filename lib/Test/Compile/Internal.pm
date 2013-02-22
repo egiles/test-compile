@@ -8,7 +8,7 @@ use File::Spec;
 use UNIVERSAL::require;
 use Test::Builder;
 
-our $VERSION = '0.23';
+our $VERSION = 'v0.240.0';
 
 =head1 NAME
 
