@@ -8,7 +8,7 @@ use Test::More;
 use Test::Compile::Internal;
 
 plan skip_all => "I don't know how to redirect STDERR on your crazy OS"
-    unless $^O =~ m/linux|.*bsd|solaris/;
+    unless $^O =~ m/linux|.*bsd|solaris|darwin/;
 
 
 sub makeAnError {

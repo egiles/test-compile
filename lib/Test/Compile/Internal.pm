@@ -172,10 +172,11 @@ sub pl_file_compiles {
 Returns true if C<$file> compiles as a perl module.
 
 =back
+
 =cut
 
 sub pm_file_compiles {
-    my ($self,$file) = @_;
+    my ($self,$file,%args) = @_;
 
     return $self->_run_closure(
         sub{
@@ -185,8 +186,15 @@ sub pm_file_compiles {
                 $module =~ s![/\\]!::!g;
                 $module =~ s/\.pm$//;
     
-                $module->use;
-                return ($@ ? 0 : 1);
+                return 1 if $module->require;
+
+                $self->{test}->diag("Compilation of $module failed: $@")
+                  unless $args{no_diag};
+                return 0;
+            }
+            else {
+                $self->{test}->diag("$file could not be found") unless $args{no_diag};
+                return 0;
             }
         }
     );
