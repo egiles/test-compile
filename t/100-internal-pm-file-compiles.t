@@ -17,5 +17,9 @@ ok(!$no, "Ignore.pm should not compile");
 my $notfound = $internal->pm_file_compiles('t/scripts/NotFound.pm');
 ok(!$notfound, "NotFound.pm should not compile");
 
+note "Does not call import"; {
+    my $result = $internal->pm_file_compiles('t/scripts/LethalImport.pm');
+    ok $result, "Does not call import() routines";
+}
 
 done_testing();

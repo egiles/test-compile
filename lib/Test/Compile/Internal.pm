@@ -186,8 +186,7 @@ sub pm_file_compiles {
                 $module =~ s![/\\]!::!g;
                 $module =~ s/\.pm$//;
     
-                $module->use;
-                return ($@ ? 0 : 1);
+                return $module->require ? 1 : 0;
             }
         }
     );
