@@ -172,6 +172,7 @@ sub pl_file_compiles {
 Returns true if C<$file> compiles as a perl module.
 
 =back
+
 =cut
 
 sub pm_file_compiles {
