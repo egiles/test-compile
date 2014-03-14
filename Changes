@@ -1,5 +1,13 @@
 Revision history for Perl extension Test-Compile
 
+0.25  2014-XX-XX                  (Evan Giles <egiles@cpan.org>)
+    -   Add diagnostics on compilation failure (Micheal G. Schwern)
+    -   require, don't use                     (Micheal G. Schwern)
+    -   Test for truth, not an integer.        (Micheal G. Schwern)
+    -   Small POD fix                          (Micheal G. Schwern)
+
+OS X is not a crazy OS from a redirection POV
+
 0.24  2013 02 22                  (Evan Giles <egiles@cpan.org>)
     - Update POD to explain more problems with Test::Compile
 
