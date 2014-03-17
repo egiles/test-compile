@@ -6,4 +6,5 @@ META.*
 MYMETA.*
 Makefile*
 _build
+Test-Compile-*/
 
