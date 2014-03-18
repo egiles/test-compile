@@ -1,6 +1,6 @@
 Revision history for Perl extension Test-Compile
 
-v1.0.0    2014-XX-XX              (Evan Giles <egiles@cpan.org>)
+v1.0.0    2014-03-19              (Evan Giles <egiles@cpan.org>)
     - Try to use Sematic Versioning - http://semver.org
     - Add diagnostics on compilation failure        (Micheal G. Schwern)
     - require, don't use                            (Micheal G. Schwern)

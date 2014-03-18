@@ -188,11 +188,11 @@ sub pm_file_compiles {
                 return 1 if $module->require;
 
                 $self->{test}->diag("Compilation of $module failed: $@")
-                  unless $args{no_diag};
+                  if $self->verbose();
                 return 0;
             }
             else {
-                $self->{test}->diag("$file could not be found") unless $args{no_diag};
+                $self->{test}->diag("$file could not be found") if $self->verbose();
                 return 0;
             }
         }
