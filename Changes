@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Compile
 
+v1.0.1    2014-03-20              (Evan Giles <egiles@cpan.org>)
+    - Fix stupid omission from the MANAIFEST (tests failed everywhere)
+
 v1.0.0    2014-03-19              (Evan Giles <egiles@cpan.org>)
     - Try to use Sematic Versioning - http://semver.org
     - Add diagnostics on compilation failure        (Micheal G. Schwern)

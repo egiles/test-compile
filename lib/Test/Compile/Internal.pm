@@ -7,7 +7,7 @@ use strict;
 use File::Spec;
 use UNIVERSAL::require;
 use Test::Builder;
-use version; our $VERSION = qv("v1.0.0");
+use version; our $VERSION = qv("v1.0.1");
 
 =head1 NAME
 

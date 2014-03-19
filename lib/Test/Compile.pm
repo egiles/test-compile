@@ -6,7 +6,7 @@ use strict;
 
 use UNIVERSAL::require;
 use Test::Compile::Internal;
-use version; our $VERSION = qv("v1.0.0");
+use version; our $VERSION = qv("v1.0.1");
 
 my $Test = Test::Compile::Internal->new();
 _verbose(1);
