@@ -17,6 +17,13 @@ Test::Compile - Check whether Perl files compile correctly.
 
 =head1 SYNOPSIS
 
+    # The OO way (recommended)
+    use Test::Compile;
+    my $test = Test::Compile->new();
+    $test->all_files_ok();
+    $test->done_testing();
+
+    # The procedural way
     use Test::Compile;
     all_pm_files_ok();
 
@@ -25,14 +32,20 @@ Test::Compile - Check whether Perl files compile correctly.
 C<Test::Compile> lets you check the whether your perl modules and scripts
 compile properly, and report its results in standard C<Test::Simple> fashion.
 
-The basic usage - as shown above, will find all pm files and test that they
+The basic usage - as shown above, will locate your perl files and test that they
 all compile.
 
-You can explicitly specify the list of directories to check, using
-the C<all_pm_files()> function supplied:
+Module authors can (and probably should) include the following in a F<t/00-compile.t>
+file and have C<Test::Compile> automatically find and check all Perl files
+in a module distribution:
 
-    my @pmdirs = qw(blib script);
-    all_pm_files_ok(all_pm_files(@pmdirs));
+    #!perl
+    use strict;
+    use warnings;
+    use Test::Compile;
+    my $test = Test::Compile->new();
+    $test->all_files_ok();
+    $test->done_testing();
 
 =cut
 
@@ -52,6 +65,115 @@ sub import {
     $Test->plan(@_);
 }
 
+=head1 METHODS
+
+=over 4
+
+=item C<new()>
+
+A basic constructor, nothing special.
+
+=cut
+
+sub new {
+    my $class = shift;
+    return Test::Compile::Internal->new(@_);
+}
+
+=item C<all_files_ok(@dirs)>
+
+Checks all the perl files it can find for compilation errors.
+
+If C<@dirs> is defined then it is taken as an array of directories to
+be searched for perl files, otherwise it searches some default locatioons
+- see L</all_pm_files()> and L</all_pl_files()>.
+
+=item C<all_pm_files(@dirs)>
+
+Returns a list of all the perl module files - that is any files ending in F<.pm>
+in C<@dirs> and in directories below. If C<@dirs> is undefined, it
+searches F<blib> if F<blib> exists, or else F<lib>.
+
+Skips any files in C<CVS> or C<.svn> directories.
+
+The order of the files returned is machine-dependent. If you want them
+sorted, you'll have to sort them yourself.
+
+=item C<all_pl_files(@dirs)>
+
+Returns a list of all the perl script files - that is, any files ending in F<.pl>
+or files with no extension in C<@dirs> and in directories below. If
+C<@dirs> is undefined, it searches F<script> if F<script> exists, or else
+F<bin> if F<bin> exists.
+
+Skips any files in C<CVS> or C<.svn> directories.
+
+The order of the files returned is machine-dependent. If you want them
+sorted, you'll have to sort them yourself.
+
+=item C<pl_file_compiles($file)>
+
+Returns true if C<$file> compiles as a perl script.
+
+=item C<pm_file_compiles($file)>
+
+Returns true if C<$file> compiles as a perl module.
+
+=item C<verbose($verbose)>
+
+An accessor to get/set the verbose flag.  If C<verbose> is set, you can get some
+extra diagnostics when compilation fails.
+
+Verbose is set off by default in the object oriented interface, but on in the
+procedural interface.
+
+=back
+
+=head2 TEST METHODS
+
+C<Test::Compile::Internal> encapsulates a C<Test::Builder> object, and provides
+access to some of its methods.
+
+=over 4
+
+=item C<done_testing()>
+
+Declares that you are done testing, no more tests will be run after this point.
+
+=item C<ok($test,$name)>
+
+Your basic test. Pass if C<$test> is true, fail if C<$test> is false. Just
+like C<Test::Simple>'s C<ok()>.
+
+=item C<plan($count)>
+
+Defines how many tests you plan to run.
+
+=item C<exported_to($caller)>
+
+Tells C<Test::Builder> what package you exported your functions to.  I am
+not sure why you would want to do that, or whether it would do you any good.
+
+=item C<diag(@msgs)>
+
+Prints out the given C<@msgs>. Like print, arguments are simply appended
+together.
+
+Output will be indented and marked with a # so as not to interfere with
+test output. A newline will be put on the end if there isn't one already.
+
+We encourage using this rather than calling print directly.
+
+=item C<skip($why)>
+
+Skips the current test, reporting C<$why>.
+
+=item C<skip_all($reason)>
+
+Skips all the tests, using the given C<$reason>. Exits immediately with 0.
+
+=back
+
 =head1 FUNCTIONS
 
 =over 4
@@ -63,9 +185,9 @@ Checks all the perl module files it can find for compilation errors.
 It uses C<all_pm_files(@files)> to find the perl module files.
 
 It also calls the C<plan()> function for you (one test for each module), so
-you can't have already called C<plan>. Unfortunately, this also means 
+you can't have already called C<plan>. Unfortunately, this also means
 you can't use this function with C<all_pl_files_ok()>.  If this is a problem
-you should really be using L<Test::Compile::Internal>.
+you should really be using the object oriented interface.
 
 Returns true if all Perl module files are ok, or false if any fail.
 
@@ -101,9 +223,9 @@ Checks all the perl script files it can find for compilation errors.
 It uses C<all_pl_files(@files)> to find the perl script files.
 
 It also calls the C<plan()> function for you (one test for each script), so
-you can't have already called C<plan>. Unfortunately, this also means 
+you can't have already called C<plan>. Unfortunately, this also means
 you can't use this function with C<all_pm_files_ok()>.  If this is a problem
-you should really be using L<Test::Compile::Internal>.
+you should really be using the object oriented interface.
 
 Returns true if all Perl script files are ok, or false if any fail.
 
@@ -246,8 +368,8 @@ it under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
-L<Test::Compile::Internal> provides an object oriented interface to the
-Test::Compile functionality.
+L<Test::Compile::Internal> provides the object oriented interface to (and the
+inner workings for) the Test::Compile functionality.
 
 L<Test::Strict> proveds functions to ensure your perl files comnpile, with
 added bonus that it will check you have used strict in all your files.
