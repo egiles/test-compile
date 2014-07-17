@@ -6,10 +6,9 @@ use strict;
 
 use UNIVERSAL::require;
 use Test::Compile::Internal;
-use version; our $VERSION = qv("v1.0.1");
+use version; our $VERSION = qv("v1.1.0");
 
 my $Test = Test::Compile::Internal->new();
-_verbose(1);
 
 =head1 NAME
 
@@ -71,7 +70,8 @@ sub import {
 
 =item C<new()>
 
-A basic constructor, nothing special.
+A basic constructor, nothing special except that it returns a
+L<Test::Compile::Internal> object.
 
 =cut
 
@@ -124,8 +124,7 @@ Returns true if C<$file> compiles as a perl module.
 An accessor to get/set the verbose flag.  If C<verbose> is set, you can get some
 extra diagnostics when compilation fails.
 
-Verbose is set off by default in the object oriented interface, but on in the
-procedural interface.
+Verbose is set on by default.
 
 =back
 
@@ -164,9 +163,9 @@ test output. A newline will be put on the end if there isn't one already.
 
 We encourage using this rather than calling print directly.
 
-=item C<skip($why)>
+=item C<skip($reason)>
 
-Skips the current test, reporting C<$why>.
+Skips the current test, reporting the C<$reason>.
 
 =item C<skip_all($reason)>
 

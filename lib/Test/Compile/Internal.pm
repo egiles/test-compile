@@ -7,7 +7,7 @@ use strict;
 use File::Spec;
 use UNIVERSAL::require;
 use Test::Builder;
-use version; our $VERSION = qv("v1.0.1");
+use version; our $VERSION = qv("v1.1.0");
 
 =head1 NAME
 
@@ -78,7 +78,7 @@ sub all_files_ok {
 An accessor to get/set the verbose flag.  If C<verbose> is set, you can get some 
 extra diagnostics when compilation fails.
 
-Verbose is set off by default.
+Verbose is set on by default.
 =cut
 
 sub verbose {
@@ -88,7 +88,7 @@ sub verbose {
         $self->{verbose} = $verbose;
     }
 
-    return $self->{verbose};
+    return defined($self->{verbose}) ? $self->{verbose} : 1;
 }
 
 =item C<all_pm_files(@dirs)>
@@ -266,9 +266,9 @@ sub diag {
     $self->{test}->diag(@args);
 }
 
-=item C<skip($why)>
+=item C<skip($reason)>
 
-Skips the current test, reporting C<$why>.
+Skips the current test, reporting the C<$reason>.
 
 =cut
 

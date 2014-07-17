@@ -7,6 +7,7 @@ use Test::More;
 use Test::Compile::Internal;
 
 my $internal = Test::Compile::Internal->new();
+$internal->verbose(0);
 
 my $yes = $internal->pl_file_compiles('t/scripts/subdir/success.pl');
 is($yes,1,"success.pl should compile");

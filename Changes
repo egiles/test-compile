@@ -1,5 +1,10 @@
 Revision history for Perl extension Test-Compile
 
+v1.1.0    2014-XX-XX              (Evan Giles <egiles@cpan.org>)
+    - Allow use Test::Compile in an object oriented manner
+    - Promote the OO interface in the POD
+    - Test::Compile::Internal is now verbose by default
+
 v1.0.1    2014-03-20              (Evan Giles <egiles@cpan.org>)
     - Fix stupid omission from the MANAIFEST (tests failed everywhere)
 
