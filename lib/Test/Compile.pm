@@ -1,6 +1,6 @@
 package Test::Compile;
 
-use 5.006;
+use 5.6.2;
 use warnings;
 use strict;
 
