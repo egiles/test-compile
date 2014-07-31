@@ -6,7 +6,7 @@ use strict;
 
 use UNIVERSAL::require;
 use Test::Compile::Internal;
-use version; our $VERSION = qv("v1.1.0");
+use version; our $VERSION = qv("v1.2.0");
 
 my $Test = Test::Compile::Internal->new();
 
@@ -101,9 +101,10 @@ sorted, you'll have to sort them yourself.
 
 =item C<all_pl_files(@dirs)>
 
-Returns a list of all the perl script files - that is, any files ending in F<.pl>
-or files with no extension in C<@dirs> and in directories below. If
-C<@dirs> is undefined, it searches F<script> if F<script> exists, or else
+Returns a list of all the perl script files - that is, any files in C<@dirs> that
+either have a F<.pl> extension, or have no extension and have a perl shebang line.
+
+If C<@dirs> is undefined, it searches F<script> if F<script> exists, or else
 F<bin> if F<bin> exists.
 
 Skips any files in C<CVS> or C<.svn> directories.
@@ -128,7 +129,7 @@ Verbose is set on by default.
 
 =back
 
-=head2 TEST METHODS
+=head2 Test Methods
 
 C<Test::Compile::Internal> encapsulates a C<Test::Builder> object, and provides
 access to some of its methods.
@@ -331,10 +332,13 @@ sub all_pm_files {
 
 =item C<all_pl_files(@dirs)>
 
-Returns a list of all the perl script files - that is, files ending in F<.pl>
-or with no extension. Directory arguments are searched recursively . If
-I<@dirs> is undefined, it defaults to F<script> if F<script> exists, or else
-F<bin> if F<bin> exists. Skips any files in C<CVS> or C<.svn> directories.
+Returns a list of all the perl script files - that is, any files in C<@dirs> that
+either have a F<.pl> extension, or have no extension and have a perl shebang line.
+
+If C<@dirs> is undefined, it searches F<script> if F<script> exists, or else
+F<bin> if F<bin> exists.
+
+Skips any files in C<CVS> or C<.svn> directories.
 
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.

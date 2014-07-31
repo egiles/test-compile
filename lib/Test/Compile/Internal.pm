@@ -7,7 +7,7 @@ use strict;
 use File::Spec;
 use UNIVERSAL::require;
 use Test::Builder;
-use version; our $VERSION = qv("v1.1.0");
+use version; our $VERSION = qv("v1.2.0");
 
 =head1 NAME
 
@@ -119,9 +119,10 @@ sub all_pm_files {
 
 =item C<all_pl_files(@dirs)>
 
-Returns a list of all the perl script files - that is, any files ending in F<.pl>
-or files with no extension in C<@dirs> and in directories below. If
-C<@dirs> is undefined, it searches F<script> if F<script> exists, or else
+Returns a list of all the perl script files - that is, any files in C<@dirs> that
+either have a F<.pl> extension, or have no extension and have a perl shebang line.
+
+If C<@dirs> is undefined, it searches F<script> if F<script> exists, or else
 F<bin> if F<bin> exists.
 
 Skips any files in C<CVS> or C<.svn> directories.
@@ -139,8 +140,17 @@ sub all_pl_files {
     my @pl;
     for my $file ( $self->_find_files(@dirs) ) {
         if (defined($file) && -f $file) {
-            # Only accept files with no extension or extension .pl
-            push @pl, $file if $file =~ /(?:^[^.]+$|\.pl$)/;
+            if ( $file =~ /\.pl$/ ) {
+                # Files with a .pl extension are perl scripts
+                push @pl, $file;
+            }
+            elsif ( $file =~ /(?:^[^.]+$)/ ) {
+                # Files with no extension, but a perl shebang are perl scripts
+                my $shebang = $self->_read_shebang($file);
+                if ( $shebang =~ m/perl/ ) {
+                    push @pl, $file;
+                }
+            }
         }
     }
     return @pl;
@@ -343,11 +353,20 @@ sub _pl_starting_points {
     return 'bin'    if -e 'bin';
 }
 
-sub _is_in_taint_mode {
+sub _read_shebang {
     my ($self,$file) = @_;
 
     open(my $f, "<", $file) or die "could not open $file";
-    my $shebang = <$f>;
+    my $line = <$f>;
+    if ( $line =~ m/^#!/ ) {
+        return $line;
+    }
+}
+
+sub _is_in_taint_mode {
+    my ($self,$file) = @_;
+
+    my $shebang = $self->_read_shebang($file);
     my $taint = "";
     if ($shebang =~ /^#!\s*[\/\w]+\s+-\w*([tT])/) {
         $taint = $1;

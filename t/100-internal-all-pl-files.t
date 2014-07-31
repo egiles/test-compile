@@ -15,10 +15,11 @@ my @files;
 is(scalar @files,0,'Found correct number of scripts in default location');
 
 @files = sort $internal->all_pl_files('t/scripts');
-is(scalar @files,4,'Found correct number of scripts in t/scripts');
+is(scalar @files,5,'Found correct number of scripts in t/scripts');
 like($files[0],qr/t.scripts.failure.pl/,'Found script: failure.pl');
 like($files[1],qr/t.scripts.lib.pl/,'Found script: lib.pl');
-like($files[2],qr/t.scripts.subdir.success.pl/,'Found script: success.pl');
-like($files[3],qr/t.scripts.taint.pl/,'Found script: taint.pl');
+like($files[2],qr/t.scripts.perlscript/,'Found script: perlscript');
+like($files[3],qr/t.scripts.subdir.success.pl/,'Found script: success.pl');
+like($files[4],qr/t.scripts.taint.pl/,'Found script: taint.pl');
 
 $internal->done_testing();

@@ -1,10 +1,11 @@
+Build.PL
 Changes
-lib/Test/Compile.pm
 lib/Test/Compile/Internal.pm
+lib/Test/Compile.pm
 LICENSE
 Makefile.PL
-Build.PL
 MANIFEST			This list of files
+META.json
 META.yml
 README
 t/000-compile.t
@@ -21,11 +22,14 @@ t/200-pl-file-ok-vms.t
 t/200-taint.t
 t/scripts/CVS/Ignore.pm
 t/scripts/CVS/taint2.pl
+t/scripts/datafile
 t/scripts/failure.pl
 t/scripts/LethalImport.pm
 t/scripts/lib.pl
 t/scripts/Module2.pm
 t/scripts/Module.pm
+t/scripts/perlscript
+t/scripts/shellscript
 t/scripts/subdir/success.pl
 t/scripts/taint.pl
 xt/author/01_perl_critic.t
@@ -36,4 +40,3 @@ xt/author/08_synopsis.t
 xt/author/10_has_version.t
 xt/author/99-version.t
 xt/author/perlcriticrc
-META.json

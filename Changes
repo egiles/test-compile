@@ -1,5 +1,9 @@
 Revision history for Perl extension Test-Compile
 
+v1.2.0    UNRELEASED              (Evan Giles <egiles@cpan.org>)
+    - Files without extension may not be perl (rt83917)
+    - Small POD fix
+
 v1.1.0    2014-07-18              (Evan Giles <egiles@cpan.org>)
     - Allow use of Test::Compile in an object oriented manner
     - Promote the OO interface in the POD
