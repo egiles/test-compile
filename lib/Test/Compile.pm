@@ -4,9 +4,9 @@ use 5.6.2;
 use warnings;
 use strict;
 
+use version; our $VERSION = qv("v1.2.1");
 use UNIVERSAL::require;
 use Test::Compile::Internal;
-use version; our $VERSION = qv("v1.2.0");
 
 my $Test = Test::Compile::Internal->new();
 

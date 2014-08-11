@@ -4,10 +4,10 @@ use 5.6.2;
 use warnings;
 use strict;
 
+use version; our $VERSION = qv("v1.2.1");
 use File::Spec;
 use UNIVERSAL::require;
 use Test::Builder;
-use version; our $VERSION = qv("v1.2.0");
 
 =head1 NAME
 
