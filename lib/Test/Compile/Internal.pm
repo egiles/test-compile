@@ -358,7 +358,7 @@ sub _read_shebang {
 
     open(my $f, "<", $file) or die "could not open $file";
     my $line = <$f>;
-    if ( $line =~ m/^#!/ ) {
+    if (defined $line && $line =~ m/^#!/ ) {
         return $line;
     }
 }
