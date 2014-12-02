@@ -6,6 +6,7 @@ use warnings;
 use File::Spec;
 use Test::More;
 use Test::Compile::Internal;
+use Test::Warnings;
 
 my $internal = Test::Compile::Internal->new();
 

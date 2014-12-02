@@ -30,6 +30,7 @@ t/scripts/Module2.pm
 t/scripts/Module.pm
 t/scripts/perlscript
 t/scripts/shellscript
+t/scripts/subdir/empty
 t/scripts/subdir/success.pl
 t/scripts/taint.pl
 xt/author/01_perl_critic.t
