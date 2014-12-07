@@ -6,7 +6,8 @@ use warnings;
 use File::Spec;
 use Test::More;
 use Test::Compile::Internal;
-use Test::Warnings;
+eval 'use Test::Warnings; 1;'
+    or diag "Please install Test::Warnings, so I can make sure there are no warnings";
 
 my $internal = Test::Compile::Internal->new();
 
