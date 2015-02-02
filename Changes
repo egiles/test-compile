@@ -2,6 +2,8 @@ Revision history for Perl extension Test-Compile
 
 v1.2.2    UNRELEASED              (Evan Giles <egiles@cpan.org>)
     - Remove the 'use 5.6.2' statements, they cause warnings.
+    - Fix some spelling errors
+    - Move the xt tests into the main test directory
 
 v1.2.1    2014-12-09              (Evan Giles <egiles@cpan.org>)
     - Fix (skip where appropriate) failing CPAN test

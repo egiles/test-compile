@@ -20,6 +20,14 @@ t/100-internal-verbose.t
 t/200-pl-file-ok.t
 t/200-pl-file-ok-vms.t
 t/200-taint.t
+t/999-has-version.t
+t/999-perlcritic.t
+t/999-pod-coverage.t
+t/999-pod.t
+t/999-portability.t
+t/999-synopsis.t
+t/999-version.t
+t/perlcriticrc
 t/scripts/CVS/Ignore.pm
 t/scripts/CVS/taint2.pl
 t/scripts/datafile
@@ -33,11 +41,3 @@ t/scripts/shellscript
 t/scripts/subdir/empty
 t/scripts/subdir/success.pl
 t/scripts/taint.pl
-xt/author/01_perl_critic.t
-xt/author/02_pod.t
-xt/author/04_pod_coverage.t
-xt/author/07_portability_files.t
-xt/author/08_synopsis.t
-xt/author/10_has_version.t
-xt/author/99-version.t
-xt/author/perlcriticrc
