@@ -51,7 +51,7 @@ sub new {
 Checks all the perl files it can find for compilation errors.
 
 If C<@dirs> is defined then it is taken as an array of directories to 
-be searched for perl files, otherwise it searches some default locatioons
+be searched for perl files, otherwise it searches some default locations
 - see L</all_pm_files()> and L</all_pl_files()>. 
 
 =cut
@@ -390,7 +390,7 @@ it under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
-L<Test::Strict> proveds functions to ensure your perl files comnpile, with
+L<Test::Strict> provides functions to ensure your perl files compile, with
 the added bonus that it will check you have used strict in all your files.
 
 =cut

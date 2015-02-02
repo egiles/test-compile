@@ -84,7 +84,7 @@ sub new {
 Checks all the perl files it can find for compilation errors.
 
 If C<@dirs> is defined then it is taken as an array of directories to
-be searched for perl files, otherwise it searches some default locatioons
+be searched for perl files, otherwise it searches some default locations
 - see L</all_pm_files()> and L</all_pl_files()>.
 
 =item C<all_pm_files(@dirs)>
@@ -373,7 +373,7 @@ it under the same terms as Perl itself.
 L<Test::Compile::Internal> provides the object oriented interface to (and the
 inner workings for) the Test::Compile functionality.
 
-L<Test::Strict> proveds functions to ensure your perl files comnpile, with
+L<Test::Strict> provides functions to ensure your perl files compile, with
 added bonus that it will check you have used strict in all your files.
 L<Test::LoadAllModules> just handles modules, not script files, but has more
 fine-grained control.

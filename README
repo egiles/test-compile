@@ -4,7 +4,7 @@ DESCRIPTION
     Test::Simple fashion. It can test all Perl files in a distribution, or
     individual files.
 
-DEPENDANCIES
+DEPENDENCIES
     Requires perl v5.6.2, plus
     * UNIVERSAL::require
     * version
