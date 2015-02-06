@@ -8,8 +8,8 @@ use Test::More;
 use FindBin '$Bin';
 use File::Spec;
 
-plan skip_all => 'unset AUTOMATED_TESTING to run this test'
-    if $ENV{AUTOMATED_TESTING};
+plan skip_all => 'Set AUTHOR_TEST to run this test'
+    unless $ENV{AUTHOR_TEST};
 plan skip_all => 'Perl::Critic required'
     unless eval 'use Perl::Critic; 1';
 plan skip_all => 'Test::Perl::Critic required'

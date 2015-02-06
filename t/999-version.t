@@ -5,8 +5,8 @@ use warnings;
 
 use Test::More;
 
-plan skip_all => 'unset AUTOMATED_TESTING to run this test'
-    if $ENV{AUTOMATED_TESTING};
+plan skip_all => 'Set AUTHOR_TEST to run this test'
+    unless $ENV{AUTHOR_TEST};
 plan skip_all => "Test::ConsistentVersion required for checking versions"
     unless eval "use Test::ConsistentVersion; 1";
 
