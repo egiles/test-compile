@@ -139,7 +139,7 @@ access to some of its methods.
 
 Declares that you are done testing, no more tests will be run after this point.
 
-=item C<ok($test,$name)>
+=item C<ok($test, $name)>
 
 Your basic test. Pass if C<$test> is true, fail if C<$test> is false. Just
 like C<Test::Simple>'s C<ok()>.
@@ -254,7 +254,7 @@ sub all_pl_files_ok {
     $ok;
 }
 
-=item C<pm_file_ok($filename,$testname)>
+=item C<pm_file_ok($filename, $testname)>
 
 C<pm_file_ok()> will okay the test if $filename compiles as a perl module.
 
@@ -264,7 +264,7 @@ $filename>.
 
 =cut
 sub pm_file_ok {
-    my ($file,$name) = @_;
+    my ($file, $name) = @_;
 
     $name ||= "Compile test for $file";
 
@@ -275,7 +275,7 @@ sub pm_file_ok {
     return $ok;
 }
 
-=item C<pl_file_ok($filename,$testname)>
+=item C<pl_file_ok($filename, $testname)>
 
 C<pl_file_ok()> will okay the test if $filename compiles as a perl script. You
 need to give the path to the script relative to this distribution's base
@@ -288,7 +288,7 @@ $filename>.
 =cut
 
 sub pl_file_ok {
-    my ($file,$name) = @_;
+    my ($file, $name) = @_;
 
     $name ||= "Compile test for $file";
 

@@ -37,7 +37,7 @@ A basic constructor, nothing special.
 =cut
 
 sub new {
-    my ($class,%self) = @_;
+    my ($class, %self) = @_;
     my $self = \%self;
 
     $self->{test} = Test::Builder->new();
@@ -50,38 +50,38 @@ sub new {
 
 Checks all the perl files it can find for compilation errors.
 
-If C<@dirs> is defined then it is taken as an array of directories to 
+If C<@dirs> is defined then it is taken as an array of directories to
 be searched for perl files, otherwise it searches some default locations
-- see L</all_pm_files()> and L</all_pl_files()>. 
+- see L</all_pm_files()> and L</all_pl_files()>.
 
 =cut
 sub all_files_ok {
-    my ($self,@dirs) = @_;
+    my ($self, @dirs) = @_;
 
     my $test = $self->{test};
 
     for my $file ( $self->all_pl_files(@dirs) ) {
         my $ok = $self->pl_file_compiles($file);
-        $test->ok($ok,"$file compiles");
+        $test->ok($ok, "$file compiles");
     }
 
     for my $file ( $self->all_pm_files(@dirs) ) {
         my $ok = $self->pm_file_compiles($file);
-        $test->ok($ok,"$file compiles");
+        $test->ok($ok, "$file compiles");
     }
 }
 
 
 =item C<verbose($verbose)>
 
-An accessor to get/set the verbose flag.  If C<verbose> is set, you can get some 
+An accessor to get/set the verbose flag.  If C<verbose> is set, you can get some
 extra diagnostics when compilation fails.
 
 Verbose is set on by default.
 =cut
 
 sub verbose {
-    my ($self,$verbose) = @_;
+    my ($self, $verbose) = @_;
 
     if ( defined($verbose) ) {
         $self->{verbose} = $verbose;
@@ -103,7 +103,7 @@ sorted, you'll have to sort them yourself.
 =cut
 
 sub all_pm_files {
-    my ($self,@dirs) = @_;
+    my ($self, @dirs) = @_;
 
     @dirs = @dirs ? @dirs : _pm_starting_points();
 
@@ -132,7 +132,7 @@ sorted, you'll have to sort them yourself.
 =cut
 
 sub all_pl_files {
-    my ($self,@dirs) = @_;
+    my ($self, @dirs) = @_;
 
     @dirs = @dirs ? @dirs : _pl_starting_points();
 
@@ -162,8 +162,8 @@ Returns true if C<$file> compiles as a perl script.
 =cut
 
 sub pl_file_compiles {
-    my ($self,$file) = @_;
-    return $self->_run_closure(
+    my ($self, $file) = @_;
+    return $self->_run_subprocess(
         sub{
             if ( -f $file ) {
                 my @inc = ('blib/lib', @INC);
@@ -184,16 +184,16 @@ Returns true if C<$file> compiles as a perl module.
 =cut
 
 sub pm_file_compiles {
-    my ($self,$file,%args) = @_;
+    my ($self, $file, %args) = @_;
 
-    return $self->_run_closure(
+    return $self->_run_subprocess(
         sub{
             if ( -f $file ) {
                 my $module = $file;
                 $module =~ s!^(blib[/\\])?lib[/\\]!!;
                 $module =~ s![/\\]!::!g;
                 $module =~ s/\.pm$//;
-    
+
                 return 1 if $module->require;
 
                 $self->{test}->diag("Compilation of $module failed: $@")
@@ -221,18 +221,18 @@ Declares that you are done testing, no more tests will be run after this point.
 
 =cut
 sub done_testing {
-    my ($self,@args) = @_;
+    my ($self, @args) = @_;
     $self->{test}->done_testing(@args);
 }
 
-=item C<ok($test,$name)>
+=item C<ok($test, $name)>
 
 Your basic test. Pass if C<$test> is true, fail if C<$test> is false. Just
 like C<Test::Simple>'s C<ok()>.
 
 =cut
 sub ok {
-    my ($self,@args) = @_;
+    my ($self, @args) = @_;
     $self->{test}->ok(@args);
 }
 
@@ -242,7 +242,7 @@ Defines how many tests you plan to run.
 
 =cut
 sub plan {
-    my ($self,@args) = @_;
+    my ($self, @args) = @_;
     $self->{test}->plan(@args);
 }
 
@@ -254,7 +254,7 @@ not sure why you would want to do that, or whether it would do you any good.
 =cut
 
 sub exported_to {
-    my ($self,@args) = @_;
+    my ($self, @args) = @_;
     $self->{test}->exported_to(@args);
 }
 
@@ -271,7 +271,7 @@ We encourage using this rather than calling print directly.
 =cut
 
 sub diag {
-    my ($self,@args) = @_;
+    my ($self, @args) = @_;
     $self->{test}->diag(@args);
 }
 
@@ -282,7 +282,7 @@ Skips the current test, reporting the C<$reason>.
 =cut
 
 sub skip {
-    my ($self,@args) = @_;
+    my ($self, @args) = @_;
     $self->{test}->skip(@args);
 }
 
@@ -294,12 +294,12 @@ Skips all the tests, using the given C<$reason>. Exits immediately with 0.
 =cut
 
 sub skip_all {
-    my ($self,@args) = @_;
+    my ($self, @args) = @_;
     $self->{test}->skip_all(@args);
 }
 
-sub _run_closure {
-    my ($self,$closure) = @_;
+sub _run_subprocess {
+    my ($self, $closure) = @_;
 
     my $pid = fork();
     if ( ! defined($pid) ) {
@@ -319,7 +319,7 @@ sub _run_closure {
 }
 
 sub _find_files {
-    my ($self,@queue) = @_;
+    my ($self, @queue) = @_;
 
     for my $file (@queue) {
         if (defined($file) && -d $file) {
@@ -353,7 +353,7 @@ sub _pl_starting_points {
 }
 
 sub _read_shebang {
-    my ($self,$file) = @_;
+    my ($self, $file) = @_;
 
     open(my $f, "<", $file) or die "could not open $file";
     my $line = <$f>;
@@ -363,7 +363,7 @@ sub _read_shebang {
 }
 
 sub _is_in_taint_mode {
-    my ($self,$file) = @_;
+    my ($self, $file) = @_;
 
     my $shebang = $self->_read_shebang($file);
     my $taint = "";
