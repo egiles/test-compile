@@ -1,5 +1,11 @@
 Revision history for Perl extension Test-Compile
 
+v1.2.3    UNRELEASED              (Łukasz Hejnak <lehack@lehack.pl>)
+    - Replaced import() with Exporter usage.
+    - Added all_files_ok to the procedural mode.
+    - Added .git to list of directories ignored when looking for pm/pl files.
+    - Added an else clause for pl_file_compiles so that it catches file not found errors.
+
 v1.2.2    UNRELEASED              (Evan Giles <egiles@cpan.org>)
     - Remove the 'use 5.6.2' statements, they cause warnings.
     - Fix some spelling errors

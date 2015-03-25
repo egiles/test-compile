@@ -3,7 +3,7 @@ package Test::Compile;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv("v1.2.2");
+use version; our $VERSION = qv("v1.2.3");
 use parent 'Exporter';
 use UNIVERSAL::require;
 use Test::Compile::Internal;
@@ -59,7 +59,7 @@ our @EXPORT_OK = qw(
     all_pm_files
     all_pl_files
 );
-our %EXPORT_TAGS = ('all' => [ @EXPORT_OK ]);
+our %EXPORT_TAGS = ('all' => \@EXPORT_OK);
 
 =head1 METHODS
 
