@@ -18,7 +18,7 @@ my @METHODS = qw(
     all_pl_files
 );
 
-plan tests => 2 * @METHODS + 2;
+plan tests => @METHODS + 3;
 
 # try to use the methods, despite not exporting them
 for my $m (@METHODS) {
@@ -33,7 +33,6 @@ lives_ok {
 } 'pl_file_ok imported correctly';
 
 # finally use the "all" tag to import all methods and check if it worked
+diag 'Use :all import tag and check if methods got imported correctly';
 Test::Compile->import(':all');
-for my $m (@METHODS) {
-    is(__PACKAGE__->can($m), \&{ $m }, "$m imported via 'all' tag");
-} 
+can_ok(__PACKAGE__, @METHODS);
