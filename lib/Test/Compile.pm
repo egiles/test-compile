@@ -21,7 +21,7 @@ Test::Compile - Check whether Perl files compile correctly.
     $test->all_files_ok();
     $test->done_testing();
 
-    # The procedural way
+    # The procedural way (deprecated)
     use Test::Compile;
     all_pm_files_ok();
 
@@ -174,6 +174,15 @@ Skips all the tests, using the given C<$reason>. Exits immediately with 0.
 =back
 
 =head1 FUNCTIONS
+
+The use of the following functions is deprecated and strongly discouraged.
+
+They are automatically exported to your namespace,  which is
+no longer considered best practise.  At some stage in the future, this will
+stop and you'll have to import them explicitly.
+
+Even then, you really should use the object oriented methods as they provide
+a more consistent interface.
 
 =over 4
 
