@@ -33,8 +33,8 @@ sub main {
         return;
     }
 
-    my $lib = join(":",@INC);
-    my $cmd = "PERL5LIB=$lib $^X $0";
+    local $ENV{PERL5LIB} = join(":",@INC);
+    my $cmd = "$^X $0";
 
     my $silent = `$cmd silent 2>&1`;
     is($silent,"","no output when in silent mode");

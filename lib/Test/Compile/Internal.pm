@@ -169,7 +169,7 @@ sub pl_file_compiles {
                 my @inc = ('blib/lib', @INC);
                 my $taint = $self->_is_in_taint_mode($file);
                 system($^X, (map { "-I$_" } @inc), "-c$taint", $file);
-                return ($? ? 0 : 1);
+                return ($? == 0);
             }
         }
     );

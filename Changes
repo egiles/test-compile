@@ -5,6 +5,7 @@ v1.2.2    UNRELEASED              (Evan Giles <egiles@cpan.org>)
     - Fix some spelling errors
     - Move the xt tests into the main test directory
     - Deprecate the procedural functions
+    - Protect against strange PERL5LIB chars (CPAN-RT 104614)
 
 v1.2.1    2014-12-09              (Evan Giles <egiles@cpan.org>)
     - Fix (skip where appropriate) failing CPAN test
