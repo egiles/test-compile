@@ -10,4 +10,4 @@ plan skip_all => 'Set AUTHOR_TEST to run this test'
 plan skip_all => 'Test::Synopsis required'
     unless eval 'use Test::Synopsis; 1';
 
-all_synopsis_ok('lib');
+all_synopsis_ok();
