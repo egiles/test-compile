@@ -1,10 +1,10 @@
 Revision history for Perl extension Test-Compile
 
-v1.2.2    UNRELEASED              (Evan Giles <egiles@cpan.org>)
+v1.3.0    2015-09-24              (Evan Giles <egiles@cpan.org>)
+    - Announce the deprecation the procedural functions (long overdue)
     - Remove the 'use 5.6.2' statements, they cause warnings.
     - Fix some spelling errors
     - Move the xt tests into the main test directory
-    - Deprecate the procedural functions
     - Protect against strange PERL5LIB chars (CPAN-RT 104614)
 
 v1.2.1    2014-12-09              (Evan Giles <egiles@cpan.org>)
