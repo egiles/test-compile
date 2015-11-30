@@ -146,11 +146,6 @@ like C<Test::Simple>'s C<ok()>.
 
 Defines how many tests you plan to run.
 
-=item C<exported_to($caller)>
-
-Tells C<Test::Builder> what package you exported your functions to.  I am
-not sure why you would want to do that, or whether it would do you any good.
-
 =item C<diag(@msgs)>
 
 Prints out the given C<@msgs>. Like print, arguments are simply appended

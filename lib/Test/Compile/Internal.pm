@@ -250,18 +250,6 @@ sub plan {
     $self->{test}->plan(@args);
 }
 
-=item C<exported_to($caller)>
-
-Tells C<Test::Builder> what package you exported your functions to.  I am
-not sure why you would want to do that, or whether it would do you any good.
-
-=cut
-
-sub exported_to {
-    my ($self, @args) = @_;
-    $self->{test}->exported_to(@args);
-}
-
 =item C<diag(@msgs)>
 
 Prints out the given C<@msgs>. Like print, arguments are simply appended
