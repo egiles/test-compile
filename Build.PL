@@ -15,6 +15,8 @@ my $build = Module::Build->new (
        'perl'               => '5.6.2',
        'UNIVERSAL::require' => 0,
        'version'            => 0,
+       'parent'             => '0.225',
+       'Exporter'           => '5.68',
     },
     recommends => {
         'Devel::CheckOS' => 0,
