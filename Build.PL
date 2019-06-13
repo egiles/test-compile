@@ -27,7 +27,6 @@ my $build = Module::Build->new (
         repository => "http://github.com/egiles/test-compile",
       }
     },
-    add_to_cleanup => [ 'Makefile.PL', 'META.yml' ],
 );
 $build->create_build_script;
 
