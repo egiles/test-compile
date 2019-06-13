@@ -3,7 +3,7 @@ package Test::Compile;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv("v1.3.0");
+use version; our $VERSION = qv("v2.0_0");
 use UNIVERSAL::require;
 use Test::Compile::Internal;
 
