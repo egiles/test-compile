@@ -1,11 +1,15 @@
 Revision history for Perl extension Test-Compile
 
-v2.0_0    UNRELEASED              (Evan Giles <egiles@cpan.org>)
+v2.0_0    2019-06-18 (DEV RELEASE)
+    Łukasz Hejnak <lehack@lehack.pl>
+    - Replaced import() with Exporter usage.
+    - Added all_files_ok to the procedural mode.
+    - Added .git to list of directories ignored when looking for pm/pl files.
+    - Added an else clause for pl_file_compiles so that it catches file not found errors.
+    Evan Giles <egiles@cpan.org>
+    - Remove 'exported_to' function
+    - Remove cleanup steps from the Build.PL file
     - Bump version number for backwards incompatible changes (semver.org)
-    - Łukasz Hejnak <lehack@lehack.pl>: Replaced import() with Exporter usage.
-    - Łukasz Hejnak <lehack@lehack.pl>: Added all_files_ok to the procedural mode.
-    - Łukasz Hejnak <lehack@lehack.pl>: Added .git to list of directories ignored when looking for pm/pl files.
-    - Łukasz Hejnak <lehack@lehack.pl>: Added an else clause for pl_file_compiles so that it catches file not found errors.
 
 v1.3.0    2015-09-24              (Evan Giles <egiles@cpan.org>)
     - Announce the deprecation the procedural functions (long overdue)
