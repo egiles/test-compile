@@ -83,7 +83,7 @@ Checks all the perl files it can find for compilation errors.
 
 If C<@dirs> is defined then it is taken as an array of directories to
 be searched for perl files, otherwise it searches some default locations
-- see L</all_pm_files()> and L</all_pl_files()>.
+- see L</all_pm_files(@dirs)> and L</all_pl_files(@dirs)>.
 
 =item C<all_pm_files(@dirs)>
 
@@ -360,7 +360,7 @@ Checks all the perl files it can find for compilation errors.
 
 If C<@dirs> is defined then it is taken as an array of directories to
 be searched for perl files, otherwise it searches some default locations
-- see L</all_pm_files()> and L</all_pl_files()>.
+- see L</all_pm_files(@dirs)> and L</all_pl_files(@dirs)>.
 
 =back
 =cut
