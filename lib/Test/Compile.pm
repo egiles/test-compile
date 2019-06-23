@@ -3,7 +3,7 @@ package Test::Compile;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv("v2.0_0");
+use version; our $VERSION = qv("v2.0.1");
 use parent 'Exporter';
 use UNIVERSAL::require;
 use Test::Compile::Internal;
@@ -48,6 +48,16 @@ in a module distribution:
 
 =cut
 
+our @EXPORT = qw(
+    pm_file_ok
+    pl_file_ok
+
+    all_pm_files_ok
+    all_pl_files_ok
+
+    all_pm_files
+    all_pl_files
+);
 our @EXPORT_OK = qw(
     pm_file_ok
     pl_file_ok
