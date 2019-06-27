@@ -3,7 +3,7 @@ package Test::Compile::Internal;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv("v2.0.1");
+use version; our $VERSION = qv("v2.1.0");
 use File::Spec;
 use UNIVERSAL::require;
 use Test::Builder;
@@ -96,7 +96,7 @@ Returns a list of all the perl module files - that is any files ending in F<.pm>
 in C<@dirs> and in directories below. If C<@dirs> is undefined, it
 searches F<blib> if F<blib> exists, or else F<lib>.
 
-Skips any files in C<CVS> or C<.svn> directories.
+Skips any files in C<CVS>,  C<.svn>, or C<.git> directories.
 
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
@@ -124,7 +124,7 @@ either have a F<.pl> extension, or have no extension and have a perl shebang lin
 If C<@dirs> is undefined, it searches F<script> if F<script> exists, or else
 F<bin> if F<bin> exists.
 
-Skips any files in C<CVS> or C<.svn> directories.
+Skips any files in C<CVS>,  C<.svn>, or C<.git> directories.
 
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
@@ -310,11 +310,16 @@ sub _run_subprocess {
     exit ($rv ? 0 : 1);
 }
 
+# Works it's way through the input array (files and/or directories), recursively
+# finding files
 sub _find_files {
-    my ($self, @queue) = @_;
+    my ($self, @searchlist) = @_;
 
-    for my $file (@queue) {
-        if (defined($file) && -d $file) {
+    my @output;
+    for my $file (@searchlist) {
+        if (defined($file) && -f $file) {
+            push @output, $file;
+        } elsif (defined($file) && -d $file) {
             local *DH;
             opendir DH, $file or next;
             my @newfiles = readdir DH;
@@ -324,14 +329,14 @@ sub _find_files {
             for my $newfile (@newfiles) {
                 my $filename = File::Spec->catfile($file, $newfile);
                 if (-f $filename) {
-                    push @queue, $filename;
+                    push @output, $filename;
                 } else {
-                    push @queue, File::Spec->catdir($file, $newfile);
+                    push @searchlist, File::Spec->catdir($file, $newfile);
                 }
             }
         }
     }
-    return @queue;
+    return @output;
 }
 
 sub _pm_starting_points {
