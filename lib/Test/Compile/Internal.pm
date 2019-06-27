@@ -58,14 +58,47 @@ be searched for perl files, otherwise it searches some default locations
 sub all_files_ok {
     my ($self, @dirs) = @_;
 
+    $self->all_pm_files_ok(@dirs);
+    $self->all_pl_files_ok(@dirs);
+}
+
+
+=item C<all_pm_files_ok(@dirs)>
+
+Checks all the perl module files it can find for compilation errors.
+
+If C<@dirs> is defined then it is taken as an array of directories to
+be searched for perl files, otherwise it searches some default locations
+- see L</all_pm_files(@dirs)>.
+
+=cut
+sub all_pm_files_ok {
+    my ($self, @dirs) = @_;
+
+    my $test = $self->{test};
+
+    for my $file ( $self->all_pm_files(@dirs) ) {
+        my $ok = $self->pm_file_compiles($file);
+        $test->ok($ok, "$file compiles");
+    }
+}
+
+
+=item C<all_pl_files_ok(@dirs)>
+
+Checks all the perl program files it can find for compilation errors.
+
+If C<@dirs> is defined then it is taken as an array of directories to
+be searched for perl files, otherwise it searches some default locations
+- see L</all_pl_files(@dirs)>.
+
+=cut
+sub all_pl_files_ok {
+    my ($self, @dirs) = @_;
+
     my $test = $self->{test};
 
     for my $file ( $self->all_pl_files(@dirs) ) {
-        my $ok = $self->pl_file_compiles($file);
-        $test->ok($ok, "$file compiles");
-    }
-
-    for my $file ( $self->all_pm_files(@dirs) ) {
         my $ok = $self->pm_file_compiles($file);
         $test->ok($ok, "$file compiles");
     }
