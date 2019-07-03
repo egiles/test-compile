@@ -107,10 +107,11 @@ sub all_pl_files_ok {
 
 =item C<verbose($verbose)>
 
-An accessor to get/set the verbosity.  The default value (undef) will suppress output unless the compilation fails.  This is probably what you want.
+An accessor to get/set the verbosity.  The default value (undef) will suppress output
+unless the compilation fails.  This is probably what you want.
 
-If C<verbose> is set to true, you'll get more output. If it's set to false, all 
-diagnostic output is supressed.
+If C<verbose> is set to true, you'll get the output from 'perl -c'. If it's set to
+false, all diagnostic output is supressed.
 
 =cut
 
@@ -243,7 +244,7 @@ sub ok {
     $self->{test}->ok(@args);
 }
 
-=item C<plan(tests => $count)>
+=item C<plan(tests =E<gt> $count)>
 
 Defines how many tests you plan to run.
 
