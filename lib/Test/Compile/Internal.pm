@@ -120,7 +120,7 @@ sub verbose {
         $self->{verbose} = $verbose;
     }
 
-    return defined($self->{verbose}) ? $self->{verbose} : 1;
+    return $self->{verbose};
 }
 
 =item C<all_pm_files(@dirs)>
@@ -196,20 +196,25 @@ Returns true if C<$file> compiles as a perl script.
 
 sub pl_file_compiles {
     my ($self, $file) = @_;
-    return $self->_run_subprocess(
-        sub{
-            if ( -f $file ) {
-                my @inc = ('blib/lib', @INC);
-                my $taint = $self->_is_in_taint_mode($file);
-                system($^X, (map { "-I$_" } @inc), "-c$taint", $file);
-                return ($? == 0);
-            }
-            else {
-                $self->{test}->diag("$file could not be found") if $self->verbose();
-                return 0;
+
+    if ( ! -f $file ) {
+        $self->{test}->diag("$file could not be found") if $self->verbose();
+        return 0;
+    }
+
+    my @inc = ('blib/lib', @INC);
+    my $taint = $self->_is_in_taint_mode($file);
+    my $command = join(" ", ($^X, (map { "-I$_" } @inc), "-c$taint", $file));
+    my ($compiles, $output) = $self->_run_command($command);
+    if ( $output && (!defined($self->verbose()) || $self->verbose() != 0) ) {
+        if ( !$compiles || $self->verbose() ) {
+            for my $line ( @$output ) {
+                $self->{test}->diag($line);
             }
         }
-    );
+    }
+
+    return $compiles;
 }
 
 =item C<pm_file_compiles($file)>
@@ -221,28 +226,9 @@ Returns true if C<$file> compiles as a perl module.
 =cut
 
 sub pm_file_compiles {
-    my ($self, $file, %args) = @_;
+    my ($self, $file) = @_;
 
-    return $self->_run_subprocess(
-        sub{
-            if ( -f $file ) {
-                my $module = $file;
-                $module =~ s!^(blib[/\\])?lib[/\\]!!;
-                $module =~ s![/\\]!::!g;
-                $module =~ s/\.pm$//;
-
-                return 1 if $module->require;
-
-                $self->{test}->diag("Compilation of $module failed: $@")
-                  if $self->verbose();
-                return 0;
-            }
-            else {
-                $self->{test}->diag("$file could not be found") if $self->verbose();
-                return 0;
-            }
-        }
-    );
+    return $self->pl_file_compiles($file);
 }
 
 =head1 TEST METHODS
@@ -323,24 +309,23 @@ sub skip_all {
     $self->{test}->skip_all(@args);
 }
 
-sub _run_subprocess {
-    my ($self, $closure) = @_;
+sub _run_command {
+    my ($self, $cmd) = @_;
 
-    my $pid = fork();
-    if ( ! defined($pid) ) {
-        return 0;
-    } elsif ( $pid ) {
-        wait();
-        return ($? ? 0 : 1);
+    my $pid = open my $fh, "-|" // die "$0: fork: $!";
+    if ($pid == 0) {
+        open STDERR, ">&STDOUT" or die "$0: dup: $!";
+        exec $cmd               or die "$0: exec: $!";
     }
 
-    if ( ! $self->verbose() ) {
-        open STDERR, '>', File::Spec->devnull;
+    wait();
+    my $ok = ($? == 0 ? 1 : 0);
+    my $output;
+    while (my $line = <$fh>) {
+        chomp($line);
+        push @$output, $line;
     }
-
-    my $rv = $closure->();
-
-    exit ($rv ? 0 : 1);
+    return ($ok, $output);
 }
 
 # Works it's way through the input array (files and/or directories), recursively
