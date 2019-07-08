@@ -107,16 +107,17 @@ sub all_pl_files_ok {
 
 =item C<verbose($verbose)>
 
-An accessor to get/set the verbose flag.  If C<verbose> is set, you can get some
-extra diagnostics when compilation fails.
+An accessor to get/set the verbosity.  The default value (undef) will suppress output unless the compilation fails.  This is probably what you want.
 
-Verbose is set on by default.
+If C<verbose> is set to true, you'll get more output. If it's set to false, all 
+diagnostic output is supressed.
+
 =cut
 
 sub verbose {
     my ($self, $verbose) = @_;
 
-    if ( defined($verbose) ) {
+    if ( @_ eq 2 ) {
         $self->{verbose} = $verbose;
     }
 
