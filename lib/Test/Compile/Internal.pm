@@ -197,24 +197,7 @@ Returns true if C<$file> compiles as a perl script.
 sub pl_file_compiles {
     my ($self, $file) = @_;
 
-    if ( ! -f $file ) {
-        $self->{test}->diag("$file could not be found") if $self->verbose();
-        return 0;
-    }
-
-    my @inc = ('blib/lib', @INC);
-    my $taint = $self->_is_in_taint_mode($file);
-    my $command = join(" ", ($^X, (map { "-I$_" } @inc), "-c$taint", $file));
-    my ($compiles, $output) = $self->_run_command($command);
-    if ( $output && (!defined($self->verbose()) || $self->verbose() != 0) ) {
-        if ( !$compiles || $self->verbose() ) {
-            for my $line ( @$output ) {
-                $self->{test}->diag($line);
-            }
-        }
-    }
-
-    return $compiles;
+    return $self->_perl_file_compiles($file);
 }
 
 =item C<pm_file_compiles($file)>
@@ -228,7 +211,7 @@ Returns true if C<$file> compiles as a perl module.
 sub pm_file_compiles {
     my ($self, $file) = @_;
 
-    return $self->pl_file_compiles($file);
+    return $self->_perl_file_compiles($file);
 }
 
 =head1 TEST METHODS
@@ -309,6 +292,7 @@ sub skip_all {
     $self->{test}->skip_all(@args);
 }
 
+# Run a subcommand, catching STDOUT, STDERR and return code
 sub _run_command {
     my ($self, $cmd) = @_;
 
@@ -357,16 +341,43 @@ sub _find_files {
     return @output;
 }
 
+# Check the syntax of a perl file
+sub _perl_file_compiles {
+    my ($self, $file) = @_;
+
+    if ( ! -f $file ) {
+        $self->{test}->diag("$file could not be found") if $self->verbose();
+        return 0;
+    }
+
+    my @inc = ('blib/lib', @INC);
+    my $taint = $self->_is_in_taint_mode($file);
+    my $command = join(" ", ($^X, (map { "-I$_" } @inc), "-c$taint", $file));
+    my ($compiles, $output) = $self->_run_command($command);
+    if ( $output && (!defined($self->verbose()) || $self->verbose() != 0) ) {
+        if ( !$compiles || $self->verbose() ) {
+            for my $line ( @$output ) {
+                $self->{test}->diag($line);
+            }
+        }
+    }
+
+    return $compiles;
+}
+
+# Where do we expect to find perl modules?
 sub _pm_starting_points {
     return 'blib' if -e 'blib';
     return 'lib';
 }
 
+# Where do we expect to find perl programs?
 sub _pl_starting_points {
     return 'script' if -e 'script';
     return 'bin'    if -e 'bin';
 }
 
+# Extract the shebang line from a perl program
 sub _read_shebang {
     my ($self, $file) = @_;
 
@@ -377,6 +388,7 @@ sub _read_shebang {
     }
 }
 
+# Should the given file be checked with taint mode on?
 sub _is_in_taint_mode {
     my ($self, $file) = @_;
 
