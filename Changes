@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Compile
 
+v2.2.1    2019-07-09
+    - Ooops, the module still depends on UNIVERSAL::require
+
 v2.2.0    2019-07-08
     - RT-118530: Capture (and optionally suppress) all output from subcommands
     - RT-102817: Change the default value for 'verbose', from 1 to undef
