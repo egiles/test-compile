@@ -3,7 +3,7 @@ package Test::Compile;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv("v2.2.1");
+use version; our $VERSION = qv("v2.2.2");
 use parent 'Exporter';
 use UNIVERSAL::require;
 use Test::Compile::Internal;
@@ -296,7 +296,7 @@ sub pl_file_ok {
 Returns a list of all the perl module files - that is, files ending in F<.pm>
 - in I<@dirs> and in directories below. If no directories are passed, it
 defaults to F<blib> if F<blib> exists, or else F<lib> if not. Skips any files
-in C<CVS> or C<.svn> directories.
+in C<CVS>, C<.svn>, or C<.git> directories.
 
 The order of the files returned is machine-dependent. If you want them
 sorted, you'll have to sort them yourself.
