@@ -340,10 +340,6 @@ sub all_files_ok {
     return $Test->all_files_ok(@_);
 }
 
-sub _verbose {
-    return $Test->verbose(@_);
-}
-
 1;
 
 =head1 AUTHORS
