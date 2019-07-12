@@ -3,7 +3,7 @@ package Test::Compile::Internal;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv("v2.2.2");
+use version; our $VERSION = qv("v2.3.0");
 use File::Spec;
 use UNIVERSAL::require;
 use Test::Builder;
