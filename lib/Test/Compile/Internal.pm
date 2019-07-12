@@ -379,6 +379,7 @@ sub _pm_starting_points {
 
 # Where do we expect to find perl programs?
 sub _pl_starting_points {
+    return 'blib/script' if -e 'blib/script';
     return 'script' if -e 'script';
     return 'bin'    if -e 'bin';
 }
