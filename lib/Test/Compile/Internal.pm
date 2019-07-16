@@ -152,9 +152,7 @@ sub all_pm_files {
 
     my @pm;
     for my $file ( $self->_find_files(@dirs) ) {
-        if (-f $file) {
-            push @pm, $file if $file =~ /\.pm$/;
-        }
+        push @pm, $file if $file =~ /\.pm$/;
     }
     return @pm;
 }
@@ -185,17 +183,15 @@ sub all_pl_files {
 
     my @pl;
     for my $file ( $self->_find_files(@dirs) ) {
-        if (defined($file) && -f $file) {
-            if ( $file =~ /\.pl$/ ) {
-                # Files with a .pl extension are perl scripts
+        if ( $file =~ /\.pl$/ ) {
+            # Files with a .pl extension are perl scripts
+            push @pl, $file;
+        }
+        elsif ( $file =~ /(?:^[^.]+$)/ ) {
+            # Files with no extension, but a perl shebang are perl scripts
+            my $shebang = $self->_read_shebang($file);
+            if ( $shebang =~ m/perl/ ) {
                 push @pl, $file;
-            }
-            elsif ( $file =~ /(?:^[^.]+$)/ ) {
-                # Files with no extension, but a perl shebang are perl scripts
-                my $shebang = $self->_read_shebang($file);
-                if ( $shebang =~ m/perl/ ) {
-                    push @pl, $file;
-                }
             }
         }
     }

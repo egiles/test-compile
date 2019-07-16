@@ -149,11 +149,7 @@ Returns true if all Perl module files are ok, or false if any fail.
 sub all_pm_files_ok {
     my @files = @_ ? @_ : all_pm_files();
     $Test->plan(tests => scalar @files);
-    my $ok = 1;
-    for (@files) {
-        pm_file_ok($_) or undef $ok;
-    }
-    $ok;
+    return $Test->all_pm_files_ok(@files);
 }
 
 =item C<all_pl_files_ok(@files)>
@@ -179,11 +175,7 @@ sub all_pl_files_ok {
     my @files = @_ ? @_ : all_pl_files();
     $Test->skip_all("no pl files found") unless @files;
     $Test->plan(tests => scalar @files);
-    my $ok = 1;
-    for (@files) {
-        pl_file_ok($_) or undef $ok;
-    }
-    $ok;
+    $Test->all_pl_files_ok(@files);
 }
 
 =item C<pm_file_ok($filename, $testname)>
