@@ -122,7 +122,7 @@ Even then, you really should use the object oriented methods as they provide
 a more consistent interface.  For example: C<all_pm_files_ok()> calls the
 C<plan()> function - so you can't call multiple test functions in the same test file.
 
-You should definately use the object oriented interface described in the L</SYNOPSIS>
+You should definitely use the object oriented interface described in the L</SYNOPSIS>
 and in L<Test::Compile::Internal> instead of calling these functions.
 
 =over 4

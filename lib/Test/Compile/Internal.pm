@@ -113,7 +113,7 @@ An accessor to get/set the verbosity.  The default value (undef) will suppress o
 unless the compilation fails.  This is probably what you want.
 
 If C<verbose> is set to true, you'll get the output from 'perl -c'. If it's set to
-false, all diagnostic output is supressed.
+false, all diagnostic output is suppressed.
 
 =cut
 
