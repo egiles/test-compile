@@ -7,4 +7,4 @@ MYMETA.*
 Makefile*
 _build
 Test-Compile-*/
-
+*.swp
