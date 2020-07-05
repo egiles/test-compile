@@ -372,7 +372,7 @@ sub _perl_file_compiles {
 
     my @inc = ('blib/lib', @INC);
     my $taint = $self->_is_in_taint_mode($file);
-    my $command = join(" ", ($^X, (map { "-I$_" } @inc), "-c$taint", $file));
+    my $command = join(" ", (qq{"$^X"}, (map { qq{"-I$_"} } @inc), "-c$taint", $file));
     if ( $self->verbose() ) {
         $self->{test}->diag("Executing: " . $command);
     }
