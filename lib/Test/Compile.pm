@@ -12,7 +12,7 @@ my $Test = Test::Compile::Internal->new();
 
 =head1 NAME
 
-Test::Compile - Check whether Perl files compile correctly.
+Test::Compile - Assert that your Perl files compile OK.
 
 =head1 SYNOPSIS
 

@@ -11,7 +11,7 @@ use IPC::Open3 ();
 
 =head1 NAME
 
-Test::Compile::Internal - Test whether your perl files compile.
+Test::Compile::Internal - Assert that your Perl files compile OK.
 
 =head1 SYNOPSIS
 
@@ -70,7 +70,7 @@ sub all_files_ok {
 
 Checks all the perl module files it can find for compilation errors.
 
-If C<@dirs> is defined then it is taken as an array of directories to
+If C<@dirs> is defined then it is taken as an array of files or directories to
 be searched for perl files, otherwise it searches some default locations
 - see L</all_pm_files(@dirs)>.
 
