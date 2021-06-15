@@ -60,7 +60,10 @@ for details.
 sub all_files_ok {
     my ($self, @dirs) = @_;
 
-    if ( $self->all_pm_files_ok(@dirs) && $self->all_pl_files_ok(@dirs) ) {
+    my $pm_ok = $self->all_pm_files_ok(@dirs);
+    my $pl_ok = $self->all_pl_files_ok(@dirs);
+
+    if ( $pm_ok && $pl_ok ) {
         return 1;
     }
 }
