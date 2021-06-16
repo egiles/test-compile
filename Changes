@@ -1,5 +1,12 @@
 Revision history for Perl extension Test-Compile
 
+v2.4.2	  2021-06-16
+    - (dboehmer) make 'all_files_ok()' more consistent
+    - (dboehmer) Fix typo
+    - More documentation improvements
+    - Yet more tests
+    - Update copyright
+
 v2.4.1    2020-07-06
     - (mohawk2) Fix if perl is installed in a dir with a space in it's path
     - (mohawk2) Fix for Strawberry perl without Devel::CheckOS
