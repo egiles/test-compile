@@ -3,7 +3,7 @@ package Test::Compile::Internal;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv("v3.0.0");
+use version; our $VERSION = qv("v3.0.1");
 use File::Spec;
 use Test::Builder;
 use IPC::Open3 ();
