@@ -15,7 +15,7 @@ Test::Compile - Assert that your Perl files compile OK.
 
 =head1 SYNOPSIS
 
-    use Test::Compile;
+    use Test::Compile qw();
 
     my $test = Test::Compile->new();
     $test->all_files_ok();
@@ -36,7 +36,8 @@ in a module distribution:
     #!perl
     use strict;
     use warnings;
-    use Test::Compile;
+    use Test::Compile qw();
+    
     my $test = Test::Compile->new();
     $test->all_files_ok();
     $test->done_testing();
