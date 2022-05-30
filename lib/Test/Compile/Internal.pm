@@ -169,7 +169,7 @@ sub all_pm_files {
 =item C<all_pl_files(@dirs)>
 
 Searches for and returns a list of perl script files - that is, any files that either
-have a F<.pl> extension, or have no extension but have a perl shebang line.
+have a case insensitive F<.pl> extension, or have no extension but have a perl shebang line.
 
 If you provide a list of C<@dirs>, it'll use that as a list of files to process, or
 directories to search for perl scripts.
@@ -192,7 +192,7 @@ sub all_pl_files {
 
     my @pl;
     for my $file ( $self->_find_files(@dirs) ) {
-        if ( $file =~ /\.pl$/ ) {
+        if ( $file =~ /\.pl$/i ) {
             # Files with a .pl extension are perl scripts
             push @pl, $file;
         }
