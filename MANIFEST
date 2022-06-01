@@ -48,6 +48,7 @@ t/scripts/lib.pl
 t/scripts/Module2.pm
 t/scripts/Module.pm
 t/scripts/perlscript
+t/scripts/perlscript.pSgi
 t/scripts/shellscript
 t/scripts/subdir/empty
 t/scripts/subdir/success.pl
