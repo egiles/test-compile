@@ -37,7 +37,6 @@ t/999-pod.t
 t/999-portability.t
 t/999-synopsis.t
 t/999-version.t
-t/perlcriticrc
 t/scripts/.svn/Ignore.pm
 t/scripts/CVS/Ignore.pm
 t/scripts/CVS/taint2.pl
