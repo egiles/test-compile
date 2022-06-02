@@ -3,7 +3,7 @@ package Test::Compile;
 use warnings;
 use strict;
 
-use version; our $VERSION = version->declare("v3.0.1");
+use version; our $VERSION = version->declare("v3.1.0");
 use parent 'Exporter';
 use Test::Compile::Internal;
 
