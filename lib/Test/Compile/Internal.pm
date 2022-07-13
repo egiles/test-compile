@@ -3,7 +3,7 @@ package Test::Compile::Internal;
 use warnings;
 use strict;
 
-use version; our $VERSION = version->declare("v3.1.0");
+use version; our $VERSION = version->declare("v3.1.1");
 use File::Spec;
 use Test::Builder;
 use IPC::Open3 ();
@@ -445,5 +445,8 @@ it under the same terms as Perl itself.
 
 L<Test::Strict> provides functions to ensure your perl files compile, with
 the added bonus that it will check you have used strict in all your files.
+
+L<Test::LoadAllModules> just handles modules, not script files, but has more
+fine-grained control.
 
 =cut

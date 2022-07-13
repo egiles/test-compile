@@ -3,7 +3,7 @@ package Test::Compile;
 use warnings;
 use strict;
 
-use version; our $VERSION = version->declare("v3.1.0");
+use version; our $VERSION = version->declare("v3.1.1");
 use parent 'Exporter';
 use Test::Compile::Internal;
 
@@ -114,16 +114,16 @@ Skips the current test, reporting the C<$reason>.
 
 The use of the following functions is deprecated and strongly discouraged.
 
+Instead, you should use the object oriented interface described in the L</SYNOPSIS>
+and in L<Test::Compile::Internal>.
+
 They are automatically exported to your namespace,  which is
 no longer considered best practise.  At some stage in the future, this will
-stop and you'll have to import them explicitly.
+stop and you'll have to import them explicitly to keep using them.
 
-Even then, you really should use the object oriented methods as they provide
-a more consistent interface.  For example: C<all_pm_files_ok()> calls the
-C<plan()> function - so you can't call multiple test functions in the same test file.
-
-You should definitely use the object oriented interface described in the L</SYNOPSIS>
-and in L<Test::Compile::Internal> instead of calling these functions.
+The object oriented methods also provide a more consistent interface. 
+For example: C<all_pm_files_ok()> calls the C<plan()> function - so you can't call
+multiple test functions in the same test file.
 
 =over 4
 
@@ -312,9 +312,9 @@ L<Test::Compile::Internal> provides the object oriented interface to (and the
 inner workings for) the Test::Compile functionality.
 
 L<Test::Strict> provides functions to ensure your perl files compile, with
-added bonus that it will check you have used strict in all your files.
+the added bonus that it will check you have used strict in all your files.
+
 L<Test::LoadAllModules> just handles modules, not script files, but has more
 fine-grained control.
-
 
 =cut
