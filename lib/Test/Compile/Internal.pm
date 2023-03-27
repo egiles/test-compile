@@ -373,7 +373,7 @@ sub _perl_file_compiles {
     }
 
     my @inc = ('blib/lib', @INC);
-    my $taint = $self->_is_in_taint_mode($file);
+    my $taint = $self->_taint_mode($file);
     my $command = join(" ", (qq{"$^X"}, (map { qq{"-I$_"} } @inc), "-c$taint", $file));
     if ( $self->verbose() ) {
         $self->{test}->diag("Executing: " . $command);
@@ -415,7 +415,7 @@ sub _read_shebang {
 }
 
 # Should the given file be checked with taint mode on?
-sub _is_in_taint_mode {
+sub _taint_mode {
     my ($self, $file) = @_;
 
     my $shebang = $self->_read_shebang($file);
