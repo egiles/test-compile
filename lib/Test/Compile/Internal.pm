@@ -85,7 +85,7 @@ sub all_pm_files_ok {
     my $ok = 1;
     for my $file ( $self->all_pm_files(@dirs) ) {
         my $testok = $self->pm_file_compiles($file);
-	$ok = $testok ? $ok : 0;
+        $ok = $testok ? $ok : 0;
         $test->ok($testok, "$file compiles");
     }
     return $ok;
@@ -109,7 +109,7 @@ sub all_pl_files_ok {
     my $ok = 1;
     for my $file ( $self->all_pl_files(@dirs) ) {
         my $testok = $self->pl_file_compiles($file);
-	$ok = $testok ? $ok : 0;
+        $ok = $testok ? $ok : 0;
         $test->ok($testok, "$file compiles");
     }
     return $ok;
@@ -321,7 +321,7 @@ sub _run_command {
 
     my $output;
     for my $handle ( $stdout, $stderr ) {
-	if ( $handle ) {
+        if ( $handle ) {
             while ( my $line = <$handle> ) {
                 push @$output, $line;
             }
