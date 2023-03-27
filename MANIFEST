@@ -13,6 +13,8 @@ t/100-internal--find-files-ignores-cvs.t
 t/100-internal--find-files-ignores-svn.t
 t/100-internal--find-files.t
 t/100-internal--taint-mode.t
+t/100-internal--perl-module.t
+t/100-internal--perl-script.t
 t/100-internal--read-shebang.t
 t/100-internal--skip.t
 t/100-internal--test-methods.t

@@ -161,7 +161,9 @@ sub all_pm_files {
 
     my @pm;
     for my $file ( $self->_find_files(@dirs) ) {
-        push @pm, $file if $file =~ /\.pm$/;
+        if ( $self->_perl_module($file) ) {
+            push @pm, $file;
+        }
     }
     return @pm;
 }
@@ -192,16 +194,8 @@ sub all_pl_files {
 
     my @pl;
     for my $file ( $self->_find_files(@dirs) ) {
-        if ( $file =~ /\.p(?:l|sgi)$/i ) {
-            # Files with .pl or .psgi extensions are perl scripts
+        if ( $self->_perl_script($file) ) {
             push @pl, $file;
-        }
-        elsif ( $file =~ /(?:^[^.]+$)/ ) {
-            # Files with no extension, but a perl shebang are perl scripts
-            my $shebang = $self->_read_shebang($file);
-            if ( $shebang =~ m/perl/ ) {
-                push @pl, $file;
-            }
         }
     }
     return @pl;
@@ -424,6 +418,33 @@ sub _taint_mode {
         $taint = $1;
     }
     return $taint;
+}
+
+# Does this file look like a perl script?
+sub _perl_script {
+    my ($self, $file) = @_;
+
+    # Files with .pl or .psgi extensions are perl scripts
+    if ( $file =~ /\.p(?:l|sgi)$/i ) {
+        return 1;
+    }
+
+    # Files with no extension, but a perl shebang are perl scripts
+    if ( $file =~ /(?:^[^.]+$)/ ) {
+        my $shebang = $self->_read_shebang($file);
+        if ( $shebang =~ m/perl/ ) {
+            return 1;
+        }
+    }
+}
+
+# Does this file look like a perl module?
+sub _perl_module {
+    my ($self, $file) = @_;
+
+    if ( $file =~ /\.pm$/ ) {
+        return 1;
+    }
 }
 
 1;
