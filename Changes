@@ -1,7 +1,9 @@
 Revision history for Perl extension Test-Compile
 
-v3.1.1	  2022-XX-XX
+v3.1.1	  2023-03-28
     - Proof read and correct the POD
+    - Be more consistent about where we search for files (by default)
+    - Update copyright (2023)
 
 v3.1.0	  2022-06-02
     - (Tom Hukins) Treat files with .psgi extensions as perl
