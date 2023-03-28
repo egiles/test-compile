@@ -144,8 +144,8 @@ extension.
 If you provide a list of C<@dirs>, it'll use that as a list of files to process, or
 directories to search for perl modules.
 
-If you don't provide C<dirs>, it'll search for perl modules in the F<blib> directory,
-unless that directory doesn't exist, in which case it'll search the F<lib> directory.
+If you don't provide C<dirs>, it'll search for perl modules in the F<blib/lib> directory,
+if that directory exists, otherwise it'll search the F<lib> directory.
 
 Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
 
@@ -157,7 +157,7 @@ sorted, you'll have to sort them yourself.
 sub all_pm_files {
     my ($self, @dirs) = @_;
 
-    @dirs = @dirs ? @dirs : _pm_starting_points();
+    @dirs = @dirs ? @dirs : $self->_default_locations('lib');
 
     my @pm;
     for my $file ( $self->_find_files(@dirs) ) {
@@ -177,8 +177,8 @@ If you provide a list of C<@dirs>, it'll use that as a list of files to process,
 directories to search for perl scripts.
 
 If you don't provide C<dirs>, it'll search for perl scripts in the F<blib/script/> 
-directory, or if that doesn't exist, the F<script/> directory, or if that doesn't exist,
-the F<bin/> directory.
+and F<blib/bin/> directories if F<blib> exists, otherwise it'll search the F<script/>
+and F<bin/> directories
 
 Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
 
@@ -190,7 +190,7 @@ sorted, you'll have to sort them yourself.
 sub all_pl_files {
     my ($self, @dirs) = @_;
 
-    @dirs = @dirs ? @dirs : _pl_starting_points();
+    @dirs = @dirs ? @dirs : $self->_default_locations('script', 'bin');
 
     my @pl;
     for my $file ( $self->_find_files(@dirs) ) {
@@ -384,17 +384,18 @@ sub _perl_file_compiles {
     return $compiles;
 }
 
-# Where do we expect to find perl modules?
-sub _pm_starting_points {
-    return 'blib' if -e 'blib';
-    return 'lib';
-}
+# Where do we expect to find perl files?
+sub _default_locations {
+    my ($self, @dirs) = @_;
 
-# Where do we expect to find perl programs?
-sub _pl_starting_points {
-    return 'blib/script' if -e 'blib/script';
-    return 'script' if -e 'script';
-    return 'bin'    if -e 'bin';
+    my @locations = ();
+    my $prefix = -e 'blib' ? "blib" : ".";
+    for my $dir ( @dirs ) {
+	if ( -e "$prefix/$dir" ) {
+            push @locations, "$prefix/$dir";
+        }
+    }
+    return @locations;
 }
 
 # Extract the shebang line from a perl program
