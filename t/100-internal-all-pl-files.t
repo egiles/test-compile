@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-use File::Spec;
 use Test::More;
 use Test::Compile::Internal;
 eval 'use Test::Warnings; 1;'

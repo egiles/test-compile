@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 use version; our $VERSION = version->declare("v3.1.1");
-use File::Spec;
+use File::Find;
 use Test::Builder;
 use IPC::Open3 ();
 
@@ -333,28 +333,19 @@ sub _run_command {
 sub _find_files {
     my ($self, @searchlist) = @_;
 
-    my @output;
-    for my $file (@searchlist) {
-        if (defined($file) && -f $file) {
-            push @output, $file;
-        } elsif (defined($file) && -d $file) {
-            local *DH;
-            opendir DH, $file or next;
-            my @newfiles = readdir DH;
-            closedir DH;
-            @newfiles = File::Spec->no_upwards(@newfiles);
-            @newfiles = grep { $_ ne "CVS" && $_ ne ".svn" && $_ ne ".git" } @newfiles;
-            for my $newfile (@newfiles) {
-                my $filename = File::Spec->catfile($file, $newfile);
-                if (-f $filename) {
-                    push @output, $filename;
-                } else {
-                    push @searchlist, File::Spec->catdir($file, $newfile);
-                }
+    my @filelist;
+    my $testfunc = sub {
+        my $fname = $File::Find::name;
+        if ( -f $fname ) {
+            if ( !($fname =~ m/CVS|\.svn|\.git/) ) {
+                push @filelist, $fname;
             }
         }
-    }
-    return @output;
+    };
+
+    no warnings 'File::Find';
+    find {wanted => $testfunc, no_chdir => 1}, @searchlist;
+    return (sort @filelist);
 }
 
 # Check the syntax of a perl file
