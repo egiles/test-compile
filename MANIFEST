@@ -46,7 +46,7 @@ t/scripts/CVS/taint2.pl
 t/scripts/datafile
 t/scripts/failure.pl
 t/scripts/LethalImport.pm
-t/scripts/lib.pl
+t/scripts/messWithLib.pl
 t/scripts/Module2.pm
 t/scripts/Module.pm
 t/scripts/perlscript
