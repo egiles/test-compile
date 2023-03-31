@@ -3,7 +3,7 @@ package Test::Compile::Internal;
 use warnings;
 use strict;
 
-use version; our $VERSION = version->declare("v3.1.1");
+use version; our $VERSION = version->declare("v3.2.0");
 use File::Find;
 use Test::Builder;
 use IPC::Open3 ();
@@ -149,9 +149,6 @@ if that directory exists, otherwise it'll search the F<lib> directory.
 
 Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
 
-The order of the files returned is machine-dependent. If you want them
-sorted, you'll have to sort them yourself.
-
 =cut
 
 sub all_pm_files {
@@ -181,9 +178,6 @@ and F<blib/bin/> directories if F<blib> exists, otherwise it'll search the F<scr
 and F<bin/> directories
 
 Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
-
-The order of the files returned is machine-dependent. If you want them
-sorted, you'll have to sort them yourself.
 
 =cut
 
@@ -334,7 +328,7 @@ sub _find_files {
     my ($self, @searchlist) = @_;
 
     my @filelist;
-    my $testfunc = sub {
+    my $findfunc = sub {
         my $fname = $File::Find::name;
         if ( -f $fname ) {
             if ( !($fname =~ m/CVS|\.svn|\.git/) ) {
@@ -344,7 +338,7 @@ sub _find_files {
     };
 
     no warnings 'File::Find';
-    find {wanted => $testfunc, no_chdir => 1}, @searchlist;
+    find({wanted => $findfunc, no_chdir => 1}, @searchlist);
     return (sort @filelist);
 }
 
@@ -357,7 +351,7 @@ sub _perl_file_compiles {
         return 0;
     }
 
-    my @inc = ('blib/lib', @INC);
+    my @inc = (File::Spec->catdir("blib", "lib"), @INC);
     my $taint = $self->_taint_mode($file);
     my $command = join(" ", (qq{"$^X"}, (map { qq{"-I$_"} } @inc), "-c$taint", $file));
     if ( $self->verbose() ) {
@@ -382,8 +376,9 @@ sub _default_locations {
     my @locations = ();
     my $prefix = -e 'blib' ? "blib" : ".";
     for my $dir ( @dirs ) {
-	if ( -e "$prefix/$dir" ) {
-            push @locations, "$prefix/$dir";
+        my $location = File::Spec->catfile($prefix, $dir);
+	if ( -e $location ) {
+            push @locations, $location;
         }
     }
     return @locations;

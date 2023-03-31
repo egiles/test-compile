@@ -12,10 +12,10 @@ my $internal = Test::Compile::Internal->new();
 
 my @files;
 
-@files = sort $internal->all_pl_files();
+@files = $internal->all_pl_files();
 is(scalar @files,0,'Found correct number of scripts in default location');
 
-@files = sort $internal->all_pl_files('t/scripts');
+@files = $internal->all_pl_files('t/scripts');
 is(scalar @files,6,'Found correct number of scripts in t/scripts');
 like($files[0],qr/t.scripts.failure.pl/,'Found script: failure.pl');
 like($files[1],qr/t.scripts.lib.pl/,'Found script: lib.pl');
@@ -27,13 +27,13 @@ like($files[5],qr/t.scripts.taint.pl/,'Found script: taint.pl');
 # Try specifying som files rather than directories
 my @search = ('t/scripts/failure.pl', 't/scripts/Module.pm');
 
-@files = sort $internal->all_pl_files($search[0]);
+@files = $internal->all_pl_files($search[0]);
 is(scalar @files,1,"found the specific pl file");
 
-@files = sort $internal->all_pl_files($search[1]);
+@files = $internal->all_pl_files($search[1]);
 is(scalar @files,0,"didn't find the specific pm file");
 
-@files = sort $internal->all_pl_files(@search);
+@files = $internal->all_pl_files(@search);
 is(scalar @files,1,"only found one specific file");
 like($files[0],qr/t.scripts.failure.pl/,'Found specific file: failure.pl');
 
