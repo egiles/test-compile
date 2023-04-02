@@ -1,6 +1,6 @@
 Revision history for Perl extension Test-Compile
 
-v3.2.0	  2023-03-30
+v3.2.0	  2023-04-03
     - Sort the output of all_pl_files() and all_pm_files()
 
 v3.1.1	  2023-03-28
