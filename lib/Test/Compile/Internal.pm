@@ -228,16 +228,6 @@ access to some of its methods.
 
 =over 4
 
-=item C<done_testing()>
-
-Declares that you are done testing, no more tests will be run after this point.
-
-=cut
-sub done_testing {
-    my ($self, @args) = @_;
-    $self->{test}->done_testing(@args);
-}
-
 =item C<ok($test, $name)>
 
 Your basic test. Pass if C<$test> is true, fail if C<$test> is false. Just
@@ -247,6 +237,17 @@ like C<Test::Simple>'s C<ok()>.
 sub ok {
     my ($self, @args) = @_;
     $self->{test}->ok(@args);
+}
+
+=item C<done_testing()>
+
+Declares that you got to the end of your test plan, no more tests will be run after
+this point.
+
+=cut
+sub done_testing {
+    my ($self, @args) = @_;
+    $self->{test}->done_testing(@args);
 }
 
 =item C<plan(tests =E<gt> $count)>

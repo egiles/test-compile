@@ -182,8 +182,8 @@ sub all_pl_files_ok {
 
 B<This function is deprecated>.  Please use
 L<Test::Compile::Internal/all_pm_files_ok(@dirs)> instead.  It's pretty much the
-same, except you can't specify a test name, and it can handle more than one file at a
-time.
+same, except it won't allow you to specify a test name, and it can handle more than
+one file at a time.
 
 C<pm_file_ok()> will okay the test if $filename compiles as a perl module.
 
@@ -243,9 +243,6 @@ Returns a list of all the perl module files - that is, files ending in F<.pm>
 defaults to F<blib> if F<blib> exists, or else F<lib> if not. Skips any files
 in F<CVS>, F<.svn>, or F<.git> directories.
 
-The order of the files returned is machine-dependent. If you want them
-sorted, you'll have to sort them yourself.
-
 =cut
 
 sub all_pm_files {
@@ -264,9 +261,6 @@ If C<@dirs> is undefined, it searches F<script> if F<script> exists, or else
 F<bin> if F<bin> exists.
 
 Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
-
-The order of the files returned is machine-dependent. If you want them
-sorted, you'll have to sort them yourself.
 
 =cut
 
