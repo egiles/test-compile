@@ -3,8 +3,9 @@ package Test::Compile::Internal;
 use warnings;
 use strict;
 
-use version; our $VERSION = version->declare("v3.2.0");
+use version; our $VERSION = version->declare("v3.2.1");
 use File::Find;
+use File::Spec;
 use Test::Builder;
 use IPC::Open3 ();
 
@@ -329,8 +330,9 @@ sub _find_files {
     my ($self, @searchlist) = @_;
 
     my @filelist;
-    my $findfunc = sub {
-        my $fname = $File::Find::name;
+    my $addFile = sub {
+        my ($fname) = @_;
+
         if ( -f $fname ) {
             if ( !($fname =~ m/CVS|\.svn|\.git/) ) {
                 push @filelist, $fname;
@@ -338,8 +340,13 @@ sub _find_files {
         }
     };
 
-    no warnings 'File::Find';
-    find({wanted => $findfunc, no_chdir => 1}, @searchlist);
+    for my $item ( @searchlist ) {
+        $addFile->($item);
+        if ( -d $item ) {
+            no warnings 'File::Find';
+            find({wanted => sub{$addFile->($File::Find::name)}, no_chdir => 1}, $item);
+        }
+    }
     return (sort @filelist);
 }
 
@@ -378,7 +385,7 @@ sub _default_locations {
     my $prefix = -e 'blib' ? "blib" : ".";
     for my $dir ( @dirs ) {
         my $location = File::Spec->catfile($prefix, $dir);
-	if ( -e $location ) {
+        if ( -e $location ) {
             push @locations, $location;
         }
     }
