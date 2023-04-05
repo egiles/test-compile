@@ -396,10 +396,11 @@ sub _default_locations {
 sub _read_shebang {
     my ($self, $file) = @_;
 
-    open(my $f, "<", $file) or die "could not open $file";
-    my $line = <$f>;
-    if (defined $line && $line =~ m/^#!/ ) {
-        return $line;
+    if ( open(my $f, "<", $file) ) {
+        my $line = <$f>;
+        if (defined $line && $line =~ m/^#!/ ) {
+            return $line;
+        }
     }
 }
 
