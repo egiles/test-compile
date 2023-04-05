@@ -9,7 +9,7 @@ BEGIN {
     require File::Spec;
     require IPC::Open3;
     require version;
-    @INC = grep { $_ eq 'blib/lib' } @INC;
+    @INC = grep { $_ =~ m/blib.lib/ } @INC;
 }
 use Test::Compile;
 

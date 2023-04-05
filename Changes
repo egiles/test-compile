@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Compile
 
+v3.2.2	  2023-04-06
+    - Finally understand (and fix?) the test failures on windows
+
 v3.2.1	  2023-04-05
     - Try to resolve some issues highlighted by CpanTesters
 
