@@ -63,9 +63,7 @@ sub all_files_ok {
     my $pm_ok = $self->all_pm_files_ok(@dirs);
     my $pl_ok = $self->all_pl_files_ok(@dirs);
 
-    if ( $pm_ok && $pl_ok ) {
-        return 1;
-    }
+    return ( $pm_ok && $pl_ok );
 }
 
 
@@ -438,9 +436,7 @@ sub _perl_script {
 sub _perl_module {
     my ($self, $file) = @_;
 
-    if ( $file =~ /\.pm$/ ) {
-        return 1;
-    }
+    return ( $file =~ /\.pm$/ );
 }
 
 1;
