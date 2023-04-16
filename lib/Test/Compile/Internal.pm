@@ -131,10 +131,10 @@ sub verbose {
     my ($self, $verbose) = @_;
 
     if ( @_ eq 2 ) {
-        $self->{verbose} = $verbose;
+        $self->{_verbose} = $verbose;
     }
 
-    return $self->{verbose};
+    return $self->{_verbose};
 }
 
 =item C<all_pm_files(@dirs)>
