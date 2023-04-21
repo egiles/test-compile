@@ -364,10 +364,12 @@ sub _perl_file_compiles {
         $self->{test}->diag("Executing: " . $command);
     }
     my ($compiles, $output) = $self->_run_command($command);
-    if ( $output && (!defined($self->verbose()) || $self->verbose() != 0) ) {
-        if ( !$compiles || $self->verbose() ) {
-            for my $line ( @$output ) {
-                $self->{test}->diag($line);
+    if ( $output ) {
+        if ( !defined($self->verbose()) || $self->verbose() != 0 ) {
+            if ( !$compiles || $self->verbose() ) {
+                for my $line ( @$output ) {
+                    $self->{test}->diag($line);
+                }
             }
         }
     }
