@@ -58,10 +58,10 @@ L</all_pm_files> and L</all_pl_files> for details.
 
 =cut
 sub all_files_ok {
-    my ($self, @dirs) = @_;
+    my ($self, @searchlist) = @_;
 
-    my $pm_ok = $self->all_pm_files_ok(@dirs);
-    my $pl_ok = $self->all_pl_files_ok(@dirs);
+    my $pm_ok = $self->all_pm_files_ok(@searchlist);
+    my $pl_ok = $self->all_pl_files_ok(@searchlist);
 
     return ( $pm_ok && $pl_ok );
 }
@@ -152,12 +152,14 @@ Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
 =cut
 
 sub all_pm_files {
-    my ($self, @dirs) = @_;
+    my ($self, @searchlist) = @_;
 
-    @dirs = @dirs ? @dirs : $self->_default_locations('lib');
+    if ( ! @searchlist ) {
+        @searchlist = $self->_default_locations('lib');
+    }
 
     my @pm;
-    for my $file ( $self->_find_files(@dirs) ) {
+    for my $file ( $self->_find_files(@searchlist) ) {
         if ( $self->_perl_module($file) ) {
             push @pm, $file;
         }
@@ -183,12 +185,14 @@ Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
 =cut
 
 sub all_pl_files {
-    my ($self, @dirs) = @_;
+    my ($self, @searchlist) = @_;
 
-    @dirs = @dirs ? @dirs : $self->_default_locations('script', 'bin');
+    if ( ! @searchlist ) {
+        @searchlist = $self->_default_locations('script', 'bin');
+    }
 
     my @pl;
-    for my $file ( $self->_find_files(@dirs) ) {
+    for my $file ( $self->_find_files(@searchlist) ) {
         if ( $self->_perl_script($file) ) {
             push @pl, $file;
         }
