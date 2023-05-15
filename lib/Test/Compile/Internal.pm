@@ -47,14 +47,14 @@ sub new {
     return $self;
 }
 
-=item C<all_files_ok(@dirs)>
+=item C<all_files_ok(@searchlist)>
 
 Looks for perl files and tests them all for compilation errors.
 
-If C<@dirs> is defined then it is taken as an array of files or directories to be 
-searched for perl files, otherwise it searches the default locations you'd expect to find
-perl files in a perl module - see L</all_pm_files(@dirs)> and L</all_pl_files(@dirs)> 
-for details.
+If C<@searchlist> is defined then it is taken as an array of files or
+directories to be searched for perl files, otherwise it searches the default
+locations you'd expect to find perl files in a perl module - see
+L</all_pm_files> and L</all_pl_files> for details.
 
 =cut
 sub all_files_ok {
@@ -67,22 +67,23 @@ sub all_files_ok {
 }
 
 
-=item C<all_pm_files_ok(@dirs)>
+=item C<all_pm_files_ok(@searchlist)>
 
 Checks all the perl module files it can find for compilation errors.
 
-If C<@dirs> is defined then it is taken as an array of files or directories to
-be searched for perl files, otherwise it searches some default locations
-- see L</all_pm_files(@dirs)>.
+If C<@searchlist> is defined then it is taken as an array of files or
+directories to be searched for perl files, otherwise it searches the default
+locations you'd expect to find perl files in a perl module - see
+L</all_pm_files> for details.
 
 =cut
 sub all_pm_files_ok {
-    my ($self, @dirs) = @_;
+    my ($self, @searchlist) = @_;
 
     my $test = $self->{test};
 
     my $ok = 1;
-    for my $file ( $self->all_pm_files(@dirs) ) {
+    for my $file ( $self->all_pm_files(@searchlist) ) {
         my $testok = $self->pm_file_compiles($file);
         $ok = $testok ? $ok : 0;
         $test->ok($testok, "$file compiles");
@@ -91,22 +92,22 @@ sub all_pm_files_ok {
 }
 
 
-=item C<all_pl_files_ok(@dirs)>
+=item C<all_pl_files_ok(@searchlist)>
 
 Checks all the perl program files it can find for compilation errors.
 
-If C<@dirs> is defined then it is taken as an array of directories to
+If C<@searchlist> is defined then it is taken as an array of directories to
 be searched for perl files, otherwise it searches some default locations
-- see L</all_pl_files(@dirs)>.
+- see L</all_pl_files>.
 
 =cut
 sub all_pl_files_ok {
-    my ($self, @dirs) = @_;
+    my ($self, @searchlist) = @_;
 
     my $test = $self->{test};
 
     my $ok = 1;
-    for my $file ( $self->all_pl_files(@dirs) ) {
+    for my $file ( $self->all_pl_files(@searchlist) ) {
         my $testok = $self->pl_file_compiles($file);
         $ok = $testok ? $ok : 0;
         $test->ok($testok, "$file compiles");
@@ -135,16 +136,16 @@ sub verbose {
     return $self->{_verbose};
 }
 
-=item C<all_pm_files(@dirs)>
+=item C<all_pm_files(@searchlist)>
 
-Searches for and returns a list of perl module files - that is, files with a F<.pm>
-extension.
+Searches for and returns a list of perl module files - that is, files with a
+F<.pm> extension.
 
-If you provide a list of C<@dirs>, it'll use that as a list of files to process, or
-directories to search for perl modules.
+If you provide C<@searchlist>, it'll use that as a list of files to
+process, or directories to search for perl modules.
 
-If you don't provide C<dirs>, it'll search for perl modules in the F<blib/lib> directory,
-if that directory exists, otherwise it'll search the F<lib> directory.
+If you don't provide C<searchlist>, it'll search for perl modules in the F<blib/lib>
+directory (if that directory exists). Otherwise it'll search the F<lib> directory.
 
 Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
 
@@ -164,17 +165,18 @@ sub all_pm_files {
     return @pm;
 }
 
-=item C<all_pl_files(@dirs)>
+=item C<all_pl_files(@searchlist)>
 
-Searches for and returns a list of perl script files - that is, any files that either
-have a case insensitive F<.pl>, F<.psgi> extension, or have no extension but have a perl shebang line.
+Searches for and returns a list of perl script files - that is, any files that
+either have a case insensitive F<.pl>, F<.psgi> extension, or have no extension
+but have a perl shebang line.
 
-If you provide a list of C<@dirs>, it'll use that as a list of files to process, or
-directories to search for perl scripts.
+If you provide C<@searchlist>, it'll use that as a list of files to
+process, or directories to search for perl scripts.
 
-If you don't provide C<dirs>, it'll search for perl scripts in the F<blib/script/> 
-and F<blib/bin/> directories if F<blib> exists, otherwise it'll search the F<script/>
-and F<bin/> directories
+If you don't provide C<searchlist>, it'll search for perl scripts in the
+F<blib/script/> and F<blib/bin/> directories if F<blib> exists, otherwise
+it'll search the F<script/> and F<bin/> directories
 
 Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
 
