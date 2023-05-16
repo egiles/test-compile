@@ -313,7 +313,7 @@ sub _run_command {
     my $pid = IPC::Open3::open3(0, $stdout, $stderr, $cmd)
         or die "open3() failed $!";
 
-    my $output;
+    my $output = [];
     for my $handle ( $stdout, $stderr ) {
         if ( $handle ) {
             while ( my $line = <$handle> ) {
@@ -359,7 +359,9 @@ sub _perl_file_compiles {
     my ($self, $file) = @_;
 
     if ( ! -f $file ) {
-        $self->{test}->diag("$file could not be found") if $self->verbose();
+        if ( $self->verbose() ) {
+            $self->{test}->diag("$file could not be found");
+        }
         return 0;
     }
 
@@ -370,12 +372,10 @@ sub _perl_file_compiles {
         $self->{test}->diag("Executing: " . $command);
     }
     my ($compiles, $output) = $self->_run_command($command);
-    if ( $output ) {
-        if ( !defined($self->verbose()) || $self->verbose() != 0 ) {
-            if ( !$compiles || $self->verbose() ) {
-                for my $line ( @$output ) {
-                    $self->{test}->diag($line);
-                }
+    if ( !defined($self->verbose()) || $self->verbose() != 0 ) {
+        if ( !$compiles || $self->verbose() ) {
+            for my $line ( @$output ) {
+                $self->{test}->diag($line);
             }
         }
     }

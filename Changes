@@ -3,9 +3,9 @@ Revision history for Perl extension Test-Compile
 v3.2.3	  TODO
     - Internal: improve error handling
     - Internal: remove redundant constants
-    - Internal: Simplify complex conditional (for better testing)
-    - Internal: More tests for better coverage
-    - Improve the documentation (@dirs is a terrible name)
+    - Internal: simplify complex conditional (for better testing)
+    - Internal: more tests for better coverage
+    - Improve the documentation (@dirs was a terrible name)
 
 v3.2.2	  2023-04-06
     - Finally understand (and fix?) the test failures on windows
