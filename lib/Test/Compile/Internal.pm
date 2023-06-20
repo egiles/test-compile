@@ -47,43 +47,43 @@ sub new {
     return $self;
 }
 
-=item C<all_files_ok(@searchlist)>
+=item C<all_files_ok(@search)>
 
 Looks for perl files and tests them all for compilation errors.
 
-If C<@searchlist> is defined then it is taken as an array of files or
+If C<@search> is defined then it is taken as an array of files or
 directories to be searched for perl files, otherwise it searches the default
 locations you'd expect to find perl files in a perl module - see
 L</all_pm_files> and L</all_pl_files> for details.
 
 =cut
 sub all_files_ok {
-    my ($self, @searchlist) = @_;
+    my ($self, @search) = @_;
 
-    my $pm_ok = $self->all_pm_files_ok(@searchlist);
-    my $pl_ok = $self->all_pl_files_ok(@searchlist);
+    my $pm_ok = $self->all_pm_files_ok(@search);
+    my $pl_ok = $self->all_pl_files_ok(@search);
 
     return ( $pm_ok && $pl_ok );
 }
 
 
-=item C<all_pm_files_ok(@searchlist)>
+=item C<all_pm_files_ok(@search)>
 
 Checks all the perl module files it can find for compilation errors.
 
-If C<@searchlist> is defined then it is taken as an array of files or
+If C<@search> is defined then it is taken as an array of files or
 directories to be searched for perl files, otherwise it searches the default
 locations you'd expect to find perl files in a perl module - see
 L</all_pm_files> for details.
 
 =cut
 sub all_pm_files_ok {
-    my ($self, @searchlist) = @_;
+    my ($self, @search) = @_;
 
     my $test = $self->{test};
 
     my $ok = 1;
-    for my $file ( $self->all_pm_files(@searchlist) ) {
+    for my $file ( $self->all_pm_files(@search) ) {
         my $testok = $self->pm_file_compiles($file);
         $ok = $testok ? $ok : 0;
         $test->ok($testok, "$file compiles");
@@ -92,22 +92,22 @@ sub all_pm_files_ok {
 }
 
 
-=item C<all_pl_files_ok(@searchlist)>
+=item C<all_pl_files_ok(@search)>
 
 Checks all the perl program files it can find for compilation errors.
 
-If C<@searchlist> is defined then it is taken as an array of directories to
+If C<@search> is defined then it is taken as an array of directories to
 be searched for perl files, otherwise it searches some default locations
 - see L</all_pl_files>.
 
 =cut
 sub all_pl_files_ok {
-    my ($self, @searchlist) = @_;
+    my ($self, @search) = @_;
 
     my $test = $self->{test};
 
     my $ok = 1;
-    for my $file ( $self->all_pl_files(@searchlist) ) {
+    for my $file ( $self->all_pl_files(@search) ) {
         my $testok = $self->pl_file_compiles($file);
         $ok = $testok ? $ok : 0;
         $test->ok($testok, "$file compiles");
@@ -136,15 +136,15 @@ sub verbose {
     return $self->{_verbose};
 }
 
-=item C<all_pm_files(@searchlist)>
+=item C<all_pm_files(@search)>
 
 Searches for and returns a list of perl module files - that is, files with a
 F<.pm> extension.
 
-If you provide C<@searchlist>, it'll use that as a list of files to
+If you provide C<@search>, it'll use that as a list of files to
 process, or directories to search for perl modules.
 
-If you don't provide C<searchlist>, it'll search for perl modules in the F<blib/lib>
+If you don't provide C<search>, it'll search for perl modules in the F<blib/lib>
 directory (if that directory exists). Otherwise it'll search the F<lib> directory.
 
 Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
@@ -152,14 +152,14 @@ Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
 =cut
 
 sub all_pm_files {
-    my ($self, @searchlist) = @_;
+    my ($self, @search) = @_;
 
-    if ( ! @searchlist ) {
-        @searchlist = $self->_default_locations('lib');
+    if ( ! @search ) {
+        @search = $self->_default_locations('lib');
     }
 
     my @pm;
-    for my $file ( $self->_find_files(@searchlist) ) {
+    for my $file ( $self->_find_files(@search) ) {
         if ( $self->_perl_module($file) ) {
             push @pm, $file;
         }
@@ -167,16 +167,16 @@ sub all_pm_files {
     return @pm;
 }
 
-=item C<all_pl_files(@searchlist)>
+=item C<all_pl_files(@search)>
 
 Searches for and returns a list of perl script files - that is, any files that
 either have a case insensitive F<.pl>, F<.psgi> extension, or have no extension
 but have a perl shebang line.
 
-If you provide C<@searchlist>, it'll use that as a list of files to
+If you provide C<@search>, it'll use that as a list of files to
 process, or directories to search for perl scripts.
 
-If you don't provide C<searchlist>, it'll search for perl scripts in the
+If you don't provide C<search>, it'll search for perl scripts in the
 F<blib/script/> and F<blib/bin/> directories if F<blib> exists, otherwise
 it'll search the F<script/> and F<bin/> directories
 
@@ -185,14 +185,14 @@ Skips any files in F<CVS>, F<.svn>, or F<.git> directories.
 =cut
 
 sub all_pl_files {
-    my ($self, @searchlist) = @_;
+    my ($self, @search) = @_;
 
-    if ( ! @searchlist ) {
-        @searchlist = $self->_default_locations('script', 'bin');
+    if ( ! @search ) {
+        @search = $self->_default_locations('script', 'bin');
     }
 
     my @pl;
-    for my $file ( $self->_find_files(@searchlist) ) {
+    for my $file ( $self->_find_files(@search) ) {
         if ( $self->_perl_script($file) ) {
             push @pl, $file;
         }
@@ -331,7 +331,7 @@ sub _run_command {
 # Works it's way through the input array (files and/or directories), recursively
 # finding files
 sub _find_files {
-    my ($self, @searchlist) = @_;
+    my ($self, @search) = @_;
 
     my @filelist;
     my $addFile = sub {
@@ -344,7 +344,7 @@ sub _find_files {
         }
     };
 
-    for my $item ( @searchlist ) {
+    for my $item ( @search ) {
         $addFile->($item);
         if ( -d $item ) {
             no warnings 'File::Find';
