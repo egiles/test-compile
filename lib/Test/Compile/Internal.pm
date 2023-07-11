@@ -3,7 +3,7 @@ package Test::Compile::Internal;
 use warnings;
 use strict;
 
-use version; our $VERSION = version->declare("v3.2.3");
+use version; our $VERSION = version->declare("v3.3.0");
 use File::Find;
 use File::Spec;
 use Test::Builder;
