@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Compile
 
+v3.3.1	  2023-07-17
+    - Fix 'silent, no taint' mode (which doesn't cause the compile to fail)
+
 v3.3.0	  2023-07-12
     - Tests should pass, even if Taint mode is not compiled into perl
     - Improve the documentation (@dirs was a terrible name)

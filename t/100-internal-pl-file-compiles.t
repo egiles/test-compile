@@ -10,8 +10,13 @@ use Test::Compile::Internal;
 my $internal = Test::Compile::Internal->new();
 $internal->verbose(0);
 
-# Is this perl capable of checking taint?
-my $perl_can_check_taint = $Config{taint_disabled} ? 0 : 1;
+# Is asking perl to check taint going to fail?
+my $taint_checks_safe = 1;
+if ( defined $Config{taint_disabled} ) {
+    if ( $Config{taint_disabled} eq "define" ) {
+        $taint_checks_safe = 0;
+    }
+}
 
 # Given (success.pl)
 # When
@@ -23,13 +28,13 @@ is($yes, 1, "success.pl should compile");
 # When
 my $taint = $internal->pl_file_compiles('t/scripts/taint.pl');
 # Then
-is($taint, $perl_can_check_taint, "taint.pl should compile, with -T");
+is($taint, $taint_checks_safe, "taint.pl should compile, with -T");
 
 # Given (taint2.pl - script has -T in shebang)
 # When
 my $taint2 = $internal->pl_file_compiles('t/scripts/CVS/taint2.pl');
 # Then
-is($taint2, $perl_can_check_taint, "taint2.pl should compile, with -t");
+is($taint2, $taint_checks_safe, "taint2.pl should compile, with -t");
 
 # Given (failure.pl doesn't compile)
 # When
