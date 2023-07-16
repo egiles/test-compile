@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Config;
-use Test::More tests => 1;
+use Test::More;
 use Test::Compile qw( pl_file_ok );
 
 if ( $Config{taint_disabled} ) {
@@ -11,4 +11,4 @@ if ( $Config{taint_disabled} ) {
 }
 
 pl_file_ok('t/scripts/taint.pl', 'taint.pl compiles');
-
+done_testing();
