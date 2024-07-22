@@ -3,7 +3,7 @@ package Test::Compile::Internal;
 use warnings;
 use strict;
 
-use version; our $VERSION = version->declare("v3.3.3");
+use version; our $VERSION = version->declare("v3.3.4");
 use File::Find;
 use File::Spec;
 use Test::Builder;
@@ -11,7 +11,7 @@ use IPC::Open3 ();
 
 =head1 NAME
 
-Test::Compile::Internal - Assert that your Perl files compile OK.
+Test::Compile::Internal - Object Oriented interface for Test::Compile.
 
 =head1 SYNOPSIS
 
