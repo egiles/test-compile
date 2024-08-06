@@ -2,6 +2,7 @@ Revision history for Perl extension Test-Compile
 
 v3.3.4	  YYYY-MM-DD
     - Update the byline for Test::Compile::Internal
+    - Update Copyright year (2024)
 
 v3.3.3	  2024-05-06
     - Be more careful about windows filenames
